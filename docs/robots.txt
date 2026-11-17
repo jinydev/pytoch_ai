@@ -1,1 +1,1 @@
-Sitemap: https://pytoch.ai.jiny.dev/sitemap.xml
+Sitemap: http://localhost:4002/sitemap.xml

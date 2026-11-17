@@ -13,14 +13,14 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트" />
 <meta name="twitter:description" property="og:description" content="파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트" />
-<link rel="canonical" href="https://pytoch.ai.jiny.dev/character/" />
-<meta property="og:url" content="https://pytoch.ai.jiny.dev/character/" />
+<link rel="canonical" href="http://localhost:4002/character/" />
+<meta property="og:url" content="http://localhost:4002/character/" />
 <meta property="og:site_name" content="딥러닝을 위한 파이토치 입문" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="캐릭터 소개 및 세계관 가이드" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트","headline":"캐릭터 소개 및 세계관 가이드","url":"https://pytoch.ai.jiny.dev/character/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트","headline":"캐릭터 소개 및 세계관 가이드","url":"http://localhost:4002/character/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -1084,13 +1084,13 @@
 
 <p>이 강의 노트는 <strong>호기심 넘치는 주니어 메이커 도로시</strong>, 도로시의 단짝 반려견 <strong>토토</strong>, 이호진 교수님의 수석 연구실 <strong>조교 지니</strong>, 그리고 지적이고 친근한 <strong>이호진 교수님</strong>이 함께 딥러닝 프레임워크를 밑바닥부터 구축해 나가는 모험 이야기를 다룹니다.</p>
 
-<p>딱딱하고 추상적인 <strong>딥러닝 프레임워크(DeZero / PyTorch 아키텍처)</strong>의 동작 원리와 저수준 수학적 알고리즘을 스튜디오 지브리 감성의 따뜻한 스토리텔링으로 풀어내어, 초보자부터 전공자까지 누구나 즐겁게 프레임워크의 본질을 정복할 수 있도록 안내합니다.</p>
+<p>딱딱하고 추상적인 <strong>파이토치(PyTorch) 딥러닝 프레임워크</strong>의 동작 원리와 실전 신경망 알고리즘을 스튜디오 지브리 감성의 따뜻한 스토리텔링으로 풀어내어, 초보자부터 연구자까지 누구나 즐겁게 파이토치의 본질을 정복할 수 있도록 안내합니다.</p>
 
 <hr />
 
 <h2 id="-등장인물-소개-the-characters">👥 등장인물 소개 (The Characters)</h2>
 
-<p>딥러닝 프레임워크의 5개 고지(60단계)를 함께 등반하는 4명의 핵심 주인공들입니다.</p>
+<p>파이토치 딥러닝 13개 챕터(텐서부터 PINN까지)를 함께 탐험하는 4명의 핵심 주인공들입니다.</p>
 
 <h3 id="‍-이호진-교수님-prof-hojin">👨‍🏫 이호진 교수님 (Prof. Hojin)</h3>
 <ul>
@@ -1109,10 +1109,10 @@
       <li>단정한 <strong>다크 차콜 네이비 단색 카라 반팔 폴로 셔츠</strong> (이름표나 로고 없음), 클래식 중청 스트레이트 청바지, 뉴발란스 그레이 스웨이드 스니커즈</li>
     </ul>
   </li>
-  <li><strong>DeZero 프레임워크 속 역할</strong>:
+  <li><strong>파이토치 탐험 속 역할</strong>:
     <ul>
       <li>개념의 원리와 설계 흐름을 명쾌하게 짚어주는 나침반 역할을 담당합니다.</li>
-      <li><em>“왜 넘파이 배열만으로는 역전파를 자동화할 수 없을까?”</em>, <em>“Define-by-Run은 런타임에 어떻게 그래프를 엮어낼까?”</em>와 같은 핵심 화두를 던져 수식과 아키텍처의 길을 열어줍니다.</li>
+      <li><em>“왜 넘파이 배열 대신 텐서를 써야 할까?”</em>, <em>“Autograd는 어떻게 런타임에 동적 계산 그래프를 엮어낼까?”</em>와 같은 핵심 화두를 던져 수식과 신경망 아키텍처의 길을 열어줍니다.</li>
     </ul>
   </li>
 </ul>
@@ -1136,11 +1136,11 @@
       <li>작은 황금 방울이 달린 선명한 <strong>빨간 가죽 목걸이</strong></li>
     </ul>
   </li>
-  <li><strong>DeZero 프레임워크 속 역할</strong>:
+  <li><strong>파이토치 탐험 속 역할</strong>:
     <ul>
       <li>연구실 모니터 앞이나 칠판 위에서 꼬리를 흔들며 코드 디버깅을 감수합니다.</li>
       <li>도로시가 작성한 순전파·역전파 코드에서 변수와 함수가 올바르게 참조 연결되었는지 앞발로 콕 짚어 검증해 줍니다.</li>
-      <li>복잡한 미분 수식을 직관적인 <strong>계산 그래프(DAG)</strong>로 시각화하여 보여줍니다.</li>
+      <li>복잡한 미분 수식을 직관적인 <strong>계산 그래프(DAG)</strong>와 텐서 흐름으로 시각화하여 보여줍니다.</li>
     </ul>
   </li>
 </ul>
@@ -1164,10 +1164,10 @@
       <li>안쪽에 받쳐 입은 주황/노랑 가로 줄무늬 반팔 티셔츠, 흰 양말, <strong>비비드 레드 캔버스 스니커즈</strong></li>
     </ul>
   </li>
-  <li><strong>DeZero 프레임워크 속 역할</strong>:
+  <li><strong>파이토치 탐험 속 역할</strong>:
     <ul>
-      <li>DeZero 프레임워크를 1단계부터 60단계까지 한 줄 한 줄 직접 파이썬 코드로 구현해 나가는 주인공입니다.</li>
-      <li>상자로서의 <code class="language-plaintext highlighter-rouge">Variable</code>, 변환 장치인 <code class="language-plaintext highlighter-rouge">Function</code>, 연산자 오버로드, 메모리 관리, 고차 미분, 신경망 계층(<code class="language-plaintext highlighter-rouge">Layer</code>), 최적화(<code class="language-plaintext highlighter-rouge">Optimizer</code>)를 차근차근 조립하며 강력한 딥러닝 엔진을 완성합니다.</li>
+      <li>파이토치 기초부터 실전 모델까지 한 줄 한 줄 직접 파이썬 코드로 구현해 나가는 주인공입니다.</li>
+      <li><code class="language-plaintext highlighter-rouge">nn.Module</code>, <code class="language-plaintext highlighter-rouge">Dataset</code>, <code class="language-plaintext highlighter-rouge">DataLoader</code>, 손실 함수, <code class="language-plaintext highlighter-rouge">Optimizer</code>를 조립하여 CNN, RNN, GAN, MAML, PINN 모델을 완성합니다.</li>
     </ul>
   </li>
 </ul>
@@ -1192,42 +1192,42 @@
       <li>목에 산뜻하게 묶은 <strong>스카이 블루 네커치프 삼각 반다나</strong></li>
     </ul>
   </li>
-  <li><strong>DeZero 프레임워크 속 역할</strong>:
+  <li><strong>파이토치 탐험 속 역할</strong>:
     <ul>
       <li>도로시의 곁을 맴돌며 무한한 응원과 활력을 주는 마스코트입니다.</li>
-      <li>텐서 연산 시 차원 불일치(Shape Error)나 브로드캐스팅 오류, 순환 참조로 인한 메모리 누수의 냄새를 기가 막히게 맡아내어 멍멍 짖으며 알려줍니다.</li>
+      <li>텐서 연산 시 차원 불일치(Shape Error)나 브로드캐스팅 오류, GPU 메모리(OOM) 문제의 냄새를 기가 막히게 맡아내어 멍멍 짖으며 알려줍니다.</li>
     </ul>
   </li>
 </ul>
 
 <hr />
 
-<h2 id="️-dezero-프레임워크-탐험대의-역할-매트릭스">🏗️ DeZero 프레임워크 탐험대의 역할 매트릭스</h2>
+<h2 id="️-파이토치-탐험대의-역할-매트릭스">🏗️ 파이토치 탐험대의 역할 매트릭스</h2>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌────────────────────────────────────────────────────────┐
 │               [이호진 교수님 (Prof. Hojin)]            │
-│               • 수학적 알고리즘 &amp; 설계 철학            │
-│               • Autograd 엔진 나침반                   │
+│               • 수학적 알고리즘 &amp; 신경망 원리          │
+│               • Autograd 엔진 &amp; 최적화 나침반          │
 └───────────────────────────┬────────────────────────────┘
                             │ (원리 전수 &amp; 지도)
                             ▼
 ┌────────────────────────────────────────────────────────┐
 │                  [조교 지니 (Jiny)]                    │
 │                  • 계산 그래프(DAG) 시각화             │
-│                  • 세대 기반 역전파 디버깅 감수        │
+│                  • 텐서 연산 및 역전파 감수            │
 └───────────────────────────┬────────────────────────────┘
                             │ (디버깅 지원 &amp; 힌트)
                             ▼
 ┌───────────────────────────────────────┐   ┌────────────┐
 │          [도로시 (Dorothy)]           │◄──┤[토토(Toto)]│
-│  • Variable &amp; Function 클래스 구현    │   │ • 버그 탐지│
-│  • 연산자 오버로드 &amp; 고차 미분 구현   │   │ • 형상 오류│
-│  • Layer, Optimizer, CNN, RNN 신경망  │   │   체크     │
+│  • nn.Module &amp; DataLoader 파이프라인  │   │ • 버그 탐지│
+│  • 손실 함수 &amp; Optimizer 훈련 루프    │   │ • 형상 오류│
+│  • CNN, RNN, GAN, MAML, PINN 모델 구현│   │   체크     │
 └───────────────────┬───────────────────┘   └────────────┘
-                    │ (파이썬 코드로 완성)
+                    │ (파이토치 코드로 완성)
                     ▼
 ┌────────────────────────────────────────────────────────┐
-│             DeZero 딥러닝 프레임워크 (60단계)          │
+│             파이토치 딥러닝 실전 마스터 (13장)         │
 └────────────────────────────────────────────────────────┘
 </code></pre></div></div>
 
