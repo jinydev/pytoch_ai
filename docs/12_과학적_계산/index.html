@@ -1,0 +1,2098 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>12장 과학적 계산 | 딥러닝을 위한 파이토치 입문</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="12장 과학적 계산" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트" />
+<meta name="twitter:description" property="og:description" content="파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트" />
+<link rel="canonical" href="http://localhost:4002/12_%EA%B3%BC%ED%95%99%EC%A0%81_%EA%B3%84%EC%82%B0/" />
+<meta property="og:url" content="http://localhost:4002/12_%EA%B3%BC%ED%95%99%EC%A0%81_%EA%B3%84%EC%82%B0/" />
+<meta property="og:site_name" content="딥러닝을 위한 파이토치 입문" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="12장 과학적 계산" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트","headline":"12장 과학적 계산","url":"http://localhost:4002/12_%EA%B3%BC%ED%95%99%EC%A0%81_%EA%B3%84%EC%82%B0/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/01_딥러닝_시작/">딥러닝 시작</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/02_파이썬/">파이썬 기초</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/04_파이토치_기본/">파이토치 기본</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/05_인공_신경망/">인공 신경망</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/06_합성곱_신경망/">CNN & RNN</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/08_비지도_학습/">비지도 & 메타</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/curriculum/">전체 목차</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/dezero_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        강의 목차
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+        
+        
+        
+
+        
+
+        
+        <li>
+          
+            <a href="/"
+              class="bd-links-link d-inline-block rounded ">
+              홈
+            </a>
+          
+        </li>
+        
+        <li>
+          
+            <a href="/curriculum/"
+              class="bd-links-link d-inline-block rounded ">
+              📋 전체 커리큘럼
+            </a>
+          
+        </li>
+        
+        <li>
+          
+            <a href="/00_앞부분/"
+              class="bd-links-link d-inline-block rounded ">
+              00. 도서 정보 및 머리말
+            </a>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-4"
+              aria-expanded="false">
+              01. 딥러닝 시작
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-4">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/01_딥러닝_시작/#sec-1-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    1.1 딥러닝이란
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/01_딥러닝_시작/#sec-1-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    1.2 파이썬과 파이토치
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-5"
+              aria-expanded="false">
+              02. 파이썬 기초
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-5">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.1 변수, 출력문, 라이브러리
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.2 리스트, 튜플, 딕셔너리
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.3 넘파이(Numpy)
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-4"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.4 조건문과 반복문
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-5"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.5 함수와 모듈
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-6"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.6 클래스
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-7"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.7 그래프 그리기
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-8"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.8 폴더 및 파일 관리
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-9"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.9 터미널에서 파이썬 실행하기
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-6"
+              aria-expanded="false">
+              03. 지도 학습
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-6">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/03_지도_학습/#sec-3-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    3.1 지도 학습이란
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/03_지도_학습/#sec-3-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    3.2 지도 학습의 종류
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/03_지도_학습/#sec-3-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    3.3 데이터 세트 분할
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-7"
+              aria-expanded="false">
+              04. 파이토치 기본
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-7">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/04_파이토치_기본/#sec-4-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    4.1 텐서
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/04_파이토치_기본/#sec-4-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    4.2 역전파
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/04_파이토치_기본/#sec-4-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    4.3 데이터 불러오기
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-8"
+              aria-expanded="false">
+              05. 인공 신경망 (ANN)
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-8">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/05_인공_신경망/#sec-5-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    5.1 다층 퍼셉트론
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/05_인공_신경망/#sec-5-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    5.2 활성화 함수
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/05_인공_신경망/#sec-5-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    5.3 손실 함수
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/05_인공_신경망/#sec-5-4"
+                    class="bd-links-link d-inline-block rounded ">
+                    5.4 최적화 기법
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/05_인공_신경망/#sec-5-5"
+                    class="bd-links-link d-inline-block rounded ">
+                    5.5 교차 검증
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/05_인공_신경망/#sec-5-6"
+                    class="bd-links-link d-inline-block rounded ">
+                    5.6 모델 구조 및 가중치 확인
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-9"
+              aria-expanded="false">
+              06. 합성곱 신경망 (CNN)
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-9">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/06_합성곱_신경망/#sec-6-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    6.1 합성곱 연산과 풀링 연산
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/06_합성곱_신경망/#sec-6-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    6.2 AlexNet
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/06_합성곱_신경망/#sec-6-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    6.3 ResNet
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/06_합성곱_신경망/#sec-6-4"
+                    class="bd-links-link d-inline-block rounded ">
+                    6.4 다양한 합성곱 신경망
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-10"
+              aria-expanded="false">
+              07. 순환 신경망 (RNN)
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-10">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.1 기본 순환 신경망
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-1-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.1.1 시계열 데이터
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-1-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.1.2 기본 인공 신경망과 순환 신경망
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-1-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.1.3 순환 신경망의 다양한 형태
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-1-4"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.1.4 기본 순환 신경망
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-1-5"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.1.5 기본 순환 신경망 구현
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.2 LSTM과 GRU
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.3 Bi-LSTM
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-11"
+              aria-expanded="false">
+              08. 비지도 학습 (GAN)
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-11">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/08_비지도_학습/#sec-8-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    8.1 비지도 학습이란
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/08_비지도_학습/#sec-8-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    8.2 K-평균 알고리즘
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/08_비지도_학습/#sec-8-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    8.3 오토인코더
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/08_비지도_학습/#sec-8-4"
+                    class="bd-links-link d-inline-block rounded ">
+                    8.4 생성적 적대 신경망
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/08_비지도_학습/#sec-8-5"
+                    class="bd-links-link d-inline-block rounded ">
+                    8.5 이미지 스타일 변이
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/08_비지도_학습/#sec-8-6"
+                    class="bd-links-link d-inline-block rounded ">
+                    8.6 깊은 K-평균 알고리즘
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-12"
+              aria-expanded="false">
+              09. 성능 개선 & 전이 학습
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-12">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/09_성능_개선/#sec-9-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    9.1 과적합
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/09_성능_개선/#sec-9-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    9.2 데이터 불균형
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/09_성능_개선/#sec-9-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    9.3 전이 학습
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/09_성능_개선/#sec-9-4"
+                    class="bd-links-link d-inline-block rounded ">
+                    9.4 준지도 학습
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-13"
+              aria-expanded="false">
+              10. 딥러닝 시각화 (XAI)
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-13">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/10_시각화/#sec-10-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    10.1 설명 가능한 인공지능
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/10_시각화/#sec-10-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    10.2 차원 축소 기법
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-14"
+              aria-expanded="false">
+              11. 메타 학습 (Few-Shot)
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-14">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/11_메타_학습/#sec-11-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    11.1 메타 러닝과 퓨샷 러닝
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/11_메타_학습/#sec-11-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    11.2 MAML - 회귀 문제
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/11_메타_학습/#sec-11-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    11.3 MAML - 분류 문제
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-15"
+              aria-expanded="true">
+              12. 과학적 계산 (PINN)
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse show" id="collapse-15">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/12_과학적_계산/#sec-12-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    12.1 유한차분법
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/12_과학적_계산/#sec-12-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    12.2 은닉 유체 메카니즘
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            <a href="/13_부록/"
+              class="bd-links-link d-inline-block rounded ">
+              13. 부록 & 참고 자료
+            </a>
+          
+        </li>
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">12장 과학적 계산</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            <h1 id="12-과학적-계산">12 과학적 계산</h1>
+
+<p>자연 현상, 경제 현상, 생태계 환경 변화 등과 같이 우리가 쉽게 접할 수 있는 다양한 현상들을 예측하기 위해 수학적 모델이 많이 개발되고 있고 수치해석 또한 함께 발전되어 왔다. 최근에는 보다 정확한 예측과 실제 데이터를 적용하여 모델을 구축하기 위해 데이터 기반의 머신러닝 방법론들이 적용되기 시작했고 인공 신경망 또한 적용 사례가 늘어나는 추세다. 12장에서는 물리 현상을 표현하는 미분 방정식 풀이를 위한 인공 신경망 예시를 살펴본다.</p>
+
+<ul>
+  <li>유한차분법</li>
+  <li>은닉 유체 메카니즘</li>
+</ul>
+
+<h1 id="121-유한차분법">12.1 유한차분법</h1>
+
+<p>자연 현상, 경제 현상, 생태계 환경 변화 등과 같이 우리가 쉽게 접할 수 있는 다양한 현상들을 해석하고 예측하기 위해서 오래전부터 현상에 대한 모델링이 발전되고 있다. 대부분의 모델들이 미분 방정식 형태로 표현되어 있기 때문에 미분방정식을 정확히 푸는 방법은 매우 중요하다. 안타깝게도 많은 식들에 대해서 이차 방정식의 근의 공식과 같은 공식이 없으며, 실제 해를 구할 수 없어 수학적으로 엄밀하게 풀기에는 한계가 있다. 따라서 주어진 미분방정식을 근사식 형태로 푸는 방법인 수치해석<sup>Numerical analysis</sup>이 매우 중요한 분야 중 하나다. 수치해석 방법 중 하나인 유한차분법<sup>Finite Difference Method</sup>은 연속된 공간에서 격자를 정의하여 연속적인 공간을 이산 공간으로 변환하여 근사 해를 구하는 방법이다.</p>
+
+<p>예를 들어 100×100 유체에 관한 이미지가 있다고 하면 10,000개의 값을 갖는다. 즉, 원래 자연에서의 유체 패턴은 연속적인 현상이지만 우리가 다루는 이미지는 관찰된 영역에 10,000개의 점이 있는 이산 공간이 되는 것이다. 우리의 관심사는 이 영역 내에서 시간에 따른 이미지의 패턴이 어떤지를 알고 싶은 것인데, 유한차분법의 특징은 각 점의 변화를 계산할 때 주변 값을 이용한다는 것이다. 즉, 합성곱 신경망의 필터 계산과 같은 방법을 취하기 때문에 유한차분법을 합성곱 연산을 이용하여 구현할 수 있다.</p>
+
+<p>그림 12.1 격자로 나눈 이미지
+<img src="./img/fig-287.jpg" alt="그림 12.1 격자로 나눈 이미지" /></p>
+
+<p>예를 들어 반응 확산 방정식인 Allen-Cahn 방정식은 다음과 같다.</p>
+
+\[\phi_t(x,t) = -(\frac{\phi - \phi^3}{\epsilon^2}) + \Delta\phi(x,t), \quad x \in \Omega, t &gt; 0\]
+
+<p>위 식을 유한차분법을 이용하여 변환하면 다음과 같다.</p>
+
+<p>\(\frac{\phi^{n+1} - \phi^n}{\Delta t} = \frac{\phi^n - (\phi^n)^3}{\epsilon^2} + \Delta_h \phi^n\)
+\(\rightarrow \phi^{n+1} = \phi^n + \Delta t \left( \frac{\phi^n - (\phi^n)^3}{\epsilon^2} + \Delta_h \phi^n \right)\)
+\(\rightarrow \phi^{n+1} = (1 + \alpha)\phi^n - \alpha (\phi^n)^3 + \text{conv}(\phi^n) (\alpha = \frac{\Delta t}{\epsilon^2}, \text{conv}(\phi^n) = \Delta t \Delta_h \phi^n)\)
+\(\rightarrow \phi^{n+1} = f(\phi^n)\)</p>
+
+<p>여기서 $\phi$는 이미지의 값이며, $n$은 시간 스텝이고, $\Delta t$는 시간의 변화량, $\epsilon^2$은 계수를 나타낸다. $\text{conv}(\phi^n)$는 라플라스 연산으로 그림 12.2에서 표현된 3×3 미분 필터로 표현된다.</p>
+
+<p>그림 12.2 합성곱 연산으로 구현한 유한차분법
+<img src="./img/fig-288.jpg" alt="그림 12.2 합성곱 연산으로 구현한 유한차분법" /></p>
+
+<h4 id="-라이브러리-불러오기">■ 라이브러리 불러오기</h4>
+<p><code class="language-plaintext highlighter-rouge">CODE 12.1 Finite Difference Method.ipynb</code></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="n">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+</code></pre></div></div>
+
+<h4 id="-초깃값-설정하기">■ 초깃값 설정하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">initial_value</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">):</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">nx</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">h</span><span class="p">,</span> <span class="n">h</span> <span class="o">*</span> <span class="p">(</span><span class="n">nx</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">nx</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">h</span><span class="p">,</span> <span class="n">h</span> <span class="o">*</span> <span class="p">(</span><span class="n">ny</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">ny</span><span class="p">)</span>
+    <span class="n">pn</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">rand</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">pn</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="sh">'</span><span class="s">nearest</span><span class="sh">'</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">jet</span><span class="sh">'</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="nf">min</span><span class="p">(),</span> <span class="n">x</span><span class="p">.</span><span class="nf">max</span><span class="p">(),</span> <span class="n">y</span><span class="p">.</span><span class="nf">min</span><span class="p">(),</span> <span class="n">y</span><span class="p">.</span><span class="nf">max</span><span class="p">()],</span> <span class="n">origin</span><span class="o">=</span><span class="sh">'</span><span class="s">lower</span><span class="sh">'</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="sh">'</span><span class="s">auto</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">$u(x,y,t=0)$</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">clim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">pn</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 초기 이미지를 정해 주기 위해 이미지 사이즈 nx, ny를 정한다.</li>
+  <li>❷ ~ ❹ 이미지의 x, y 격자 수를 정의한다.</li>
+  <li>❺ 정해진 크기에 무작위로 값을 생성한다.</li>
+  <li>❻ ~ ❿ 생성한 초기 이미지를 출력하여 나타낸다.</li>
+  <li>⓫ x, y값과 초깃값을 반환한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">nx</span> <span class="o">=</span> <span class="n">ny</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">h</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">nx</span>
+<span class="n">h2</span> <span class="o">=</span> <span class="n">h</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="p">.</span><span class="mi">1</span><span class="o">*</span><span class="n">h</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">h</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nf">arctanh</span><span class="p">(</span><span class="mf">0.9</span><span class="p">))</span>
+<span class="n">maxiter</span> <span class="o">=</span> <span class="mi">301</span>
+<span class="n">maxtime</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">maxiter</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">pn</span> <span class="o">=</span> <span class="nf">initial_value</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 이미지 사이즈를 100×100으로 정한다.</li>
+  <li>❷ ~ ❺ 수식에 사용되는 계수를 정의하고</li>
+  <li>❻ 최대 타임 스텝을 301로 정하면</li>
+  <li>❼ 실제 마지막 시간은 maxtime이 된다.</li>
+  <li>❽ 초기 이미지를 생성한다.</li>
+</ul>
+
+<p>그림 12.3 초깃값
+<img src="./img/fig-290.jpg" alt="그림 12.3 초깃값" /></p>
+
+<h4 id="-유한차분법-구현하기">■ 유한차분법 구현하기</h4>
+
+<p>우리 학습 목적상 수치해석을 이해하지 않아도 된다. 다만 원하는 합성곱 필터를 어떻게 모델에 넣는지를 주의 깊게 살펴본다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">FDM</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">h2</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">(</span><span class="n">FDM</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">delta</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">Tensor</span><span class="p">([[[[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]]]]).</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">pad</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">ReplicationPad2d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">/</span> <span class="n">eps</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">/</span> <span class="n">h2</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">u_pad</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">pad</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">diffusion</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="nf">conv2d</span><span class="p">(</span><span class="n">u_pad</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">delta</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">self</span><span class="p">.</span><span class="n">beta</span> <span class="o">*</span> <span class="n">diffusion</span>
+        <span class="k">return</span> <span class="n">x</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❹ 그림 12.1에서 표현된 라플라스 연산인 2차 미분 필터를 구현한다. 이때 주의할 점은 F.conv2d의 필터는 3차원으로 만들어야 한다.</li>
+  <li>❺ nn.Conv2d 내에서 구현한 패딩을 별도의 패딩 함수를 사용하여 선언할 수 있다. 미분방정식에는 경계 조건이 있는데 이번 예시에서는 경계에서의 미분이 0이라고 가정한다면 패딩은 경계와 같은 값을 가지면 된다. 따라서 기존에 많이 사용하던 영 패딩<sup>zero padding</sup>을 사용하지 않고 nn.ReplicationPad2d로 선언한다. 괄호의 1은 패딩이 1겹이라는 의미다.</li>
+  <li>❾ 경계조건을 고려하기 위해 패딩을 씌운다.</li>
+  <li>❿ 합성곱 연산은 미리 정의된 self.delta 필터를 사용하고 입력값은 u_pad다.</li>
+  <li>⓫ 우리가 계산해야 할 식을 계산한다. 다음 타임 스텝에 대한 x를 반환한다.</li>
+</ul>
+
+<h4 id="-유한차분법-클래스-선언하기">■ 유한차분법 클래스 선언하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda:0</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="nc">FDM</span><span class="p">(</span><span class="n">h2</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">device</span><span class="p">).</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">FloatTensor</span><span class="p">(</span><span class="n">pn</span><span class="p">).</span><span class="nf">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">).</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❷ 유한차분법 클래스를 선언한다.</li>
+  <li>❸ 초기 이미지를 모델에 넣기 위해 4차원 텐서로 변환한다.</li>
+</ul>
+
+<h4 id="-유한차분법-시행하기">■ 유한차분법 시행하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">solutions</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">maxiter</span><span class="p">):</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">u</span> <span class="c1"># phi^(n+1) &lt;- f(phi^n)
+</span>        <span class="n">solutions</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">img</span><span class="p">.</span><span class="nf">view</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">).</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">())</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 모든 타임 스텝을 저장할 수 있는 리스트를 만든다.</li>
+  <li>❹, ❺ 유한차분법 모델로 이전 스텝의 이미지를 이용하여 다음 스텝의 이미지를 구한다.</li>
+  <li>❻ 모든 결과 이미지를 넘파이 배열로 저장한다.</li>
+</ul>
+
+<h4 id="-결과-확인하기">■ 결과 확인하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+<span class="n">d</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="mi">221</span><span class="p">,</span> <span class="mi">225</span><span class="p">)</span>
+<span class="n">timeslot</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">solutions</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">subp</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">subplot</span><span class="p">(</span><span class="n">subp</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">imshow</span><span class="p">(</span><span class="n">solutions</span><span class="p">[</span><span class="nf">int</span><span class="p">(</span><span class="n">timeslot</span><span class="p">[</span><span class="n">i</span><span class="p">])],</span> <span class="n">interpolation</span><span class="o">=</span><span class="sh">'</span><span class="s">nearest</span><span class="sh">'</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">jet</span><span class="sh">'</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="nf">min</span><span class="p">(),</span> <span class="n">x</span><span class="p">.</span><span class="nf">max</span><span class="p">(),</span> <span class="n">y</span><span class="p">.</span><span class="nf">min</span><span class="p">(),</span> <span class="n">y</span><span class="p">.</span><span class="nf">max</span><span class="p">()],</span> <span class="n">origin</span><span class="o">=</span><span class="sh">'</span><span class="s">lower</span><span class="sh">'</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="sh">'</span><span class="s">auto</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">clim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">axis</span><span class="p">(</span><span class="sh">'</span><span class="s">off</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">time= %.3f</span><span class="sh">'</span> <span class="o">%</span><span class="p">(</span><span class="n">dt</span><span class="o">*</span><span class="n">timeslot</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 그래프 전체 사이즈를 정한다.</li>
+  <li>❷ 2행2열 형태의 그래프를 그릴 수 있도록 값을 지정한다.</li>
+  <li>❸ 0초부터 마지막까지 4등분한 시간을 계산한다.</li>
+  <li>❹ ~ ❿ 부분 그래프를 하나씩 만들어 전체를 출력한다.</li>
+</ul>
+
+<p>그림 12.4 반응 확산 현상에 대한 시뮬레이션 결과
+<img src="./img/fig-292.jpg" alt="그림 12.4 반응 확산 현상에 대한 시뮬레이션 결과" /></p>
+
+<p>그림 12.4는 반응 확산 방정식 중 하나인 Allen-Cahn 방정식을 무작위 값으로 시작하여 0.003초간 현상을 시뮬레이션한 결과다. 위 예시처럼 파이토치 GPU 텐서를 이용하면 넘파이 배열로 코드를 작성할 때보다 훨씬 빠른 속도로 시뮬레이션이 완료된다.</p>
+
+<h1 id="122-은닉-유체-메카니즘">12.2 은닉 유체 메카니즘</h1>
+
+<p>은닉 유체 메카니즘은 인공 신경망과 미분 방정식을 결합하여 가지고 있지 않은 변수 데이터를 복원하는 모델이다.</p>
+
+<h3 id="1221-구조-설명">12.2.1 구조 설명</h3>
+
+<p>12.1에서 소개한 것과 같이 우리가 원하는 현상을 모델링하고 수치 모델을 바탕으로 유체의 흐름을 예측할 수 있다. 이때 목표값을 구하기 위해 다른 변수들도 미분방정식에서 함께 다뤄지는데 이미 주어진 데이터로는 숨겨진 변수에 대한 값을 찾아내기는 어렵다. 따라서 주어진 목표값 데이터와 인공신경망을 사용하여 숨겨진 변수를 예측할 수 있다.</p>
+
+<p>이번 예시에서는 난제로 알려진 네비어-스톡스 방정식<sup>Navier-Stocks Equations</sup>을 이용하여 2차원 꽃모양 실린더 내 비압축성 유체 흐름에 대한 숨겨진 변수를 예측한다. 현상에 관한 미분 방정식은 다음과 같다.</p>
+
+<p>\(c_t + u c_x + v c_y - 0.01(c_{xx} + c_{yy}) = 0\)
+\(u_t + u u_x + v u_y + p_x - 0.01(u_{xx} + u_{yy}) = 0\)
+\(v_t + u v_x + v v_y + p_y - 0.01(v_{xx} + v_{yy}) = 0\)
+\(u_x + u_y = 0\)</p>
+
+<p>$c$는 주어진 농도 데이터이고 우리가 모르는 변수 $u, v$는 속도, $p$는 압력일 때 속도와 압력 값을 은닉 유체 메카니즘<sup>Hidden Fluid Mechanics, HFM</sup>을 이용하여 추출할 수 있다. HFM은 미분 방정식 풀이를 잘 모르더라도 사용할 수 있는 구조를 가지고 있기 때문에 수치해석 보다 쉽게 구현이 가능하다.</p>
+
+<p>그림 12.5 은닉 유체 메카니즘의 모델 구조
+<img src="./img/fig-293.jpg" alt="그림 12.5 은닉 유체 메카니즘의 모델 구조" /></p>
+
+<p>그림 12.5와 같이 앞 부분은 다층 퍼셉트론으로 구성되어 있으며 입력층의 노드가 3개, 출력층의 노드가 4개인 신경망이다. 입력층에서는 좌표값 $x, y$와 현재 시간 $t$를 받고 다수의 은닉층을 거친 뒤 $c, u, v, p$를 출력한다. 즉, 각 좌표마다 $c, u, v, p$를 예측하는 모델이다. 다음으로 파이토치에서 제공하는 자동 미분을 사용해 수식에 있는 미분항($c_t, v_x$ 등)을 계산한다. 마지막으로 예측한 값을 위 방정식 4개에 대입했을 때 위 등식을 만족해야 하고, $c$에 대해서는 데이터를 가지고 있기 때문에 각 식의 좌변을 $e_1, e_2, e_3, e_4$을 손실 함수로 정의하고 $c$의 예측값과 실제값을 비교를 하는 $c$에 대한 손실 함수를 만들 수 있다. 최종적으로 위 손실 함수 5개를 더해서 전체 손실이 0이 되게 하는 최적화 구조를 만들 수 있으며, 아래와 같이 손실 함수 $L$을 정의할 수 있다.</p>
+
+\[L = \frac{1}{N} \sum_{n=1}^N (c^n - \hat{c}^n)^2 + \sum_{i=1}^4 \frac{1}{M} \sum_{m=1}^M (e_i^m - 0)^2\]
+
+<h3 id="1222-모듈-구성하기hfm-폴더">12.2.2 모듈 구성하기(HFM 폴더)</h3>
+
+<p>코드의 가독성을 위해 각 알고리즘의 목적에 따라 모듈을 구성한다. 이 예시에서는 학습(train.py), 데이터로드(mat_to_numpy.py), 평가(evaluation.py), 모델 및 연산(utils.py)으로 파일을 나눈다.</p>
+
+<h3 id="1223-데이터-불러오기">12.2.3 데이터 불러오기</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE mat_to_numpy.py</code></p>
+
+<h4 id="-라이브러리-불러오기-1">■ 라이브러리 불러오기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">scipy.io</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">torch</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ mat 파일을 넘파이 배열로 변환하는 함수를 제공한다.</li>
+</ul>
+
+<h4 id="-데이터-처리-함수-정의하기">■ 데이터 처리 함수 정의하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">scipy</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="nf">loadmat</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">t_star</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="sh">'</span><span class="s">t_star</span><span class="sh">'</span><span class="p">]</span> <span class="c1"># T x 1
+</span>    <span class="n">x_star</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="sh">'</span><span class="s">x_star</span><span class="sh">'</span><span class="p">]</span> <span class="c1"># N x 1
+</span>    <span class="n">y_star</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="sh">'</span><span class="s">y_star</span><span class="sh">'</span><span class="p">]</span> <span class="c1"># N x 1
+</span>    <span class="n">T</span> <span class="o">=</span> <span class="n">t_star</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">x_star</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">U_star</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="sh">'</span><span class="s">U_star</span><span class="sh">'</span><span class="p">]</span> <span class="c1"># N x T
+</span>    <span class="n">V_star</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="sh">'</span><span class="s">V_star</span><span class="sh">'</span><span class="p">]</span> <span class="c1"># N x T
+</span>    <span class="n">P_star</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="sh">'</span><span class="s">P_star</span><span class="sh">'</span><span class="p">]</span> <span class="c1"># N x T
+</span></code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">C_star</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="sh">'</span><span class="s">C_star</span><span class="sh">'</span><span class="p">]</span> <span class="c1"># N x T
+</span>    <span class="n">T_star</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">tile</span><span class="p">(</span><span class="n">t_star</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)).</span><span class="n">T</span> <span class="c1"># N x T
+</span>    <span class="n">X_star</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">tile</span><span class="p">(</span><span class="n">x_star</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">T</span><span class="p">))</span> <span class="c1"># N x T
+</span>    <span class="n">Y_star</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">tile</span><span class="p">(</span><span class="n">y_star</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">T</span><span class="p">))</span> <span class="c1"># N x T
+</span></code></pre></div></div>
+
+<ul>
+  <li>❶ 데이터 경로와 뽑을 샘플 수를 입력한다.</li>
+  <li>❷ mat 파일을 넘파이 배열이 있는 딕셔너리 타입으로 불러온다.</li>
+  <li>❸ ~ ⓫ 각 키를 통해서 t, x, y, U, V, P, C 데이터를 불러온다.</li>
+  <li>⓬ ~ ⓮ x, y는 좌표값이므로 모든 타임 스텝에 동일한 값으로 존재한다. 따라서 tile을 통해 반복 배열을 생성한다. 그에 따른 시간 t도 동일 크기로 배열을 생성한다.</li>
+</ul>
+
+<p>다음으로 우리 모델은 MLP에 x, y, t값이 들어가기 때문에 데이터의 크기는 (배치 사이즈×3)으로 구성되어야 한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1"># For Training
+</span>    <span class="n">idx_t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">choice</span><span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">T</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([</span><span class="n">T</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])])</span>
+    <span class="n">idx_x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">choice</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">t_data</span> <span class="o">=</span> <span class="n">T_star</span><span class="p">[:,</span> <span class="n">idx_t</span><span class="p">][</span><span class="n">idx_x</span><span class="p">,</span> <span class="p">:].</span><span class="nf">flatten</span><span class="p">()[:,</span> <span class="bp">None</span><span class="p">]</span> <span class="c1"># ST x 1
+</span>    <span class="n">x_data</span> <span class="o">=</span> <span class="n">X_star</span><span class="p">[:,</span> <span class="n">idx_t</span><span class="p">][</span><span class="n">idx_x</span><span class="p">,</span> <span class="p">:].</span><span class="nf">flatten</span><span class="p">()[:,</span> <span class="bp">None</span><span class="p">]</span> <span class="c1"># ST x 1
+</span>    <span class="n">y_data</span> <span class="o">=</span> <span class="n">Y_star</span><span class="p">[:,</span> <span class="n">idx_t</span><span class="p">][</span><span class="n">idx_x</span><span class="p">,</span> <span class="p">:].</span><span class="nf">flatten</span><span class="p">()[:,</span> <span class="bp">None</span><span class="p">]</span> <span class="c1"># ST x 1
+</span>    <span class="n">c_data</span> <span class="o">=</span> <span class="n">C_star</span><span class="p">[:,</span> <span class="n">idx_t</span><span class="p">][</span><span class="n">idx_x</span><span class="p">,</span> <span class="p">:].</span><span class="nf">flatten</span><span class="p">()[:,</span> <span class="bp">None</span><span class="p">]</span> <span class="c1"># ST x 1
+</span>    <span class="n">c_tensor_data</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">FloatTensor</span><span class="p">(</span><span class="n">c_data</span><span class="p">)</span>
+    <span class="n">idx_t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">choice</span><span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">T</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([</span><span class="n">T</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])])</span>
+    <span class="n">idx_x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">choice</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">t_eqns</span> <span class="o">=</span> <span class="n">T_star</span><span class="p">[:,</span> <span class="n">idx_t</span><span class="p">][</span><span class="n">idx_x</span><span class="p">,</span> <span class="p">:].</span><span class="nf">flatten</span><span class="p">()[:,</span> <span class="bp">None</span><span class="p">]</span> <span class="c1"># ST x 1
+</span>    <span class="n">x_eqns</span> <span class="o">=</span> <span class="n">X_star</span><span class="p">[:,</span> <span class="n">idx_t</span><span class="p">][</span><span class="n">idx_x</span><span class="p">,</span> <span class="p">:].</span><span class="nf">flatten</span><span class="p">()[:,</span> <span class="bp">None</span><span class="p">]</span> <span class="c1"># ST x 1
+</span>    <span class="n">y_eqns</span> <span class="o">=</span> <span class="n">Y_star</span><span class="p">[:,</span> <span class="n">idx_t</span><span class="p">][</span><span class="n">idx_x</span><span class="p">,</span> <span class="p">:].</span><span class="nf">flatten</span><span class="p">()[:,</span> <span class="bp">None</span><span class="p">]</span> <span class="c1"># ST x 1
+</span>    <span class="n">variables</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">FloatTensor</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">((</span><span class="n">t_data</span><span class="p">,</span> <span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># ST x 3
+</span>    <span class="n">eqns</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">FloatTensor</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">((</span><span class="n">t_eqns</span><span class="p">,</span> <span class="n">x_eqns</span><span class="p">,</span> <span class="n">y_eqns</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># ST x 3
+</span>    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Number of Time Steps: </span><span class="si">{</span><span class="n">T</span><span class="si">}</span><span class="s">, Number of sample points: </span><span class="si">{</span><span class="n">num_samples</span><span class="si">}</span><span class="s"> out of </span><span class="si">{</span><span class="n">N</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">variables</span><span class="p">,</span> <span class="n">c_tensor_data</span><span class="p">,</span> <span class="n">eqns</span><span class="p">,</span> <span class="n">T_star</span><span class="p">,</span> <span class="n">X_star</span><span class="p">,</span> <span class="n">Y_star</span><span class="p">,</span> <span class="n">C_star</span><span class="p">,</span> <span class="n">U_star</span><span class="p">,</span> <span class="n">V_star</span><span class="p">,</span> <span class="n">P_star</span>
+</code></pre></div></div>
+
+<ul>
+  <li>⓰ ~ ㉛ 이를 위해 각 변수를 일렬로 펴서 (배치 사이즈×1)로 만든 뒤 세 변수를 합쳐 (배치 사이즈×3) 크기의 데이터를 확보한다.</li>
+  <li>⓰ idx_t는 시간에 따라 데이터를 섞어주는 인덱스이고 idx_x는 각 좌표를 무작위로 샘플 수만큼 뽑는 인덱스다.</li>
+  <li>
+    <p>⓲ ~ ⓴ 각 변수의 일렬 데이터를 얻는다.</p>
+  </li>
+  <li>㉓ ~ ㉗ 차후 별도로 모델을 활성화하기 위해 바로 앞에서 했던 작업을 한 번 더 한다.</li>
+  <li>㉘, ㉙ (전체 데이터 크기×3) 형태로 텐서로 변환한다.</li>
+  <li>㉛ 학습을 위한 variables, c_tensor_data, eqns와 평가를 위한 T_star, X_star, Y_star, C_star, U_star, V_star, P_star를 반환한다.</li>
+</ul>
+
+<h3 id="1224-모델-및-연산utilspy">12.2.4 모델 및 연산(utils.py)</h3>
+
+<h4 id="-라이브러리-불러오기-2">■ 라이브러리 불러오기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+</code></pre></div></div>
+
+<h4 id="-은닉층-정의하기">■ 은닉층 정의하기</h4>
+
+<p>은닉층 하나를 LinearBlock으로 만들어 설계한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">LinearBlock</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">in_nodes</span><span class="p">,</span> <span class="n">out_nodes</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">(</span><span class="n">LinearBlock</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">layer</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="nf">weight_norm</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">in_nodes</span><span class="p">,</span> <span class="n">out_nodes</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">torch</span><span class="p">.</span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❹ nn.Linear을 통해 층을 하나 만들고 nn.utils.weight_norm을 이용해 정규화된 가중치를 사용하도록 한다.</li>
+  <li>❼ 은닉층에서는 활성화 함수인 SiLU 함수 $x \cdot \text{sigmoid}(x)$을 적용한다.</li>
+</ul>
+
+<h4 id="-모델-정의하기">■ 모델 정의하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">PINN</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">layer_list</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">(</span><span class="n">PINN</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda:0</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">input_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="nf">weight_norm</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">layer_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">layer_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">hidden_layers</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">_make_layer</span><span class="p">(</span><span class="n">layer_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">output_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="nf">weight_norm</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">layer_list</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">layer_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">).</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">sig</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nf">var</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)).</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_make_layer</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">layer_list</span><span class="p">):</span>
+        <span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">layer_list</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">block</span> <span class="o">=</span> <span class="nc">LinearBlock</span><span class="p">(</span><span class="n">layer_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">layer_list</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">layers</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">self</span><span class="p">.</span><span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">self</span><span class="p">.</span><span class="n">sig</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">input_layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">torch</span><span class="p">.</span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">hidden_layers</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">output_layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❺ 입력층을 정의한다.</li>
+  <li>❻ 은닉층을 정의한다.</li>
+  <li>❼ 출력층을 정의한다.</li>
+  <li>❽ ~ ❿ 데이터를 받아 평균과 표준편차를 계산한다.</li>
+  <li>⓫ 은닉층의 노드 정보가 담긴 리스트 layer_list를 받는다.</li>
+  <li>⓬ 은닉층을 쌓을 빈 리스트를 생성한다.</li>
+  <li>⓭ ~ ⓰ 미리 정의한 LinearBlock을 불러와 차례대로 쌓아 은닉층을 nn.Sequential로 반환한다.</li>
+  <li>❷ ~ ⓰ 줄은 모델 구축에 관한 함수이고 forward 함수에서 실제 연산이 일어난다.</li>
+  <li>⓲ 미리 구한 데이터의 평균과 표준편차를 이용해 입력 x, y, t 데이터를 정규화한다.</li>
+  <li>⓳, ⓴ 입력층을 계산한다.</li>
+  <li>㉑ 그 다음 은닉층을 계산한다.</li>
+  <li>㉒, ㉓ 출력층을 계산하여 c, u, v, p를 출력한다.</li>
+</ul>
+
+<h4 id="-초기-모델-변수-설정하기">■ 초기 모델 변수 설정하기</h4>
+
+<p>nn.Linear에 대해서 torch.nn.init.xavier_normal를 이용하여 초기 모델 변수를 정규화한 값으로 설정한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">weights_init</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nf">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">):</span>
+        <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">init</span><span class="p">.</span><span class="nf">xavier_normal_</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">weight</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="-모델-불러오기">■ 모델 불러오기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">pinn</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">layer_list</span><span class="p">):</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda:0</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="nc">PINN</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">layer_list</span><span class="p">).</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">model</span><span class="p">.</span><span class="nf">apply</span><span class="p">(</span><span class="n">weights_init</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Operation mode: </span><span class="sh">"</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 모델의 각 층의 노드 수를 받아 ❸ 모델을 불러온 뒤 ❹ 초기 모델 변수를 설정한 후 ❻ 모델을 반환한다.</li>
+</ul>
+
+<h4 id="-자동-미분-함수-구현하기">■ 자동 미분 함수 구현하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">fwd_gradients</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">dummy</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">ones_like</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="n">derivative</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">autograd</span><span class="p">.</span><span class="nf">grad</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">dummy</span><span class="p">,</span> <span class="n">create_graph</span><span class="o">=</span> <span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">derivative</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❸ torch.autograd.grad를 이용하여 미분값을 구한다. 만약 $u$의 $x$에 대한 미분 $u_x$를 계산한다면 코드 내 obj에 미분하고자 하는 함수 u를 입력하고 x에는 미분의 기준이 되는 변수 x를 입력한다. 출력할 미분값을 위한 출력 벡터와 크기가 같은 벡터 dummy를 넣어주고 create_graph를 활성화하여 미분 그래프를 생성한다.</li>
+</ul>
+
+<h4 id="-네비어-스톡스-방정식-계산하기">■ 네비어-스톡스 방정식 계산하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">Navier_Stokes_2D</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">txy</span><span class="p">,</span> <span class="n">Pec</span><span class="p">,</span> <span class="n">Rey</span><span class="p">):</span>
+    <span class="n">c_txy</span> <span class="o">=</span> <span class="nf">fwd_gradients</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">txy</span><span class="p">)</span>
+    <span class="n">u_txy</span> <span class="o">=</span> <span class="nf">fwd_gradients</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">txy</span><span class="p">)</span>
+    <span class="n">v_txy</span> <span class="o">=</span> <span class="nf">fwd_gradients</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">txy</span><span class="p">)</span>
+    <span class="n">p_txy</span> <span class="o">=</span> <span class="nf">fwd_gradients</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">txy</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 예측값 c, u, v, p와 t, x, y좌표 데이터인 txy를 불러온다(Pec=100, Rey=100).</li>
+  <li>❷ ~ ❺ 각 변수 c, u, v, p를 t, x, y에 대해 미분한다. 이때 t, x, y에 대한 미분값이 반환된다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">c_t</span> <span class="o">=</span> <span class="n">c_txy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">c_x</span> <span class="o">=</span> <span class="n">c_txy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">c_y</span> <span class="o">=</span> <span class="n">c_txy</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">u_t</span> <span class="o">=</span> <span class="n">u_txy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">u_x</span> <span class="o">=</span> <span class="n">u_txy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">u_y</span> <span class="o">=</span> <span class="n">u_txy</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">v_t</span> <span class="o">=</span> <span class="n">v_txy</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">v_x</span> <span class="o">=</span> <span class="n">v_txy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">v_y</span> <span class="o">=</span> <span class="n">v_txy</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">p_x</span> <span class="o">=</span> <span class="n">p_txy</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">p_y</span> <span class="o">=</span> <span class="n">p_txy</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">c_xx</span> <span class="o">=</span> <span class="nf">fwd_gradients</span><span class="p">(</span><span class="n">c_x</span><span class="p">,</span> <span class="n">txy</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">c_yy</span> <span class="o">=</span> <span class="nf">fwd_gradients</span><span class="p">(</span><span class="n">c_y</span><span class="p">,</span> <span class="n">txy</span><span class="p">)[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">u_xx</span> <span class="o">=</span> <span class="nf">fwd_gradients</span><span class="p">(</span><span class="n">u_x</span><span class="p">,</span> <span class="n">txy</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">u_yy</span> <span class="o">=</span> <span class="nf">fwd_gradients</span><span class="p">(</span><span class="n">u_y</span><span class="p">,</span> <span class="n">txy</span><span class="p">)[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">v_xx</span> <span class="o">=</span> <span class="nf">fwd_gradients</span><span class="p">(</span><span class="n">v_x</span><span class="p">,</span> <span class="n">txy</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">v_yy</span> <span class="o">=</span> <span class="nf">fwd_gradients</span><span class="p">(</span><span class="n">v_y</span><span class="p">,</span> <span class="n">txy</span><span class="p">)[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">e1</span> <span class="o">=</span> <span class="n">c_t</span> <span class="o">+</span> <span class="p">(</span><span class="n">u</span> <span class="o">*</span> <span class="n">c_x</span> <span class="o">+</span> <span class="n">v</span> <span class="o">*</span> <span class="n">c_y</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">Pec</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">c_xx</span> <span class="o">+</span> <span class="n">c_yy</span><span class="p">)</span>
+    <span class="n">e2</span> <span class="o">=</span> <span class="n">u_t</span> <span class="o">+</span> <span class="p">(</span><span class="n">u</span> <span class="o">*</span> <span class="n">u_x</span> <span class="o">+</span> <span class="n">v</span> <span class="o">*</span> <span class="n">u_y</span><span class="p">)</span> <span class="o">+</span> <span class="n">p_x</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">Rey</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">u_xx</span> <span class="o">+</span> <span class="n">u_yy</span><span class="p">)</span>
+    <span class="n">e3</span> <span class="o">=</span> <span class="n">v_t</span> <span class="o">+</span> <span class="p">(</span><span class="n">u</span> <span class="o">*</span> <span class="n">v_x</span> <span class="o">+</span> <span class="n">v</span> <span class="o">*</span> <span class="n">v_y</span><span class="p">)</span> <span class="o">+</span> <span class="n">p_y</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">Rey</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">v_xx</span> <span class="o">+</span> <span class="n">v_yy</span><span class="p">)</span>
+    <span class="n">e4</span> <span class="o">=</span> <span class="n">u_x</span> <span class="o">+</span> <span class="n">v_y</span>
+    <span class="k">return</span> <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span><span class="p">,</span> <span class="n">e4</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❻ ~ ⓰ 다음 계산된 t, x, y에 대한 미분을 각각 나누어 정의하며 0열은 t에 대한 미분, 1열은 x에 대한 미분, 2열은 y에 대한 미분이다. 이때 2차원을 유지하기 위해서 [:, 0]이 아닌 [:, 0:1]이라고 표현한다.</li>
+  <li>⓱ ~ ㉒ $u_{xx}$와 같이 두 번 미분한 값을 구하기 위해 fwd_gradients를 미분한 것들에 대해 한 번 더 미분한다.</li>
+  <li>㉓ ~ ㉗ 마지막으로 우리가 원하는 e1, e2, e3, e4를 만들어 반환한다.</li>
+</ul>
+
+<h4 id="-평가-데이터-추출하기">■ 평가 데이터 추출하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test_data</span><span class="p">(</span><span class="n">T_star</span><span class="p">,</span> <span class="n">X_star</span><span class="p">,</span> <span class="n">Y_star</span><span class="p">,</span> <span class="n">C_star</span><span class="p">,</span> <span class="n">U_star</span><span class="p">,</span> <span class="n">V_star</span><span class="p">,</span> <span class="n">P_star</span><span class="p">):</span>
+    <span class="n">snap</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">t_star</span> <span class="o">=</span> <span class="n">T_star</span><span class="p">[:,</span> <span class="n">snap</span><span class="p">:</span><span class="n">snap</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">x_star</span> <span class="o">=</span> <span class="n">X_star</span><span class="p">[:,</span> <span class="n">snap</span><span class="p">:</span><span class="n">snap</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">y_star</span> <span class="o">=</span> <span class="n">Y_star</span><span class="p">[:,</span> <span class="n">snap</span><span class="p">:</span><span class="n">snap</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">c_star</span> <span class="o">=</span> <span class="n">C_star</span><span class="p">[:,</span> <span class="n">snap</span><span class="p">:</span><span class="n">snap</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">u_star</span> <span class="o">=</span> <span class="n">U_star</span><span class="p">[:,</span> <span class="n">snap</span><span class="p">:</span><span class="n">snap</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">v_star</span> <span class="o">=</span> <span class="n">V_star</span><span class="p">[:,</span> <span class="n">snap</span><span class="p">:</span><span class="n">snap</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">p_star</span> <span class="o">=</span> <span class="n">P_star</span><span class="p">[:,</span> <span class="n">snap</span><span class="p">:</span><span class="n">snap</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">variables_star</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">FloatTensor</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">((</span><span class="n">t_star</span><span class="p">,</span> <span class="n">x_star</span><span class="p">,</span> <span class="n">y_star</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># N x 3
+</span>    <span class="n">target_star</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">FloatTensor</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">((</span><span class="n">c_star</span><span class="p">,</span> <span class="n">u_star</span><span class="p">,</span> <span class="n">v_star</span><span class="p">,</span> <span class="n">p_star</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># N x 4
+</span>    <span class="k">return</span> <span class="n">variables_star</span><span class="p">,</span> <span class="n">target_star</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❷ ~ ❾ 모든 시점에 대해 평가를 하면 시간이 매우 오래 걸린다. 따라서 간단한 평가를 위해 특정 시간에 대한 데이터만 뽑아 반환한다.</li>
+  <li>❿ 입력 데이터를 만든다.</li>
+  <li>⓫, ⓬ 예측값과 비교를 위해 실제값을 만들어 반환한다.</li>
+</ul>
+
+<h4 id="-상대오차-정의하기">■ 상대오차 정의하기</h4>
+
+<p>실제값 target과 예측값 pred를 받아 L2 상대오차를 통해 성능을 확인한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">relative_error</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nf">mean</span><span class="p">((</span><span class="n">pred</span> <span class="o">-</span> <span class="n">target</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">torch</span><span class="p">.</span><span class="nf">mean</span><span class="p">((</span><span class="n">target</span> <span class="o">-</span> <span class="n">torch</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">target</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div></div>
+
+\[Relative\ L2\ error = \sqrt{\frac{\sum_{i=1}^N (y_i - \hat{y}_i)^2}{\sum_{i=1}^N (y_i - \mu)^2}} \quad (\mu = \frac{1}{N}\sum_{i=1}^N y_i)\]
+
+<h3 id="1225-모델-학습하기trainpy">12.2.5 모델 학습하기(train.py)</h3>
+
+<h4 id="-라이브러리-불러오기-3">■ 라이브러리 불러오기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">argparse</span>
+<span class="kn">from</span> <span class="n">mat_to_numpy</span> <span class="kn">import</span> <span class="n">load_data</span>
+<span class="kn">import</span> <span class="n">utils</span>
+<span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="n">time</span> <span class="kn">import</span> <span class="n">time</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ argparse를 이용하여 파이썬을 열지 않고 터미널에서 실행하도록 한다.</li>
+  <li>❷, ❸ 미리 만들어 놓은 모듈을 불러온다.</li>
+  <li>❻ 시간 확인용 time 함수를 불러온다.</li>
+</ul>
+
+<h4 id="-기본값-설정하기">■ 기본값 설정하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="p">.</span><span class="nc">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="sh">'</span><span class="s">Hidden Fluid Mechanics - Training</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">--version_name</span><span class="sh">'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="sh">'</span><span class="s">0</span><span class="sh">'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="nb">help</span><span class="o">=</span><span class="sh">'</span><span class="s">version name</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">--datapath</span><span class="sh">'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="sh">'</span><span class="s">./data/Cylinder2D_flower.mat</span><span class="sh">'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="nb">help</span><span class="o">=</span><span class="sh">'</span><span class="s">data path</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">--modelpath</span><span class="sh">'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="nb">help</span><span class="o">=</span><span class="sh">'</span><span class="s">pretrained model path</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">--num_samples</span><span class="sh">'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">157879</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="nb">help</span><span class="o">=</span><span class="sh">'</span><span class="s">number of samples: N out of 157879</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">--batch_size</span><span class="sh">'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="nb">help</span><span class="o">=</span><span class="sh">'</span><span class="s">batch size</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">--total_time</span><span class="sh">'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="nb">help</span><span class="o">=</span><span class="sh">'</span><span class="s">runtime</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">--lr</span><span class="sh">'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="nb">help</span><span class="o">=</span><span class="sh">'</span><span class="s">learning rate</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="nf">parse_args</span><span class="p">()</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 모든 코드는 main 조건 내부에서 작성한다.</li>
+  <li>❷ parser를 선언하고 간단한 코드 설명을 기입한다.</li>
+  <li>❸ ~ ❾ 학습에 필요한 기본값을 설정한다.</li>
+  <li>❸ version_name은 파일 저장 시 버전에 따라 파일명을 다르게 하기 위한 문자열이다.</li>
+  <li>❽ total_time에서의 40은 40시간을 의미한다.</li>
+</ul>
+
+<h4 id="-데이터-불러오기">■ 데이터 불러오기</h4>
+
+<p>mat to numpy 모듈에 있는 load_data를 이용해 데이터를 불러온다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">data</span><span class="p">,</span> <span class="n">c_data</span><span class="p">,</span> <span class="n">eqns</span><span class="p">,</span> <span class="n">T_star</span><span class="p">,</span> <span class="n">X_star</span><span class="p">,</span> <span class="n">Y_star</span><span class="p">,</span> <span class="n">C_star</span><span class="p">,</span> <span class="n">U_star</span><span class="p">,</span> <span class="n">V_star</span><span class="p">,</span> <span class="n">P_star</span> <span class="o">=</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">datapath</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">num_samples</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="-모델-불러오기-1">■ 모델 불러오기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda:0</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">layer_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">[</span><span class="mi">200</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">utils</span><span class="p">.</span><span class="nf">pinn</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">layer_list</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">args</span><span class="p">.</span><span class="n">modelpath</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">model</span><span class="p">.</span><span class="nf">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">modelpath</span><span class="p">))</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❷ 레이어의 노드 수를 가지고 있는 리스트를 생성한다. 이 예시에서는 [3, 200, 200, …, 200, 4]으로 구성되어 있으며 모델 생성시 (입력노드, 출력노드) = (3,200), (200,200), …, (200,200), (200,4)로 정보가 들어가 입력층 1개, 은닉층 8개, 출력층 1개를 갖는 다층 신경망을 구축한다.</li>
+  <li>❸ 데이터 정규화를 위해 데이터를 입력하고 모델 구조를 결정 짓는 layer_list를 입력하여 모델을 생성한다.</li>
+  <li>❹, ❺ 만약 학습된 모델을 사용하기 위해 모델 파일 경로 args.modelpath를 입력했다면 학습된 모델 파라미터를 불러온다.</li>
+</ul>
+
+<h4 id="-최적화-정의하기">■ 최적화 정의하기</h4>
+
+<p>최적화 방법은 Adam을 사용하고 주어진 학습률 args.lr을 적용한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="nc">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">args</span><span class="p">.</span><span class="n">lr</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="-학습-준비하기">■ 학습 준비하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">start_time</span> <span class="o">=</span> <span class="nf">time</span><span class="p">()</span>
+    <span class="n">running_time</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">min_loss</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 학습 직전의 시간을 체크한다.</li>
+  <li>❷ 학습 누적 시간을 정의한다.</li>
+  <li>
+    <p>❸ 학습 반복 수를 정의한다.</p>
+  </li>
+  <li>❹ 모델 저장을 위해 최소 손실값을 정의한다.</li>
+</ul>
+
+<h4 id="-모델-학습하기">■ 모델 학습하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">while</span> <span class="n">running_time</span> <span class="o">&lt;</span> <span class="n">args</span><span class="p">.</span><span class="n">total_time</span><span class="p">:</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span>
+        <span class="n">idx_data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">choice</span><span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">batch_size</span><span class="p">)</span>
+        <span class="n">idx_eqns</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">choice</span><span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">batch_size</span><span class="p">)</span>
+        <span class="n">data_batch</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">idx_data</span><span class="p">,</span> <span class="p">:].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">c_data_batch</span> <span class="o">=</span> <span class="n">c_data</span><span class="p">[</span><span class="n">idx_data</span><span class="p">,</span> <span class="p">:].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">eqns_batch</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">idx_eqns</span><span class="p">,</span> <span class="p">:].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">data_batch</span><span class="p">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">c_data_batch</span><span class="p">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">eqns_batch</span><span class="p">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">data_outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">data_batch</span><span class="p">)</span>
+        <span class="n">c_data_pred</span> <span class="o">=</span> <span class="n">data_outputs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">eqns_outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">eqns_batch</span><span class="p">)</span>
+        <span class="n">c_eqns_pred</span> <span class="o">=</span> <span class="n">eqns_outputs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">u_eqns_pred</span> <span class="o">=</span> <span class="n">eqns_outputs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">v_eqns_pred</span> <span class="o">=</span> <span class="n">eqns_outputs</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">p_eqns_pred</span> <span class="o">=</span> <span class="n">eqns_outputs</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span><span class="p">,</span> <span class="n">e4</span> <span class="o">=</span> <span class="n">utils</span><span class="p">.</span><span class="nc">Navier_Stokes_2D</span><span class="p">(</span><span class="n">c_eqns_pred</span><span class="p">,</span> <span class="n">u_eqns_pred</span><span class="p">,</span> <span class="n">v_eqns_pred</span><span class="p">,</span> <span class="n">p_eqns_pred</span><span class="p">,</span> <span class="n">eqns_batch</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 설정한 최대 시간 args.total_time까지 학습을 진행한다.</li>
+  <li>❸ ~ ❼ 배치 학습을 위해 데이터 샘플을 뽑는다.</li>
+  <li>❽ ~ ❿ 자동 미분을 위해 해당 데이터의 requires_grad를 활성화시킨다.</li>
+  <li>⓫ 모델을 통해 c, u, v, p값을 출력한다.</li>
+  <li>⓬ 따라서 data_outputs의 0번째 열은 c, 1번째 열은 u, 2번째 열은 v, 마지막 열은 p이다. 따라서 c_data_pred는 data_outputs[:, 0:1]이다. 여기서 data_outputs[:, 0]으로 작성을 하면 1차원 텐서가 되는데 우리는 2차원 형태로 텐서를 만들기 위해 data_outputs[:, 0:1]로 작성한다.</li>
+  <li>⓭ ~ ⓲ 동일한 방법으로 c, u, v, p값을 예측한 후 목적 함수 e1, e2, e3, e4를 계산한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="n">loss_c</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">mean</span><span class="p">((</span><span class="n">c_data_pred</span> <span class="o">-</span> <span class="n">c_data_batch</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">loss_e</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">e1</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">torch</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">e2</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">torch</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">e3</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">torch</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">e4</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_c</span> <span class="o">+</span> <span class="n">loss_e</span>
+        <span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">loss</span><span class="p">.</span><span class="nf">item</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">min_loss</span><span class="p">:</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>            <span class="n">min_loss</span> <span class="o">=</span> <span class="n">loss</span><span class="p">.</span><span class="nf">item</span><span class="p">()</span>
+            <span class="n">torch</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">(),</span> <span class="sh">'</span><span class="s">./hfm_</span><span class="sh">'</span> <span class="o">+</span> <span class="n">args</span><span class="p">.</span><span class="n">version_name</span> <span class="o">+</span> <span class="sh">'</span><span class="s">.pth</span><span class="sh">'</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">it</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">elapsed</span> <span class="o">=</span> <span class="nf">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+            <span class="n">running_time</span> <span class="o">+=</span> <span class="n">elapsed</span> <span class="o">/</span> <span class="mf">3600.0</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">Iteration: %d, Loss: %.3e, Time: %.2fs, Running Time: %.2fh</span><span class="sh">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">,</span> <span class="n">running_time</span><span class="p">))</span>
+            <span class="n">start_time</span> <span class="o">=</span> <span class="nf">time</span><span class="p">()</span>
+</code></pre></div></div>
+
+<ul>
+  <li>⓳ 첫 번째 예측에서 나온 c를 이용해 손실 함수 loss_c를 정의한다.</li>
+  <li>⓴ 두 번째 예측에서 얻어진 e1, e2, e3, e4의 손실 함수의 합을 loss_e라고 정의한다.</li>
+  <li>㉑ 최종적으로 두 손실 함수를 더해 최적화의 기준이 되는 loss를 정의한다.</li>
+  <li>㉒, ㉓ 다음 최적화를 진행한다.</li>
+  <li>㉕ ~ ㉗ 첫 번째 if문에서는 손실값을 기준으로 모델 파라미터를 저장한다.</li>
+  <li>㉙ ~ ㉝ 100회 학습마다 런타임을 확인하고 진행 상황을 출력한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="nf">if </span><span class="p">(</span><span class="n">it</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">it</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="c1"># Prediction
+</span>            <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
+                <span class="n">variables_star</span><span class="p">,</span> <span class="n">target_star</span> <span class="o">=</span> <span class="n">utils</span><span class="p">.</span><span class="nf">test_data</span><span class="p">(</span><span class="n">T_star</span><span class="p">,</span> <span class="n">X_star</span><span class="p">,</span> <span class="n">Y_star</span><span class="p">,</span> <span class="n">C_star</span><span class="p">,</span> <span class="n">U_star</span><span class="p">,</span> <span class="n">V_star</span><span class="p">,</span> <span class="n">P_star</span><span class="p">)</span>
+                <span class="n">data_star_outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">variables_star</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+                <span class="n">c_star_pred</span> <span class="o">=</span> <span class="n">data_star_outputs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">u_star_pred</span> <span class="o">=</span> <span class="n">data_star_outputs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">v_star_pred</span> <span class="o">=</span> <span class="n">data_star_outputs</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+                <span class="n">p_star_pred</span> <span class="o">=</span> <span class="n">data_star_outputs</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+                <span class="n">c_target</span> <span class="o">=</span> <span class="n">target_star</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                <span class="n">u_target</span> <span class="o">=</span> <span class="n">target_star</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                <span class="n">v_target</span> <span class="o">=</span> <span class="n">target_star</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                <span class="n">p_target</span> <span class="o">=</span> <span class="n">target_star</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                <span class="n">c_error</span> <span class="o">=</span> <span class="n">utils</span><span class="p">.</span><span class="nf">relative_error</span><span class="p">(</span><span class="n">c_star_pred</span><span class="p">,</span> <span class="n">c_target</span><span class="p">)</span>
+                <span class="n">u_error</span> <span class="o">=</span> <span class="n">utils</span><span class="p">.</span><span class="nf">relative_error</span><span class="p">(</span><span class="n">u_star_pred</span><span class="p">,</span> <span class="n">u_target</span><span class="p">)</span>
+                <span class="n">v_error</span> <span class="o">=</span> <span class="n">utils</span><span class="p">.</span><span class="nf">relative_error</span><span class="p">(</span><span class="n">v_star_pred</span><span class="p">,</span> <span class="n">v_target</span><span class="p">)</span>
+                <span class="n">p_error</span> <span class="o">=</span> <span class="n">utils</span><span class="p">.</span><span class="nf">relative_error</span><span class="p">(</span><span class="n">p_star_pred</span><span class="p">,</span> <span class="n">p_target</span><span class="p">)</span>
+                <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">Error: c: %.3f, u: %.3f, v: %.3f, p: %.3f</span><span class="sh">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">c_error</span><span class="p">,</span> <span class="n">u_error</span><span class="p">,</span> <span class="n">v_error</span><span class="p">,</span> <span class="n">p_error</span><span class="p">))</span>
+        <span class="n">it</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">torch</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">(),</span> <span class="sh">'</span><span class="s">./hfm_</span><span class="sh">'</span> <span class="o">+</span> <span class="n">args</span><span class="p">.</span><span class="n">version_name</span> <span class="o">+</span> <span class="sh">'</span><span class="s">_last.pth</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>㉞ ~ ㊳ 학습 1000회 마다 임의로 특정 시간의 데이터를 뽑아 예측값을 뽑아낸다.</li>
+  <li>
+    <p>㊴ ~ ㊷ 각 변수로 나눠 데이터를 정리한다.</p>
+  </li>
+  <li>㊸ ~ ㊻ 마찬가지로 이에 대응되는 실제값을 정의한다.</li>
+  <li>㊼ ~ 51 이후 각 변수들의 상대오차를 구해 평가를 진행한다.</li>
+  <li>52, 53 마지막으로 매 학습마다 학습 횟수를 세고 만일에 대비하여 매 학습마다 모델을 저장한다.</li>
+</ul>
+
+<h3 id="1226-모델-평가하기evaluationpy">12.2.6 모델 평가하기(evaluation.py)</h3>
+
+<h4 id="-라이브러리-불러오기-및-기본값-설정하기">■ 라이브러리 불러오기 및 기본값 설정하기</h4>
+
+<p>관련 라이브러리들을 불러오고 main 조건에 기본값을 설정한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">argparse</span>
+<span class="kn">from</span> <span class="n">mat_to_numpy</span> <span class="kn">import</span> <span class="n">load_data</span>
+<span class="kn">import</span> <span class="n">utils</span>
+<span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="p">.</span><span class="nc">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="sh">'</span><span class="s">Hidden Fluid Mechanics - Evaluation</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">--datapath</span><span class="sh">'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="sh">'</span><span class="s">./data/Cylinder2D_flower.mat</span><span class="sh">'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="nb">help</span><span class="o">=</span><span class="sh">'</span><span class="s">data path</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">'</span><span class="s">--modelpath</span><span class="sh">'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="sh">'</span><span class="s">./hfm_0.pth</span><span class="sh">'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="nb">help</span><span class="o">=</span><span class="sh">'</span><span class="s">pretrained model path</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="nf">parse_args</span><span class="p">()</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="-데이터-불러오기-1">■ 데이터 불러오기</h4>
+
+<p>모든 시간에 대해 평가를 진행하지만 평가 속도를 위해 좌표의 일부만 사용해 평가를 진행한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">T_star</span><span class="p">,</span> <span class="n">X_star</span><span class="p">,</span> <span class="n">Y_star</span><span class="p">,</span> <span class="n">C_star</span><span class="p">,</span> <span class="n">U_star</span><span class="p">,</span> <span class="n">V_star</span><span class="p">,</span> <span class="n">P_star</span> <span class="o">=</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">datapath</span><span class="p">,</span> <span class="mi">30000</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="-학습된-모델-불러오기">■ 학습된 모델 불러오기</h4>
+
+<p>학습 모델과 동일한 구조를 불러온 후 학습된 파라미터를 불러온다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda:0</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">layer_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">[</span><span class="mi">200</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">utils</span><span class="p">.</span><span class="nf">pinn</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">layer_list</span><span class="p">)</span>
+    <span class="n">model</span><span class="p">.</span><span class="nf">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">modelpath</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h4 id="-모델-평가하기">■ 모델 평가하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
+        <span class="c1"># Prediction
+</span>        <span class="n">c_error_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">u_error_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">v_error_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">p_error_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">snap</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">T_star</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">t_star</span> <span class="o">=</span> <span class="n">T_star</span><span class="p">[:,</span> <span class="n">snap</span><span class="p">:</span><span class="n">snap</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="c1"># N x 1
+</span>            <span class="n">x_star</span> <span class="o">=</span> <span class="n">X_star</span><span class="p">[:,</span> <span class="n">snap</span><span class="p">:</span><span class="n">snap</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">y_star</span> <span class="o">=</span> <span class="n">Y_star</span><span class="p">[:,</span> <span class="n">snap</span><span class="p">:</span><span class="n">snap</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">c_star</span> <span class="o">=</span> <span class="n">C_star</span><span class="p">[:,</span> <span class="n">snap</span><span class="p">:</span><span class="n">snap</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">u_star</span> <span class="o">=</span> <span class="n">U_star</span><span class="p">[:,</span> <span class="n">snap</span><span class="p">:</span><span class="n">snap</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">v_star</span> <span class="o">=</span> <span class="n">V_star</span><span class="p">[:,</span> <span class="n">snap</span><span class="p">:</span><span class="n">snap</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">p_star</span> <span class="o">=</span> <span class="n">P_star</span><span class="p">[:,</span> <span class="n">snap</span><span class="p">:</span><span class="n">snap</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">variables_star</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">FloatTensor</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">((</span><span class="n">t_star</span><span class="p">,</span> <span class="n">x_star</span><span class="p">,</span> <span class="n">y_star</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">target_star</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">FloatTensor</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">((</span><span class="n">c_star</span><span class="p">,</span> <span class="n">u_star</span><span class="p">,</span> <span class="n">v_star</span><span class="p">,</span> <span class="n">p_star</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❸ ~ ❻ 매 시간 상대오차를 저장하기 위해 각 변수마다 리스트를 만든다.</li>
+  <li>❼ 각 시간마다 예측을 진행한다.</li>
+  <li>❽ ~ ⓰ 입력값과 실제값 데이터를 구축한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>            <span class="n">data_star_outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">variables_star</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+            <span class="n">c_star_pred</span> <span class="o">=</span> <span class="n">data_star_outputs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">u_star_pred</span> <span class="o">=</span> <span class="n">data_star_outputs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">v_star_pred</span> <span class="o">=</span> <span class="n">data_star_outputs</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">p_star_pred</span> <span class="o">=</span> <span class="n">data_star_outputs</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+            <span class="n">c_target</span> <span class="o">=</span> <span class="n">target_star</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">u_target</span> <span class="o">=</span> <span class="n">target_star</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">v_target</span> <span class="o">=</span> <span class="n">target_star</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">p_target</span> <span class="o">=</span> <span class="n">target_star</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">c_error</span> <span class="o">=</span> <span class="n">utils</span><span class="p">.</span><span class="nf">relative_error</span><span class="p">(</span><span class="n">c_star_pred</span><span class="p">,</span> <span class="n">c_target</span><span class="p">)</span>
+            <span class="n">u_error</span> <span class="o">=</span> <span class="n">utils</span><span class="p">.</span><span class="nf">relative_error</span><span class="p">(</span><span class="n">u_star_pred</span><span class="p">,</span> <span class="n">u_target</span><span class="p">)</span>
+            <span class="n">v_error</span> <span class="o">=</span> <span class="n">utils</span><span class="p">.</span><span class="nf">relative_error</span><span class="p">(</span><span class="n">v_star_pred</span><span class="p">,</span> <span class="n">v_target</span><span class="p">)</span>
+            <span class="n">p_error</span> <span class="o">=</span> <span class="n">utils</span><span class="p">.</span><span class="nf">relative_error</span><span class="p">(</span><span class="n">p_star_pred</span><span class="p">,</span> <span class="n">p_target</span><span class="p">)</span>
+            <span class="n">c_error_list</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">c_error</span><span class="p">)</span>
+            <span class="n">u_error_list</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">u_error</span><span class="p">)</span>
+            <span class="n">v_error_list</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">v_error</span><span class="p">)</span>
+            <span class="n">p_error_list</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">p_error</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">[%d] Error: c: %.3f, u: %.3f, v: %.3f, p: %.3f</span><span class="sh">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">snap</span><span class="p">,</span> <span class="n">c_error</span><span class="p">,</span> <span class="n">u_error</span><span class="p">,</span> <span class="n">v_error</span><span class="p">,</span> <span class="n">p_error</span><span class="p">))</span>
+</code></pre></div></div>
+
+<ul>
+  <li>⓱ ~ ㉙ 학습 때 진행했던 평가 방식과 동일하게 각 예측값을 변수로 나눠 데이터를 만들고 각각 상대오차를 계산한다.</li>
+  <li>㉚ ~ ㉝ 계산된 오차를 저장한다.</li>
+</ul>
+
+<h4 id="-상대오차-그래프-저장하기">■ 상대오차 그래프 저장하기</h4>
+
+<p>$2 \times 2$ 부분 그래프 형식으로 c, u, v, p에 대한 상대오차를 그리고 이를 저장한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">fig</span><span class="p">.</span><span class="nf">suptitle</span><span class="p">(</span><span class="sh">'</span><span class="s">Relative L2 Error</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">subplot</span><span class="p">(</span><span class="mi">221</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">c_error_list</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">c(t,x,y)</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">time</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">subplot</span><span class="p">(</span><span class="mi">222</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">u_error_list</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">u(t,x,y)</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">time</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">subplot</span><span class="p">(</span><span class="mi">223</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">v_error_list</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">v(t,x,y)</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">time</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">subplot</span><span class="p">(</span><span class="mi">224</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">p_error_list</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">p(t,x,y)</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">time</span><span class="sh">'</span><span class="p">)</span>
+    <span class="c1">#plt.legend(['c', 'u', 'v', 'p'])
+</span>    <span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">./results/error_graph.png</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="-은닉-변수-예측-그래프-저장하기">■ 은닉 변수 예측 그래프 저장하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">ct</span> <span class="o">=</span> <span class="n">c_target</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">()</span>
+    <span class="n">pt</span> <span class="o">=</span> <span class="n">p_target</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">()</span>
+    <span class="n">ut</span> <span class="o">=</span> <span class="n">u_target</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">()</span>
+    <span class="n">vt</span> <span class="o">=</span> <span class="n">v_target</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">()</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">subplot</span><span class="p">(</span><span class="mi">241</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_star</span><span class="p">,</span> <span class="n">y_star</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">ct</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">.</span><span class="n">jet</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">clim</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">min</span><span class="p">(</span><span class="n">ct</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">ct</span><span class="p">))</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">c reference</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">subplot</span><span class="p">(</span><span class="mi">242</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">plt</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_star</span><span class="p">,</span> <span class="n">y_star</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c_star_pred</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">.</span><span class="n">jet</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">clim</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">min</span><span class="p">(</span><span class="n">ct</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">ct</span><span class="p">))</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">c prediction</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">subplot</span><span class="p">(</span><span class="mi">243</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_star</span><span class="p">,</span> <span class="n">y_star</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">pt</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">.</span><span class="n">jet</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">clim</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">min</span><span class="p">(</span><span class="n">pt</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">pt</span><span class="p">))</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">p reference</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">subplot</span><span class="p">(</span><span class="mi">244</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_star</span><span class="p">,</span> <span class="n">y_star</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">p_star_pred</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">.</span><span class="n">jet</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">clim</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">min</span><span class="p">(</span><span class="n">pt</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">pt</span><span class="p">))</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">p prediction</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">subplot</span><span class="p">(</span><span class="mi">245</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_star</span><span class="p">,</span> <span class="n">y_star</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">ut</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">.</span><span class="n">jet</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">clim</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">min</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">ut</span><span class="p">))</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">u reference</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">subplot</span><span class="p">(</span><span class="mi">246</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_star</span><span class="p">,</span> <span class="n">y_star</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">u_star_pred</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">.</span><span class="n">jet</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">clim</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">min</span><span class="p">(</span><span class="n">ut</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">ut</span><span class="p">))</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">u prediction</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">subplot</span><span class="p">(</span><span class="mi">247</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_star</span><span class="p">,</span> <span class="n">y_star</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">vt</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">.</span><span class="n">jet</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">clim</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">min</span><span class="p">(</span><span class="n">vt</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">vt</span><span class="p">))</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">v reference</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">subplot</span><span class="p">(</span><span class="mi">248</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_star</span><span class="p">,</span> <span class="n">y_star</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">v_star_pred</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">.</span><span class="n">jet</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">clim</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">min</span><span class="p">(</span><span class="n">vt</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">vt</span><span class="p">))</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">'</span><span class="s">v prediction</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">4.0</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">./results/last_time_prediction.png</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">close</span><span class="p">()</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❻ ~ 46 비교를 위해 예측값<sup>prediction</sup>과 실제값<sup>reference</sup>으로 그래프를 나눈 부분 그래프를 활용한다.</li>
+  <li>47 부분 그래프 간의 간격을 조정하고</li>
+  <li>48 그래프를 저장한다.</li>
+</ul>
+
+<h3 id="1227-코랩에서-파일-실행하기">12.2.7 코랩에서 파일 실행하기</h3>
+
+<h4 id="-모델-학습-진행하기">■ 모델 학습 진행하기</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">!</span>python train.py
+</code></pre></div></div>
+
+<p><strong>Output:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Namespace(batch_size=10000, datapath='./data/Cylinder2D_flower.mat', lr=0.0001, modelpath=None, num_samples=157879, total_time=40)
+Number of Time Steps: 201, Number of sample N: 157879 out of 157879
+Generated 10000 data
+Operation mode: cuda:0
+Start training the model..
+It: 0, Loss: 3.189e-04, Time: 0.67s, Running Time: 0.00h
+Error: c: 0.680, u: 0.563, v: 0.369, p: 4.130
+It: 10, Loss: 5.395e-03, Time: 5.91s, Running Time: 0.00h
+.... 이하 생략 ....
+</code></pre></div></div>
+
+<h4 id="-모델-평가-진행하기">■ 모델 평가 진행하기</h4>
+
+<p>학습된 모델을 이용해 결과를 출력한다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">!</span>python evaluation.py
+</code></pre></div></div>
+
+<p><strong>Output:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Namespace(datapath='./data/Cylinder2D_flower.mat', modelpath='./hfm_0.pth')
+Number of Time Steps: 201, Number of sample points: 30000 out of 157879
+Operation mode: cuda:0
+[0] Error: c: 0.058, u: 0.350, v: 0.295, p: 1.503
+.... 이하 생략 ....
+</code></pre></div></div>
+
+<h4 id="-결과-확인하기-1">■ 결과 확인하기</h4>
+
+<p><strong>그림 12.6</strong> 시간에 따른 상대오차 결과
+<img src="./img/fig-310-1.jpg" alt="그림 12.6 시간에 따른 상대오차 결과" /></p>
+
+<p><strong>그림 12.7</strong> 마지막 시간에서의 은닉 변수 예측 결과
+<img src="./img/fig-310-2.jpg" alt="그림 12.7 마지막 시간에서의 은닉 변수 예측 결과" /></p>
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="border-top mt-5 pt-5 pb-4 bg-light text-secondary">
+  <div class="container">
+    <div class="row g-4 mb-4">
+      <!-- 브랜드 및 강의 소개 -->
+      <div class="col-lg-5">
+        <div class="d-flex align-items-center mb-3">
+          <span class="fs-4 me-2">🔥</span>
+          <span class="fs-5 fw-bold text-dark">딥러닝을 위한 파이토치 입문</span>
+        </div>
+        <p class="small text-secondary mb-3 pe-lg-4 lh-base">
+          파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트입니다.
+          인공 신경망, 합성곱 신경망(CNN), 순환 신경망(RNN), 비지도 학습(GAN), 전이 학습, 메타 학습, 과학적 계산(PINN)까지 코드 라인별로 깊이 있게 마스터합니다.
+        </p>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#PyTorch</span>
+          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#딥러닝입문</span>
+          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#인공신경망</span>
+          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#CNN_RNN</span>
+          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#MetaLearning</span>
+        </div>
+      </div>
+
+      <!-- 관련 학습 사이트 -->
+      <div class="col-6 col-lg-4">
+        <h6 class="fw-bold text-dark mb-3">🔗 관련 학습 사이트</h6>
+        <ul class="list-unstyled small mb-0">
+          <li class="mb-2">
+            <a href="https://pytoch.ai.jiny.dev" class="text-secondary text-decoration-none fw-bold text-primary d-flex align-items-center">
+              <span class="me-2">🔥</span>
+              <span><strong>파이토치</strong> <span class="badge bg-primary text-white ms-1">현재</span></span>
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="https://ai.jiny.dev" target="_blank" rel="noopener" class="text-secondary text-decoration-none d-flex align-items-center">
+              <span class="me-2">🤖</span>
+              <span><strong>인공지능기초</strong> <span class="text-muted ms-1">(ai.jiny.dev)</span></span>
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="https://rl.ai.jiny.dev" target="_blank" rel="noopener" class="text-secondary text-decoration-none d-flex align-items-center">
+              <span class="me-2">🎯</span>
+              <span><strong>강화학습</strong> <span class="text-muted ms-1">(rl.ai.jiny.dev)</span></span>
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="https://dezero.ai.jiny.dev" target="_blank" rel="noopener" class="text-secondary text-decoration-none d-flex align-items-center">
+              <span class="me-2">🧠</span>
+              <span><strong>밑바닥부터 시작하는 딥러닝 3</strong> <span class="text-muted ms-1">(dezero.ai.jiny.dev)</span></span>
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="https://python.jiny.dev" target="_blank" rel="noopener" class="text-secondary text-decoration-none d-flex align-items-center">
+              <span class="me-2">🐍</span>
+              <span><strong>파이썬</strong> <span class="text-muted ms-1">(python.jiny.dev)</span></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 강의 안내 및 커뮤니티 -->
+      <div class="col-6 col-lg-3">
+        <h6 class="fw-bold text-dark mb-3">🧭 안내 및 정보</h6>
+        <ul class="list-unstyled small mb-0">
+          <li class="mb-2"><a href="/curriculum/" class="text-secondary text-decoration-none">📋 전체 커리큘럼 목차</a></li>
+          <li class="mb-2"><a href="/#book-ref" class="text-secondary text-decoration-none">📚 참고 교재 (영진닷컴)</a></li>
+          <li class="mb-2"><a href="https://github.com/jinydev" target="_blank" rel="noopener" class="text-secondary text-decoration-none">💻 GitHub 저장소</a></li>
+          <li class="mb-2"><a href="mailto:infohojin@naver.com" class="text-secondary text-decoration-none">✉️ 문의 및 피드백 (Contact)</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 하단 카피라이트 & 크레딧 -->
+    <hr class="my-3 text-muted">
+    <div class="row align-items-center small">
+      <div class="col-md-7 text-center text-md-start mb-2 mb-md-0">
+        <p class="mb-0 text-secondary">
+          Copyright &copy; 2017~2026 <strong>JinyDev</strong>. All Rights Reserved.
+          <span class="d-none d-sm-inline mx-1">|</span>
+          <span class="text-muted">Directed & Created with ❤️ by Prof. Hojin Lee.</span>
+        </p>
+      </div>
+      <div class="col-md-5 text-center text-md-end">
+        <a href="#" class="text-decoration-none text-secondary me-3" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+          맨 위로 가기 ↑
+        </a>
+        <a href="https://github.com/jinydev" target="_blank" rel="noopener" class="text-decoration-none text-secondary me-3">GitHub</a>
+        <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

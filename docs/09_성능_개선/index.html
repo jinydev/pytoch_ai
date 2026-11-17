@@ -1,0 +1,2418 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>09장 성능 개선 | 딥러닝을 위한 파이토치 입문</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="09장 성능 개선" />
+<meta name="author" content="Hojin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트" />
+<meta name="twitter:description" property="og:description" content="파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트" />
+<link rel="canonical" href="http://localhost:4002/09_%EC%84%B1%EB%8A%A5_%EA%B0%9C%EC%84%A0/" />
+<meta property="og:url" content="http://localhost:4002/09_%EC%84%B1%EB%8A%A5_%EA%B0%9C%EC%84%A0/" />
+<meta property="og:site_name" content="딥러닝을 위한 파이토치 입문" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="09장 성능 개선" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트","headline":"09장 성능 개선","url":"http://localhost:4002/09_%EC%84%B1%EB%8A%A5_%EA%B0%9C%EC%84%A0/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/assets/css/docs.css" rel="stylesheet" />
+  <link href="/assets/css/highlight.css" rel="stylesheet" />
+
+  <style>
+    blockquote {
+      border-left: solid 5px #dee2e6;
+      padding: 5px 10px;
+      background-color: #f8f9fa;
+    }
+  </style>
+
+  <style>
+    h1 a {
+      text-decoration: none;
+    }
+
+    h2 a {
+      text-decoration: none;
+    }
+
+    h3 a {
+      text-decoration: none;
+    }
+
+    h4 a {
+      text-decoration: none;
+    }
+
+    h5 a {
+      text-decoration: none;
+    }
+
+    h6 a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: top
+    }
+
+    strong a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 스크롤바 커스텀 */
+    /* 임의의 영역 생성 */
+    .scrollBar {}
+
+    /* 아래의 모든 코드는 영역::코드로 사용 */
+    .scrollBar::-webkit-scrollbar {
+      width: 7px;
+      /* 스크롤바의 너비 */
+    }
+
+    .scrollBar::-webkit-scrollbar-thumb {
+      height: 30%;
+      /* 스크롤바의 길이 */
+      background: #cccccc;
+      /* 스크롤바의 색상 */
+
+      border-radius: 5px;
+    }
+
+    .scrollBar::-webkit-scrollbar-track {
+      background: rgba(33, 122, 244, .1);
+      /*스크롤바 뒷 배경 색상*/
+    }
+  </style>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R4VBPCT3CR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-R4VBPCT3CR');
+  </script>
+
+  <!-- MathJax for LaTeX Rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-expand-lg bd-navbar sticky-top">
+    <nav class="container bd-gutter flex-wrap flex-lg-nowrap position-relative" aria-label="Main navigation">
+
+      <!-- Mobile: Left Toggle (Browse) -->
+      <div class="bd-navbar-toggle d-lg-none">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar"
+          aria-controls="bdSidebar" aria-label="Toggle docs navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">
+            </path>
+          </svg>
+          <span class="d-none fs-6 pe-1">Browse</span>
+        </button>
+      </div>
+
+      <!-- Brand: Desktop (Static), Mobile (Absolute Center) -->
+      <a class="navbar-brand p-0 me-0 me-lg-2 ms-lg-0 d-none d-lg-inline-block" href="/" aria-label="jinydev">
+        <svg width="32" height="26" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+        </svg>
+      </a>
+      <a class="navbar-brand p-0 me-0 position-absolute top-50 start-50 translate-middle d-lg-none" href="/"
+        aria-label="jinydev">
+        <svg width="100" height="26" viewBox="0 0 112 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M24.2746 5.33377C25.8486 7.33981 25.1183 11.1792 24.3961 13.0177C24.4028 13.0199 24.4094 13.0221 24.4161 13.0243L24.4013 13.0248L22.649 12.9082C22.649 12.9053 22.6488 12.9013 22.649 12.8993C22.9902 8.93373 22.5975 7.34575 22.2147 7.07677C17.6316 10.3896 13.5379 9.33658 12.2725 9.01111C11.928 8.9225 11.7932 8.88781 11.9152 9.00988C12.2872 9.38185 13.1336 9.82821 13.7371 10.1465H13.7372L13.7376 10.1467C13.8743 10.2188 13.9985 10.2843 14.1019 10.3409C9.12673 10.3984 7.12659 8.00279 6.53855 7.29846C6.47859 7.22664 6.4333 7.1724 6.40105 7.14015C6.11408 6.85318 4.49961 5.87252 3.99256 7.74227C3.50142 9.55335 3.81246 11.6775 3.97665 12.7988C3.99089 12.896 3.99257 12.8981 3.99257 12.9298L2.37635 13.0248L2.37213 13.0247C0.223493 8.05534 1.83854 5.26971 3.29536 4.2246C3.29536 1.78444 6.27428 -0.592359 10.0455 0.263262C14.8768 1.64043 16.3468 1.18409 18.0759 0.647278C18.774 0.430562 19.5143 0.200726 20.5351 0.073124C25.2219 -0.512739 26.7993 2.56612 27 4.16122C26.2141 3.70487 24.8556 4.73165 24.2746 5.33377ZM12.3374 1.5872C11.1225 1.16466 7.99257 0.717209 6.3478 2.41116C5.98397 2.78587 5.55554 3.48864 5.55554 3.48864C5.55554 3.48864 4.82665 4.81961 4.25622 4.24919C3.68579 3.67878 5.0168 1.96749 6.06259 1.46044C7.10838 0.953388 9.70703 0.0660505 12.3374 1.5872Z"
+            fill="currentColor" />
+          <path
+            d="M10.078 13.5002H3.10601C2.2309 13.5002 1.52148 14.2097 1.52148 15.0848V18.3172C1.52148 19.1923 2.2309 19.9018 3.10601 19.9018H10.078C10.9531 19.9018 11.6625 19.1923 11.6625 18.3172V15.0848C11.6625 14.2097 10.9531 13.5002 10.078 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M0.823513 14.6094H0.379847C0.187322 14.6094 0.03125 14.7654 0.03125 14.958V15.9721C0.03125 16.1646 0.187322 16.3207 0.379847 16.3207H0.823513C1.01604 16.3207 1.17211 16.1646 1.17211 15.9721V14.958C1.17211 14.7654 1.01604 14.6094 0.823513 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M16.7326 13.5002H23.7045C24.5796 13.5002 25.2891 14.2097 25.2891 15.0848V18.3172C25.2891 19.1923 24.5796 19.9018 23.7045 19.9018H16.7326C15.8575 19.9018 15.1481 19.1923 15.1481 18.3172V15.0848C15.1481 14.2097 15.8575 13.5002 16.7326 13.5002Z"
+            stroke="currentColor" stroke-width="1.26763" />
+          <path
+            d="M25.9861 14.6094H26.4297C26.6222 14.6094 26.7783 14.7654 26.7783 14.958V15.9721C26.7783 16.1646 26.6222 16.3207 26.4297 16.3207H25.9861C25.7935 16.3207 25.6375 16.1646 25.6375 15.9721V14.958C25.6375 14.7654 25.7935 14.6094 25.9861 14.6094Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M12.2954 15.5601H14.5137C14.7062 15.5601 14.8623 15.7161 14.8623 15.9087V16.9228C14.8623 17.1153 14.7062 17.2713 14.5137 17.2713H12.2954C12.1028 17.2713 11.9468 17.1153 11.9468 16.9228V15.9087C11.9468 15.7161 12.1028 15.5601 12.2954 15.5601Z"
+            fill="currentColor" stroke="currentColor" stroke-width="0.0633813" />
+          <path
+            d="M9.93343 16.3937C9.93343 16.7087 9.76317 16.9641 9.55314 16.9641C9.34311 16.9641 9.17285 16.7087 9.17285 16.3937C9.17285 16.0786 9.34311 15.8232 9.55314 15.8232C9.76317 15.8232 9.93343 16.0786 9.93343 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M16.9688 16.3937C16.9688 16.7087 17.139 16.9641 17.3491 16.9641C17.5591 16.9641 17.7293 16.7087 17.7293 16.3937C17.7293 16.0786 17.5591 15.8232 17.3491 15.8232C17.139 15.8232 16.9688 16.0786 16.9688 16.3937Z"
+            fill="currentColor" />
+          <path
+            d="M14.2758 20.1016C13.642 20.6086 12.7863 20.3551 12.5645 20.1016C12.6278 20.4185 12.8687 20.8622 13.4518 20.8622C14.0349 20.8622 14.2441 20.3551 14.2758 20.1016Z"
+            fill="currentColor" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M12.1312 22.411C12.1575 22.2914 12.2759 22.2157 12.3956 22.2421L14.6347 22.735C14.7544 22.7614 14.83 22.8797 14.8036 22.9994C14.7773 23.119 14.659 23.1947 14.5393 23.1683L12.3002 22.6753C12.1805 22.649 12.1049 22.5307 12.1312 22.411Z"
+            fill="currentColor" />
+          <path
+            d="M13.4203 27.6754C9.00897 27.7261 5.77228 23.6613 4.70536 21.6225C4.54691 21.3197 4.42016 21.2739 4.32509 21.3373C4.17297 21.4387 4.28282 21.6437 4.32507 21.7493C4.85747 22.9916 5.58213 24.0416 5.87791 24.4113C4.83846 26.1353 4.49409 27.855 4.45183 28.4994C6.1758 26.8008 7.91668 26.8832 8.57162 27.1367C13.7055 29.7987 16.5577 27.929 18.1739 27.1367C19.4669 26.5029 21.4803 27.7388 22.3254 28.436C22.224 26.8642 21.3747 25.1402 20.9627 24.4747C21.6282 23.5873 22.1669 22.5099 22.4522 21.9711C22.6803 21.5401 22.6106 21.369 22.5472 21.3373C22.3951 21.2613 22.2092 21.4958 22.1353 21.6225C21.6599 22.4148 18.9345 27.6121 13.4203 27.6754Z"
+            fill="currentColor" />
+          <text x="32" y="21" font-family="Arial, sans-serif" font-weight="bold" font-size="22"
+            fill="currentColor">Jiny</text>
+        </svg>
+      </a>
+
+      <!-- Mobile: Right Toggle (Menu) -->
+      <div class="d-flex d-lg-none ms-auto">
+        <button class="navbar-toggler p-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#bdNavbar"
+          aria-controls="bdNavbar" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- OffCanvas -->
+      <div class="offcanvas-lg offcanvas-end flex-grow-1" tabindex="-1" id="bdNavbar"
+        aria-labelledby="bdNavbarOffcanvasLabel" data-bs-scroll="true">
+        <!-- OffCanver Header -->
+        <div class="offcanvas-header px-4 pb-0">
+          <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">Jiny</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
+            data-bs-target="#bdNavbar">
+          </button>
+        </div>
+
+        <!-- OffCanver Body -->
+        <div class="offcanvas-body p-4 pt-0 p-lg-0">
+          <hr class="d-lg-none text-white-50">
+
+          
+          <ul class="navbar-nav flex-column flex-lg-row bd-navbar-nav">
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/">홈</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/01_딥러닝_시작/">딥러닝 시작</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/02_파이썬/">파이썬 기초</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/04_파이토치_기본/">파이토치 기본</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/05_인공_신경망/">인공 신경망</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/06_합성곱_신경망/">CNN & RNN</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/08_비지도_학습/">비지도 & 메타</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link py-2 px-0 px-lg-2 "
+                href="/curriculum/">전체 목차</a>
+            </li>
+            
+          </ul>
+
+          <hr class="d-lg-none text-white-50">
+
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/dezero_ai" target="_blank"
+                rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 512 499.36" role="img">
+                  <title>GitHub</title>
+                  <path fill="currentColor" fill-rule="evenodd"
+                    d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z">
+                  </path>
+                </svg>
+                <small class="d-lg-none ms-2">GitHub</small>
+              </a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+              <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+              <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto">
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
+                  viewBox="0 0 16 16" role="img">
+                  <title>Home</title>
+                  <path fill="currentColor"
+                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                </svg>
+                <small class="d-lg-none ms-2">Home</small>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar scrollBar">
+        <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="bdSidebar"
+            aria-labelledby="bdSidebarOffcanvasLabel">
+            <div class="offcanvas-header border-bottom">
+                <h5 class="offcanvas-title" id="bdSidebarOffcanvasLabel">학습목차</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"
+                    data-bs-target="#bdSidebar"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <!-- 네비게이션 -->
+                <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        강의 목차
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small">
+        
+        
+        
+        
+
+        
+
+        
+        <li>
+          
+            <a href="/"
+              class="bd-links-link d-inline-block rounded ">
+              홈
+            </a>
+          
+        </li>
+        
+        <li>
+          
+            <a href="/curriculum/"
+              class="bd-links-link d-inline-block rounded ">
+              📋 전체 커리큘럼
+            </a>
+          
+        </li>
+        
+        <li>
+          
+            <a href="/00_앞부분/"
+              class="bd-links-link d-inline-block rounded ">
+              00. 도서 정보 및 머리말
+            </a>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-4"
+              aria-expanded="false">
+              01. 딥러닝 시작
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-4">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/01_딥러닝_시작/#sec-1-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    1.1 딥러닝이란
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/01_딥러닝_시작/#sec-1-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    1.2 파이썬과 파이토치
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-5"
+              aria-expanded="false">
+              02. 파이썬 기초
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-5">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.1 변수, 출력문, 라이브러리
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.2 리스트, 튜플, 딕셔너리
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.3 넘파이(Numpy)
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-4"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.4 조건문과 반복문
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-5"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.5 함수와 모듈
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-6"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.6 클래스
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-7"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.7 그래프 그리기
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-8"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.8 폴더 및 파일 관리
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/02_파이썬/#sec-2-9"
+                    class="bd-links-link d-inline-block rounded ">
+                    2.9 터미널에서 파이썬 실행하기
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-6"
+              aria-expanded="false">
+              03. 지도 학습
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-6">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/03_지도_학습/#sec-3-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    3.1 지도 학습이란
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/03_지도_학습/#sec-3-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    3.2 지도 학습의 종류
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/03_지도_학습/#sec-3-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    3.3 데이터 세트 분할
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-7"
+              aria-expanded="false">
+              04. 파이토치 기본
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-7">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/04_파이토치_기본/#sec-4-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    4.1 텐서
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/04_파이토치_기본/#sec-4-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    4.2 역전파
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/04_파이토치_기본/#sec-4-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    4.3 데이터 불러오기
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-8"
+              aria-expanded="false">
+              05. 인공 신경망 (ANN)
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-8">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/05_인공_신경망/#sec-5-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    5.1 다층 퍼셉트론
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/05_인공_신경망/#sec-5-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    5.2 활성화 함수
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/05_인공_신경망/#sec-5-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    5.3 손실 함수
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/05_인공_신경망/#sec-5-4"
+                    class="bd-links-link d-inline-block rounded ">
+                    5.4 최적화 기법
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/05_인공_신경망/#sec-5-5"
+                    class="bd-links-link d-inline-block rounded ">
+                    5.5 교차 검증
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/05_인공_신경망/#sec-5-6"
+                    class="bd-links-link d-inline-block rounded ">
+                    5.6 모델 구조 및 가중치 확인
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-9"
+              aria-expanded="false">
+              06. 합성곱 신경망 (CNN)
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-9">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/06_합성곱_신경망/#sec-6-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    6.1 합성곱 연산과 풀링 연산
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/06_합성곱_신경망/#sec-6-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    6.2 AlexNet
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/06_합성곱_신경망/#sec-6-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    6.3 ResNet
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/06_합성곱_신경망/#sec-6-4"
+                    class="bd-links-link d-inline-block rounded ">
+                    6.4 다양한 합성곱 신경망
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-10"
+              aria-expanded="false">
+              07. 순환 신경망 (RNN)
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-10">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.1 기본 순환 신경망
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-1-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.1.1 시계열 데이터
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-1-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.1.2 기본 인공 신경망과 순환 신경망
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-1-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.1.3 순환 신경망의 다양한 형태
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-1-4"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.1.4 기본 순환 신경망
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-1-5"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.1.5 기본 순환 신경망 구현
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.2 LSTM과 GRU
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/07_순환_신경망/#sec-7-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    7.3 Bi-LSTM
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-11"
+              aria-expanded="false">
+              08. 비지도 학습 (GAN)
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-11">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/08_비지도_학습/#sec-8-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    8.1 비지도 학습이란
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/08_비지도_학습/#sec-8-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    8.2 K-평균 알고리즘
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/08_비지도_학습/#sec-8-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    8.3 오토인코더
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/08_비지도_학습/#sec-8-4"
+                    class="bd-links-link d-inline-block rounded ">
+                    8.4 생성적 적대 신경망
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/08_비지도_학습/#sec-8-5"
+                    class="bd-links-link d-inline-block rounded ">
+                    8.5 이미지 스타일 변이
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/08_비지도_학습/#sec-8-6"
+                    class="bd-links-link d-inline-block rounded ">
+                    8.6 깊은 K-평균 알고리즘
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-12"
+              aria-expanded="true">
+              09. 성능 개선 & 전이 학습
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse show" id="collapse-12">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/09_성능_개선/#sec-9-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    9.1 과적합
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/09_성능_개선/#sec-9-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    9.2 데이터 불균형
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/09_성능_개선/#sec-9-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    9.3 전이 학습
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/09_성능_개선/#sec-9-4"
+                    class="bd-links-link d-inline-block rounded ">
+                    9.4 준지도 학습
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-13"
+              aria-expanded="false">
+              10. 딥러닝 시각화 (XAI)
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-13">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/10_시각화/#sec-10-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    10.1 설명 가능한 인공지능
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/10_시각화/#sec-10-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    10.2 차원 축소 기법
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-14"
+              aria-expanded="false">
+              11. 메타 학습 (Few-Shot)
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-14">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/11_메타_학습/#sec-11-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    11.1 메타 러닝과 퓨샷 러닝
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/11_메타_학습/#sec-11-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    11.2 MAML - 회귀 문제
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/11_메타_학습/#sec-11-3"
+                    class="bd-links-link d-inline-block rounded ">
+                    11.3 MAML - 분류 문제
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            
+            
+            <button
+              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
+              data-bs-toggle="collapse" data-bs-target="#collapse-15"
+              aria-expanded="false">
+              12. 과학적 계산 (PINN)
+              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+            <div class="collapse " id="collapse-15">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+                
+                <li>
+                  <a href="/12_과학적_계산/#sec-12-1"
+                    class="bd-links-link d-inline-block rounded ">
+                    12.1 유한차분법
+                  </a>
+                </li>
+                
+                <li>
+                  <a href="/12_과학적_계산/#sec-12-2"
+                    class="bd-links-link d-inline-block rounded ">
+                    12.2 은닉 유체 메카니즘
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li>
+          
+            <a href="/13_부록/"
+              class="bd-links-link d-inline-block rounded ">
+              13. 부록 & 참고 자료
+            </a>
+          
+        </li>
+        
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+            </div>
+        </div>
+    </aside>
+
+    <main class="bd-main order-1">
+        <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        
+        
+        
+        
+        
+        
+        <li class="breadcrumb-item active" aria-current="page">09장 성능 개선</li>
+        
+        
+        
+    </ol>
+</nav>
+
+        <div class="bd-content ps-lg-4">
+            <h1 id="chapter-9-성능-개선">CHAPTER 9 성능 개선</h1>
+
+<p>9장에서는 모델을 학습하면서 대표적으로 겪을 수 있는 문제인 과적합, 데이터 불균형, 데이터 부족을 해결하기 위한 방법을 알아본다.</p>
+
+<ul>
+  <li>과적합</li>
+  <li>데이터 불균형</li>
+  <li>전이 학습</li>
+  <li>준지도 학습</li>
+</ul>
+
+<h2 id="91-과적합">9.1 과적합</h2>
+
+<p>과적합<sup>Overfitting</sup>이란 학습 데이터에 대해서는 예측을 잘 하지만 테스트 데이터와 같은 학습에 사용되지 않은 데이터에 대해서 예측을 잘 못하는 현상이다. 머신러닝 분야에서의 과적합은 항상 문제로 대두되는 만큼 지금까지 다양한 방지 기법들이 개발되었다. 일반적으로 모델 파라미터 수가 많으면 쉽게 나타나는 것으로 알려져 있기 때문에 과적합 현상은 모델을 깊게 만드는데 방해 요소로 작용한다. 이때 과적합을 방지하면서 딥러닝 모델을 학습시키는 것을 정규화<sup>Regularization</sup> 방법이라고 한다.</p>
+
+<p>&lt;그림 9.1 과소적합과 과적합&gt;
+<img src="./img/fig-211.jpg" alt="그림 9.1 과소적합과 과적합" /></p>
+
+<h3 id="911-데이터-증식">9.1.1 데이터 증식</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE 9.1 Regularization.ipynb</code></p>
+
+<p>딥러닝은 일반적으로 많은 데이터를 요구한다. 이 때문에 추가 데이터를 확보할 수 있다면 성능 향상에 큰 도움이 된다. 하지만 직접적으로 추가로 데이터를 모으는 것은 비용, 시간 등의 다양한 이유 때문에 쉽지 않다. 따라서 데이터 증식<sup>Data augmentation</sup> 기법을 통해 임의로 새로운 데이터를 만들어 학습 데이터에 추가한다. 데이터 증식은 통계적 기법, 단순 변형, 생성 모델 이용 등이 있으며 목적과 상황에 따라 다양한 방법을 취할 수 있는데, 이번 예시에서는 torchvision.transforms에서 제공하는 이미지 데이터 증식에 대해서 알아본다.</p>
+
+<p>&lt;그림 9.2 이미지 데이터 증식&gt;
+<img src="./img/fig-212.jpg" alt="그림 9.2 이미지 데이터 증식" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torchvision.transforms</span> <span class="k">as</span> <span class="n">tr</span>
+<span class="kn">import</span> <span class="n">PIL</span>
+
+<span class="n">transf</span> <span class="o">=</span> <span class="n">tr</span><span class="p">.</span><span class="nc">Compose</span><span class="p">([</span><span class="n">tr</span><span class="p">.</span><span class="nc">ToPILImage</span><span class="p">(),</span> <span class="n">tr</span><span class="p">.</span><span class="nc">RandomCrop</span><span class="p">(</span><span class="mi">60</span><span class="p">),</span>
+<span class="n">tr</span><span class="p">.</span><span class="nc">ColorJitter</span><span class="p">(</span><span class="n">brightness</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span><span class="n">contrast</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">saturation</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+<span class="n">hue</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span><span class="n">tr</span><span class="p">.</span><span class="nc">RandomHorizontalFlip</span><span class="p">(),</span><span class="n">tr</span><span class="p">.</span><span class="nc">ToTensor</span><span class="p">()])</span>
+</code></pre></div></div>
+
+<p>4.3절에서 배운 내용을 토대로 Dataset을 정의하기 전에 ❹ tranf를 정의한다. 많은 기능들이 이미지 타입이 PIL인 경우 작동을 하기 때문에 사용 전에 데이터 타입을 확인해야 한다. RandomCrop(60)은 크기가 $60 \times 60$으로 이미지 일부를 무작위로 잘라서 같은 이미지라도 매번 다른 입력 이미지로 모델에 들어갈 수 있게 한다. ColorJitter는 이미지의 밝기, 대비, 색조를 변형해 새로운 이미지로 만들어 준다. RandomHorizontalFlip은 이미지를 뒤집는 것이다. 그 외 회전, 흑백 이미지 등 다양한 기법들이 있다.</p>
+
+<h3 id="912-조기-종료">9.1.2 조기 종료</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE 9.1 Early stopping.ipynb</code></p>
+
+<p>모델이 학습 데이터를 많이 공부한다면 학습 데이터에 맞춰서 모델이 최적화 될 수 있다. 따라서 적당한 기준을 정하여 모델 학습을 끊는 것이 조기 종료<sup>Early stopping</sup> 방법이다. 그림 9.3과 같이 학습 반복 횟수가 많아 모델은 학습 데이터를 많이 학습하기 때문에 파란 선과 같은 손실 함수값이 그려지고, 이때 매 에폭마다 시험 데이터의 손실 함수값을 확인했을 때 빨간 선이 그려졌다고 가정한다면 초록색 지점에서 학습된 모델이 가장 이상적이라고 생각할 수 있다. 따라서 이 시점에 학습된 모델을 사용한다. 조기 종료는 프로그래밍 기술보다 아래 내용을 상기하는 것이 더 중요하다.</p>
+
+<ul>
+  <li>손실 함수값이 작다고 반드시 정확도가 높은 것은 아니다.</li>
+  <li>학습 반복 횟수를 그림 9.3보다 더 크게 할 경우 시험 데이터의 손실 함수값이 다시 내려오는 경우도 존재한다.</li>
+  <li>그림 9.3과 같이 모델을 선택하는데 직접적으로 시험 데이터를 사용하면 매우 위험할 수 있다. 따라서 검증 데이터를 사용해야 한다. 시험 데이터는 오직 평가에만 사용한다.</li>
+</ul>
+
+<p>&lt;그림 9.3 학습 손실 함수와 평가 손실 함수&gt;
+<img src="./img/fig-213.jpg" alt="그림 9.3 학습 손실 함수와 평가 손실 함수" /></p>
+
+<h4 id="-라이브러리-불러오기">■ 라이브러리 불러오기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">torchvision</span>
+<span class="kn">import</span> <span class="n">torchvision.transforms</span> <span class="k">as</span> <span class="n">transforms</span>
+<span class="kn">from</span> <span class="n">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="n">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">import</span> <span class="n">torch.optim</span> <span class="k">as</span> <span class="n">optim</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+</code></pre></div></div>
+
+<h4 id="-학습-검증-평가-데이터-생성하기">■ 학습, 검증, 평가 데이터 생성하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="nc">Compose</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">transforms</span><span class="p">.</span><span class="nc">ToTensor</span><span class="p">(),</span>
+     <span class="n">transforms</span><span class="p">.</span><span class="nc">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))])</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="nc">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="sh">'</span><span class="s">./data</span><span class="sh">'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                        <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+<span class="n">trainset</span><span class="p">,</span> <span class="n">valset</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nf">random_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="mi">30000</span><span class="p">,</span> <span class="mi">20000</span><span class="p">])</span>
+<span class="n">trainloader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">trainset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">valloader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">valset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">testset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="nc">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="sh">'</span><span class="s">./data</span><span class="sh">'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                       <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+<span class="n">testloader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">testset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❻ torch.utils.data.random_split을 통해 50000개의 dataset을 학습 데이터 30000개, 검증 데이터 20000개로 나눈다.</li>
+  <li>❾ 평가 데이터는 train=False를 입력하여 생성한다.</li>
+</ul>
+
+<h4 id="-gpu-연산-확인">■ GPU 연산 확인</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda:0</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s"> is available.</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="-모델-정의하기">■ 모델 정의하기</h4>
+
+<p>6.3절에서 구축한 ResNet을 이용한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">.....</span> <span class="n">생략</span> <span class="p">..</span><span class="bp">...</span>
+<span class="n">resnet</span> <span class="o">=</span> <span class="nf">modeltype</span><span class="p">(</span><span class="sh">'</span><span class="s">resnet18</span><span class="sh">'</span><span class="p">).</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="-손실-함수-및-최적화-기법">■ 손실 함수 및 최적화 기법</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">PATH</span> <span class="o">=</span> <span class="sh">'</span><span class="s">./cifar_resnet_early.pth</span><span class="sh">'</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="nc">Adam</span><span class="p">(</span><span class="n">resnet</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 저장 모델명을 정의한다.</li>
+  <li>❷, ❸ 크로스 엔트로피 함수와 Adam을 이용한다.</li>
+</ul>
+
+<h4 id="-검증-데이터에-대한-손실-함수값을-연산하는-함수-정의하기">■ 검증 데이터에 대한 손실 함수값을 연산하는 함수 정의하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">validation_loss</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
+    <span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
+        <span class="n">resnet</span><span class="p">.</span><span class="nf">eval</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+            <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="nf">resnet</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="nf">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+            <span class="n">running_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="p">.</span><span class="nf">item</span><span class="p">()</span>
+    <span class="n">resnet</span><span class="p">.</span><span class="nf">train</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">running_loss</span> <span class="o">/</span> <span class="n">n</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❹ 평가만 하기 때문에 requires_grad를 비활성화한다.</li>
+  <li>❺ 평가 시 정규화 기법들이 작동하지 않도록 eval 모드로 설정한다.</li>
+  <li>⓫ 다시 모델을 train 모드로 변경한다.</li>
+</ul>
+
+<h4 id="-학습하기">■ 학습하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_loss_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">val_loss_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">trainloader</span><span class="p">)</span>
+<span class="n">early_stopping_loss</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶, ❷ 손실 함수 그래프를 그리기 위해 학습 및 검증 데이터에 대한 손실 함수값을 각각 담을 수 있는 빈 리스트를 생성한다.</li>
+  <li>❸ 매 에폭마다 평균 손실 함수값을 구하기 위해 n을 설정한다.</li>
+  <li>❹ 가장 낮은 검증 손실 함수값에 해당하는 모델을 저장하기 위해 손실 함수값 초기 기준을 1로 한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">51</span><span class="p">):</span>
+    <span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">trainloader</span><span class="p">:</span>
+        <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="nf">resnet</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="nf">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span>
+        <span class="n">running_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="p">.</span><span class="nf">item</span><span class="p">()</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❼ ~ ⓮ 배치 데이터를 받아 학습을 진행한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">train_loss</span> <span class="o">=</span> <span class="n">running_loss</span> <span class="o">/</span> <span class="n">n</span>
+    <span class="n">train_loss_list</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">train_loss</span><span class="p">)</span>
+    <span class="n">val_loss</span> <span class="o">=</span> <span class="nf">validation_loss</span><span class="p">(</span><span class="n">valloader</span><span class="p">)</span>
+    <span class="n">val_loss_list</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">val_loss</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">[%d] train loss: %.3f , validation loss: %.3f</span><span class="sh">'</span> <span class="o">%</span><span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">train_loss</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">))</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶, ❷ 배치 학습이 한 번 완료될 때마다 평균 손실 함수값을 저장한다.</li>
+  <li>❸, ❹ 검증 데이터에 대한 손실 함수값을 저장한다.</li>
+  <li>❺ 현재 에폭의 평가, 검증 손실 함수값을 출력한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">if</span> <span class="n">val_loss</span> <span class="o">&lt;</span> <span class="n">early_stopping_loss</span><span class="p">:</span>
+        <span class="n">torch</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">resnet</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">(),</span> <span class="n">PATH</span><span class="p">)</span>
+        <span class="n">early_stopping_train_loss</span> <span class="o">=</span> <span class="n">train_loss</span>
+        <span class="n">early_stopping_val_loss</span> <span class="o">=</span> <span class="n">val_loss</span>
+        <span class="n">early_stopping_epoch</span> <span class="o">=</span> <span class="n">epoch</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">Final pretrained model &gt;&gt; [%d] train loss: %.3f , validation loss: %.3f</span><span class="sh">'</span> <span class="o">%</span><span class="p">(</span><span class="n">early_stopping_epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">early_stopping_train_loss</span><span class="p">,</span> <span class="n">early_stopping_val_loss</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output:
+[1] train loss: 1.603 , validation loss: 1.272
+[2] train loss: 1.243 , validation loss: 1.092
+... 중략 ...
+Final pretrained model &gt;&gt; [9] train loss: 0.135 , validation loss: 0.982
+</code></pre></div></div>
+
+<ul>
+  <li>❻ ~ ❿ 만약 현재 검증 손실 함수값이 기준보다 작으면 모델을 저장하고 현재의 에폭, 평가, 검증 손실 함수값을 저장한다.</li>
+  <li>⓬ 학습이 완료되면 조기 종료를 한 에폭과 손실 함수값들을 출력한다. 결과를 보면 9번째 학습 시 검증 손실 함수값이 가장 작은 것을 알 수 있다.</li>
+</ul>
+
+<h4 id="-손실-함수값-그래프-그리기">■ 손실 함수값 그래프 그리기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">train_loss_list</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">val_loss_list</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">legend</span><span class="p">([</span><span class="sh">'</span><span class="s">train</span><span class="sh">'</span><span class="p">,</span><span class="sh">'</span><span class="s">validation</span><span class="sh">'</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Loss</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">xlabel</span><span class="p">(</span><span class="sh">"</span><span class="s">epoch</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>&lt;그림 9.4 훈련 손실 함수와 검증 손실 함수&gt;
+<img src="./img/fig-216.jpg" alt="그림 9.4 훈련 손실 함수와 검증 손실 함수" /></p>
+
+<h3 id="913-l_2-정규화">9.1.3 $L_2$ 정규화</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE 9.1 Regularization.ipynb</code></p>
+
+<p>$L_2$ 정규화는 그림 9.5에서 표현된 바와 같이 경계를 만들어 학습 데이터에서의 최적 변수 $w^<em>$에 도달하지 못하게 하며 경계 안에서만 변수를 최적화하도록 한다. 따라서 모델이 최적화된다면 $v^</em>$로 수렴하게 된다.</p>
+
+<p>&lt;그림 9.5 $L_2$ 정규화 예시&gt;
+<img src="./img/fig-217-1.jpg" alt="그림 9.5 $L_2$ 정규화 예시" /></p>
+
+<p>Adam을 사용할 경우 weight_decay에 $L_2$ 페널티 값을 입력하여 $L_2$ 정규화를 활성화할 수 있으며, 페널티 값이 클수록 제약조건이 더 강해지고 0이면 정규화를 사용하지 않는다는 의미다. 따라서 문제마다 적절한 값을 입력해야 한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="nc">Adam</span><span class="p">(</span><span class="n">resnet</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="914-드롭아웃">9.1.4 드롭아웃</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE 9.1 Regularization.ipynb</code></p>
+
+<p>&lt;그림 9.6 드롭아웃의 원리&gt;
+<img src="./img/fig-217-2.jpg" alt="그림 9.6 드롭아웃의 원리" /></p>
+
+<p>인공 신경망에서 무작위로 일정한 비율의 노드를 제외하여 학습하는 방법을 드롭아웃<sup>Dropout</sup>이라고 한다. 따라서 한 번 변수 갱신이 일어날 때마다 제외된 노드와 관련 있는 변수는 갱신이 되지 않기 때문에 학습 데이터에 대한 모델 최적화를 억제할 수 있다. 드롭아웃의 세팅 방법에 대해서 살펴보면 출력층은 예측값이 나오는 단계이기 때문에 적용하지 않는다. 즉, 출력층의 노드는 절대 지우지 않으며 원하는 층에만 적용할 수도 있고 제외 비율도 조정을 할 수 있다. 추가적으로 학습이 반복될 때마다 제외할 노드를 무작위로 선택하여 학습에서 과적합을 방지하며 시험 데이터를 이용하는 것과 같은 평가 단계에서는 드롭아웃을 적용하지 않고 원래 전체 모델을 사용한다(eval 함수를 선언).</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Regressor</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">().</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">dropout</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="nf">relu</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="nf">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="nf">relu</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="nf">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">x</span>
+</code></pre></div></div>
+
+<p>nn.Dropout(0.5)은 해당 노드에 50%를 선택해 노드를 사용하지 않겠다는 의미로 F.relu(self.fc1(x))의 노드는 50개이므로 25개의 노드가 비활성화된다. 또다른 표현으로는 torch.nn.functional.dropout(input, p=0.5, training=True)가 있다.</p>
+
+<h3 id="915-배치-정규화">9.1.5 배치 정규화</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE 9.1 Regularization.ipynb</code></p>
+
+<p>미니 배치를 이용하면 학습을 반복할 때마다 우리가 나눠 놓은 미니 배치들이 돌아가면서 사용된다. 즉, 학습을 한 번 할 때마다 입력값의 분포가 다르고 각 레이어의 입력값 분포 또한 다르다는 의미다. 기본적인 인공 신경망의 구조는 이전 층의 노드가 관련 변수들과 일차결합 연산을 거치고 그 값이 활성화 함수를 통해 다음 레이어로 가는 흐름인데, 여기서 활성화 함수로 들어가기 전에 각 노드로 들어오는 값인 피처<sup>Feature</sup>값을 보정된 정규화<sup>Normalization</sup>를 통해서 항상 동일한 분포 위에 있게 한다. 배치 정규화<sup>Batch normalization</sup>는 입력값들의 분포를 일정하게 하여 일반적으로 학습에 대한 수렴 속도가 빠르다. 또한 배치 단위의 정규화 분포는 전체의 데이터 분포와 다를 수 있기 때문에 과적합을 방지할 수 있다. 이 효과는 드롭아웃과 유사하며 속도가 더 빠른 것으로 알려져 있다. 6.3절 ResNet 구현편과 같이 층과 층 사이에 nn.BatchNorm2d()를 넣어주면 된다.</p>
+
+<p>&lt;그림 9.7 배치 정규화 수식 및 적용 위치&gt;
+<img src="./img/fig-219-1.jpg" alt="그림 9.7 배치 정규화 수식 및 적용 위치" /></p>
+
+<p>학습 시: $\hat{x}<em>i \leftarrow \frac{x_i - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$, $\mu_B \leftarrow \frac{1}{n}\sum</em>{k=1}^n x_k$, $\sigma_B^2 \leftarrow \frac{1}{n}\sum_{k=1}^n (x_k - \mu_B)^2$
+\(BN(x_i) = \gamma \hat{x}_i + \beta\)</p>
+
+<p>평가 시: $\hat{x}<em>i \leftarrow \frac{x_i - \mu</em>{BN}}{\sqrt{\sigma_{BN}^2 + \epsilon}}$, $\mu_{BN} \leftarrow \frac{1}{n}\sum_{k=1}^n \mu_B^k$, $\sigma_{BN}^2 \leftarrow \frac{1}{n}\sum_{k=1}^n \sigma_B^2$
+\(BN(x_i) = \gamma \hat{x}_i + \beta\)</p>
+
+<h3 id="916-교란-라벨">9.1.6 교란 라벨</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE 9.1 DisturbLabel.ipynb</code></p>
+
+<p>교란 라벨<sup>DisturbLabel</sup>은 분류 문제에서 일정 비율만큼 라벨을 의도적으로 잘못된 라벨로 만들어서 학습을 방해하는 방법이다. 매우 단순한 방법임에도 분류 문제에서의 과적합을 효과적으로 막을 수 있다. 예를 들어 그림 9.8과 같이 10개의 이미지가 있는 미니 배치에서 10%의 비율의 무작위로 라벨을 바꾸는 세팅을 했다면 각각 미니 배치마다 확률적으로 1개의 잘못된 라벨이 들어가서 학습을 하게 된다.</p>
+
+<p>&lt;그림 9.8 교란 라벨 예시&gt;
+<img src="./img/fig-219-2.jpg" alt="그림 9.8 교란 라벨 예시" /></p>
+
+<h4 id="-교란-라벨-정의하기">■ 교란 라벨 정의하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DisturbLabel</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">(</span><span class="n">DisturbLabel</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">num_classes</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">p_c</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="n">self</span><span class="p">.</span><span class="n">C</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">self</span><span class="p">.</span><span class="n">C</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">/</span> <span class="mi">100</span><span class="p">))</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">p_i</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">self</span><span class="p">.</span><span class="n">p_c</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">C</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ DisturbLabel 클래스를 만든다.</li>
+  <li>❷ 교란 라벨 비율(0 ~ 100)과 클래스 수를 받는다.</li>
+  <li>❻, ❼ 실제 라벨을 뽑을 확률을 self.p_c로 부여하고 나머지는 self.p_i값을 부여한다. 예를 들어, 클래스 수가 10개이고 교란 라벨 비율이 30%라면 self.p_c=73/100, self.p_i=3/100이 되고, 실제 라벨이 5라면 뽑힐 확률 분포는 (3/100, 3/100, 3/100, 3/100, 3/100, 73/100, 3/100, 3/100, 3/100, 3/100)이 된다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="n">y_tensor</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="nf">type</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">LongTensor</span><span class="p">).</span><span class="nf">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">C</span>
+        <span class="n">y_one_hot</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">ones</span><span class="p">(</span><span class="n">y_tensor</span><span class="p">.</span><span class="nf">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">depth</span><span class="p">)</span> <span class="o">*</span> <span class="n">self</span><span class="p">.</span><span class="n">p_i</span>
+        <span class="n">y_one_hot</span><span class="p">.</span><span class="nf">scatter_</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_tensor</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">p_c</span><span class="p">)</span>
+        <span class="n">y_one_hot</span> <span class="o">=</span> <span class="n">y_one_hot</span><span class="p">.</span><span class="nf">view</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nf">tuple</span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)))</span>
+        <span class="n">distribution</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">distributions</span><span class="p">.</span><span class="nc">OneHotCategorical</span><span class="p">(</span><span class="n">y_one_hot</span><span class="p">)</span>
+        <span class="n">y_disturbed</span> <span class="o">=</span> <span class="n">distribution</span><span class="p">.</span><span class="nf">sample</span><span class="p">()</span>
+        <span class="n">y_disturbed</span> <span class="o">=</span> <span class="n">y_disturbed</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">y_disturbed</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❾ ~ ⓬ 앞서 언급한 라벨이 뽑힐 확률 분포 (3/100, 3/100, 3/100, 3/100, 3/100, 73/100, 3/100, 3/100, 3/100, 3/100)를 만들어준다.</li>
+  <li>⓭ ~ ⓯ 해당 확률을 이용해 Multinoully 분포를 통해 샘플을 뽑는다.</li>
+  <li>⓰ 10개의 원소 중 가장 큰 값의 라벨을 뽑는다. 확률 분포를 이용해 교란 라벨을 만들기 때문에 비율이 30%라고 해서 반드시 미니 배치의 30%가 교란 라벨이 아닐 수 있다.</li>
+</ul>
+
+<h4 id="-교란-라벨-선언-및-적용하기">■ 교란 라벨 선언 및 적용하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">disturblabels</span> <span class="o">=</span> <span class="nc">DisturbLabel</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 학습 전 DisturbLabel을 선언한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">trainloader</span><span class="p">:</span>
+        <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="nf">resnet</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="nf">disturblabels</span><span class="p">(</span><span class="n">labels</span><span class="p">).</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="nf">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="p">....</span> <span class="n">이하</span> <span class="n">생략</span> <span class="p">.</span><span class="bp">...</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❼ 손실 함수 계산 이전에 교란 라벨을 생성하여 거짓 라벨과 함께 손실 함수를 계산하게 한다.</li>
+</ul>
+
+<h3 id="917-교란-값">9.1.7 교란 값</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE 9.1 DisturbValue.ipynb</code></p>
+
+<p>&lt;그림 9.9 교란 값 예시&gt;
+<img src="./img/fig-221.jpg" alt="그림 9.9 교란 값 예시" /></p>
+
+<p>교란 값<sup>DisturbValue</sup>은 회귀 문제에서 일정 비율만큼 라벨에 노이즈를 주입하여 학습 데이터에 대해 최적화를 방해하는 방법이다. 매우 간단하며 어떠한 모델에도 적용할 수 있다는 것이 가장 큰 장점이다.</p>
+
+<h4 id="-노이즈-생성하기">■ 노이즈 생성하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">noise_generator</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">noise</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="p">(</span><span class="nf">int</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">alpha</span><span class="p">)),))]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">noise</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 타깃값과 노이즈 비율(0 ~ 1)을 받는다.</li>
+  <li>
+    <p>❷ 임의로 정한 정규분포에 따른 노이즈를 생성한다.</p>
+  </li>
+  <li>❸ 노이즈 타깃이 아닌 값은 노이즈를 0으로 한다.</li>
+</ul>
+
+<h4 id="-교란-값-선언-및-적용하기">■ 교란 값 선언 및 적용하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">400</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">trainloader</span><span class="p">:</span>
+        <span class="n">inputs</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">values</span> <span class="o">+</span> <span class="nf">noise_generator</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="nf">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+    <span class="p">....</span> <span class="n">이하</span> <span class="n">생략</span> <span class="p">.</span><span class="bp">...</span>
+</code></pre></div></div>
+
+<h3 id="918-라벨-스무딩">9.1.8 라벨 스무딩</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE 9.1 Label Smoothing.ipynb</code></p>
+
+<p>분류 문제에서 사용하는 원-핫 벡터를 생각해 보면 (1, 0, 0)과 같이 0과 1로 구성되어 있고 우리는 소프트맥스나 시그모이드 함수를 통해 0과 1 사이의 예측값을 출력한다. 이때 교차 엔트로피 손실 함수를 계산할 때 실제 값을 0과 1이 아닌, 예를 들어 0.1과 0.8로 구성해서 과적합을 방지하는 기술이 라벨 스무딩<sup>Label Smoothing</sup>이다. 직관적으로 말하자면 0과 1을 맞춰야 하는 문제에서 예측값이 0.7이 나왔다면 원래 1을 맞추기 위해 1에 가까워지도록 학습이 될 것이다. 이때 기준을 0.8로 낮추면서 0.7만 나와도 이 정도면 맞았다고 모델이 스스로를 인정하면서 실제값에 가깝게 가려고 하지 않고 정답을 맞히게 되어 과적합을 막아주는 개념이다. 그림 9.10은 라벨 스무딩의 공식과 예시다. 예를 들어 클래스가 3개인 분류 문제에서는 라벨값이 0, 1, 2이고 원-핫 벡터로 표현할 때에는 (1, 0, 0), (0, 1, 0), (0, 0, 1)이 된다. 이때, 스무딩 비율이 0.1이면 위 공식에 의해 모든 실제 타깃은 1은 0.93으로 0은 0.03으로 변화하여 0과 1 사이의 차이를 0.93과 0.3으로 줄인다.</p>
+
+<p>\(y_{ls} = (1 - \alpha) y + \frac{\alpha}{K}\)
+($K$는 클래스 수, $\alpha$는 스무딩 비율, $y$는 0 또는 1)</p>
+
+<p>\(\alpha = 0.1, K = 3 \quad y_{ls} = 0.9y + 0.03 \quad (1, 0, 0) \rightarrow (0.93, 0.03, 0.03)\)
+\(\alpha = 0.3, K = 5 \quad y_{ls} = 0.7y + 0.06 \quad (0, 0, 1, 0, 0) \rightarrow (0.06, 0.06, 0.76, 0.06, 0.06)\)</p>
+
+<p>&lt;그림 9.10 라벨 스무딩 연산&gt;
+<img src="./img/fig-222.jpg" alt="그림 9.10 라벨 스무딩 연산" /></p>
+
+<p>파이토치에서 제공하는 크로스 엔트로피 함수 nn.CrossEntropyLoss()는 실제 라벨의 원-핫 벡터를 입력으로 받을 수 없다. 따라서 라벨 스무딩을 적용할 경우 원-핫 벡터를 사용할 수 있도록 별도로 손실 함수를 만들어 주어야 한다.</p>
+
+<h4 id="-라벨-스무딩-정의-및-선언하기">■ 라벨 스무딩 정의 및 선언하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">LabelSmoothingLoss</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span> <span class="n">smoothing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">(</span><span class="n">LabelSmoothingLoss</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">smoothing</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">smoothing</span> <span class="o">=</span> <span class="n">smoothing</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">cls</span> <span class="o">=</span> <span class="n">classes</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">pred</span><span class="p">.</span><span class="nf">log_softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">dim</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
+            <span class="n">true_dist</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">zeros_like</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+            <span class="n">true_dist</span><span class="p">.</span><span class="nf">fill_</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">smoothing</span> <span class="o">/</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">cls</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">true_dist</span><span class="p">.</span><span class="nf">scatter_</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">target</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nf">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">self</span><span class="p">.</span><span class="n">confidence</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="o">-</span><span class="n">true_dist</span> <span class="o">*</span> <span class="n">pred</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">self</span><span class="p">.</span><span class="n">dim</span><span class="p">))</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❿ Cross Entropy 부분의 log softmax를 미리 계산한다.</li>
+  <li>⓬ 예측값과 동일한 크기의 영텐서를 만든다.</li>
+  <li>⓭ alpha/(K-1)을 만들어 준다(그림 9.10과 같이 alpha/K도 가능).</li>
+  <li>⓮ (1-alpha)y + alpha/(K-1)을 수행한다.</li>
+  <li>⓯ ❿행에서 만든 pred를 함께 사용해 Cross Entropy Loss 함수를 계산한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">criterion</span> <span class="o">=</span> <span class="nc">LabelSmoothingLoss</span><span class="p">(</span><span class="n">classes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">smoothing</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 만약 Cifar10 데이터를 이용하는 경우, 클래스는 10개로 지정하고 적절한 스무딩 비율을 넣어 nn.CrossEntropyLoss() 대신 LabelSmoothingLoss로 criterion을 선언한다.</li>
+</ul>
+
+<h1 id="92-데이터-불균형">9.2 데이터 불균형</h1>
+
+<p>데이터 불균형<sup>Data imbalance</sup>이란 데이터 세트 내의 클래스의 분포가 불균형한 것을 의미한다. 불균형은 특정 클래스에 과적합을 야기할 수 있다.</p>
+
+<p>&lt;그림 9.11 데이터 균형과 불균형&gt;
+<img src="./img/fig-224.jpg" alt="그림 9.11 데이터 균형과 불균형" /></p>
+
+<h3 id="921-가중-무작위-샘플링">9.2.1 가중 무작위 샘플링</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE 9.2 Data Imbalance.ipynb</code></p>
+
+<p>주어진 데이터가 불균형 데이터라도 우리는 미니 배치를 균형 데이터로 뽑을 수 있다. 즉, 배치를 만들 때마다 각 클래스를 동일한 개수를 뽑는다면 한 번 학습 시 균형 데이터를 사용하게 되는 것이다. 이 방법을 가중 무작위 샘플링<sup>Weighted random sampling</sup>이라고 한다.</p>
+
+<h4 id="-가중치-함수-만들기">■ 가중치 함수 만들기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">make_weights</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">nclasses</span><span class="p">):</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+    <span class="n">weight_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">cls</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">nclasses</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="n">labels</span> <span class="o">==</span> <span class="n">cls</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">count</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="n">weight</span><span class="p">]</span> <span class="o">*</span> <span class="n">count</span>
+        <span class="n">weight_list</span> <span class="o">+=</span> <span class="n">weights</span>
+    <span class="k">return</span> <span class="n">weight_list</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 라벨과 클래스 수를 받는다.</li>
+  <li>
+    <p>❷ 리스트 타입을 넘파이 배열로 바꾼다.</p>
+  </li>
+  <li>❹ ~ ❻ 각 클래스마다 라벨의 개수를 센다.</li>
+  <li>❼, ❽ 라벨이 뽑힐 가중치를 1/count로 동일하게 해당 라벨 전체에 할당한다.</li>
+  <li>❾ 데이터를 불러올 때 ImageFolder을 사용할 경우 라벨이 0부터 N까지 차례대로 나열이 되어있기 때문에 각 클래스의 가중치를 일렬로 이어준다.</li>
+</ul>
+
+<h4 id="-이미지-데이터-불러오기">■ 이미지 데이터 불러오기</h4>
+<p>이번 예시에서 불러올 데이터는 클래스가 2개인 이미지 데이터다(각각 14, 4개).</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">transf</span> <span class="o">=</span> <span class="n">tr</span><span class="p">.</span><span class="nc">Compose</span><span class="p">([</span><span class="n">tr</span><span class="p">.</span><span class="nc">Resize</span><span class="p">((</span><span class="mi">16</span><span class="p">,</span><span class="mi">16</span><span class="p">)),</span><span class="n">tr</span><span class="p">.</span><span class="nc">ToTensor</span><span class="p">()])</span>
+<span class="n">trainset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="nc">ImageFolder</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="sh">'</span><span class="s">./class</span><span class="sh">'</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transf</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="-가중치-생성하기">■ 가중치 생성하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">weights</span> <span class="o">=</span> <span class="nf">make_weights</span><span class="p">(</span><span class="n">trainset</span><span class="p">.</span><span class="n">targets</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">trainset</span><span class="p">.</span><span class="n">classes</span><span class="p">))</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">DoubleTensor</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ ~ ❷ 가중치를 생성 후 텐서로 변환한다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output:
+tensor([0.2500, 0.2500, 0.2500, 0.2500, 0.0714, 0.0714, 0.0714, 0.0714, 0.0714,
+        0.0714, 0.0714, 0.0714, 0.0714, 0.0714, 0.0714, 0.0714, 0.0714],
+       dtype=torch.float64)
+</code></pre></div></div>
+
+<p>가중치 텐서를 보면 모든 데이터에 대한 각각의 가중치가 있음을 알 수 있다. 또한 각 클래스의 가중치의 합이 1로 같다. 즉, 하나의 클래스를 뽑을 확률이 같다는 의미다(파이토치에서는 weights의 전체 합이 1일 필요는 없다).</p>
+
+<h4 id="-데이터로더-생성하기">■ 데이터로더 생성하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sampler</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">sampler</span><span class="p">.</span><span class="nc">WeightedRandomSampler</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span>
+<span class="n">trainloader_wrs</span> <span class="o">=</span> <span class="nc">DataLoader</span><span class="p">(</span><span class="n">trainset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">sampler</span><span class="o">=</span><span class="n">sampler</span><span class="p">)</span>
+<span class="n">trainloader_rs</span> <span class="o">=</span> <span class="nc">DataLoader</span><span class="p">(</span><span class="n">trainset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 파이토치에서 제공하는 WeightedRandomSampler를 사용하여 배치를 불러올 때 자동으로 클래스에 대한 균일 분포를 갖는 배치를 만들 수 있다.</li>
+  <li>
+    <p>❷ DataLoader에 sampler를 추가하여 데이터 준비를 완료한다.</p>
+  </li>
+  <li>❸ 가중 무작위 샘플링과 무작위 샘플링의 비교를 위해 무작위 샘플링을 하는 DataLoader를 추가적으로 만든다.</li>
+</ul>
+
+<h4 id="-가중-무작위-샘플링-vs-무작위-샘플링">■ 가중 무작위 샘플링 vs 무작위 샘플링</h4>
+<p>배치 사이즈를 6개로 한 경우 2개의 클래스가 각각 3개로 들어오는 것이 이상적일 것이다. 하지만 확률적으로 데이터를 뽑기 때문에 반드시 3개씩 뽑히지 않을 수 있지만, 무작위 샘플링 보다는 균형 잡힌 데이터가 만들어진다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">trainloader_wrs</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output:
+tensor([0, 1, 1, 0, 1, 0])
+tensor([1, 0, 1, 0, 1, 0])
+tensor([0, 1, 0, 1, 0, 1])
+... 중략 ...
+tensor([1, 1, 0, 0, 0, 1])
+tensor([1, 0, 0, 0, 0, 0])
+tensor([1, 0, 1, 1, 1, 1])
+</code></pre></div></div>
+
+<p>현재 데이터는 클래스 1이 클래스 0보다 3.5배 많다. 따라서 다음과 같이 무작위로 뽑았을 경우 클래스 1이 배치 전체를 차지하고 있는 것을 알 수 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">trainloader_rs</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output:
+tensor([0, 0, 1, 1, 1, 1])
+tensor([1, 1, 1, 1, 1, 1])
+tensor([0, 1, 1, 1, 1, 0])
+... 중략 ...
+tensor([1, 1, 1, 1, 1, 1])
+tensor([0, 1, 1, 0, 1, 1])
+tensor([0, 0, 1, 1, 1, 1])
+</code></pre></div></div>
+
+<h3 id="922-가중-손실-함수">9.2.2 가중 손실 함수</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE 9.2 Data Imbalance.ipynb</code></p>
+
+<p>파이토치의 nn.CrossEntropyLoss는 가중 손실 함수를 제공한다. 따라서 미리 정의된 weight를 입력하면 쉽게 구현이 가능하다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda:0</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">num_ins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">62</span><span class="p">,</span><span class="mi">70</span><span class="p">,</span><span class="mi">153</span><span class="p">,</span><span class="mi">395</span><span class="p">,</span><span class="mi">46</span><span class="p">,</span><span class="mi">75</span><span class="p">,</span><span class="mi">194</span><span class="p">]</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="nf">sum</span><span class="p">(</span><span class="n">num_ins</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">num_ins</span><span class="p">]</span>
+<span class="n">class_weights</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nc">FloatTensor</span><span class="p">(</span><span class="n">weights</span><span class="p">).</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">CrossEntropyLoss</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="n">class_weights</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❷ 예를 들어 10개의 클래스 별 이미지 개수를 알고 있다고 하자. 가중 손실 함수는 데이터가 적은 클래스에 대해서 큰 가중치를 부여함으로써 업데이트 균형을 맞추려는 의도를 가지고 있다.</li>
+  <li>❸ 이 예시에서는 각 클래스의 확률 x/sum(num_ins)을 구한 뒤 1에서 뺀 값을 가중치로 사용한다.</li>
+  <li>❹, ❺ 다음 텐서로 변환된 가중치를 nn.CrossEntropyLoss에 넣어준다.</li>
+</ul>
+
+<h3 id="923-혼동-행렬">9.2.3 혼동 행렬</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE 9.2 Data Imbalance.ipynb</code></p>
+
+<p>혼동 행렬<sup>Confusion matrix</sup>은 데이터 불균형의 직접적인 해결책은 될 수 없지만 결과를 행렬화하여 각 클래스의 분포와 정확도를 확인하여 불균형 데이터로 예측 쏠림 현상을 인지할 수 있으며 다양한 결과 해석에서 사용된다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">actual</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">c_mat</span> <span class="o">=</span> <span class="nf">confusion_matrix</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span><span class="n">c_mat</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="sh">"</span><span class="s">d</span><span class="sh">"</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">'</span><span class="s">Blues</span><span class="sh">'</span><span class="p">,</span><span class="n">linewidths</span><span class="o">=</span><span class="p">.</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">b</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">ylim</span><span class="p">()</span>
+<span class="n">b</span> <span class="o">+=</span> <span class="mf">0.5</span>
+<span class="n">t</span> <span class="o">-=</span> <span class="mf">0.5</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">ylim</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">confusion_matrix.png</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>❶ ~ ❸ 관련 라이브러리를 불러온다.</p>
+  </li>
+  <li>❹, ❺ 실제값과 예측값을 알고 있다고 가정하자.</li>
+  <li>❻ ~ ⑭ 혼동 행렬 틀을 만들어 플로팅을 한다.</li>
+  <li>❾ ~ ⓬ 이때 그냥 plt.ylim()을 사용할 경우 버전에 따라 위 아래가 잘려서 그래프가 출력될 수 있다. 따라서 위 아래 범위를 0.5씩 더 확보한다.</li>
+</ul>
+
+<p>결과를 확인하면 클래스0, 1이 클래스2로 많이 예측됐다는 것을 확인할 수 있다. 즉, 모델 변수가 데이터가 가장 많은 클래스2로 치우쳐 있다는 의미로 해석할 수 있다.</p>
+
+<p>&lt;그림 9.12 클래스가 3개인 혼동 행렬&gt;
+<img src="./img/fig-228.jpg" alt="그림 9.12 클래스가 3개인 혼동 행렬" /></p>
+
+<h1 id="93-전이-학습">9.3 전이 학습</h1>
+
+<p>전이 학습<sup>Transfer learning</sup>이란 기존의 지식을 우리가 풀고자 하는 문제에 적용하여 학습하는 방법을 의미한다. 즉, 다른 데이터를 가지고 와서 사용하는 것과 다른 업무에서 학습된 모델을 적용하는 것 모두 전이 학습에 속하며 다양한 방법들이 존재한다. 이렇듯 우리가 다루는 문제에 대한 데이터나 지식의 부족을 사전 지식을 통해 해결할 수 있으며 인공지능 분야에서 매우 중요한 연구 중 하나다.</p>
+
+<h3 id="931-사전-학습-모델">9.3.1 사전 학습 모델</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE 9.3 Transfer Learning.ipynb</code></p>
+
+<p>6.4절에서 언급했듯이 torchvision.models as models을 이용해 ImageNet 데이터로 학습된 사전 학습 모델<sup>pretrained model</sup>을 쉽게 사용할 수 있다. 또한 5.6절에서 배운 내용을 바탕으로 모델 내부의 변수명을 확인하고 모델 일부를 수정할 수 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torchvision.models</span> <span class="k">as</span> <span class="n">models</span>
+<span class="n">alexnet</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="nf">alexnet</span><span class="p">().</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">resnet18</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="nf">resnet18</span><span class="p">().</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">vgg16</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="nf">vgg16</span><span class="p">().</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">densenet</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="nf">densenet161</span><span class="p">().</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">inception</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="nf">inception_v3</span><span class="p">().</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">googlenet</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="nf">googlenet</span><span class="p">().</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">shufflenet</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="nf">shufflenet_v2_x1_0</span><span class="p">().</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">mobilenet_v2</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="nf">mobilenet_v2</span><span class="p">().</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">resnext50_32x4d</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="nf">resnext50_32x4d</span><span class="p">().</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">wide_resnet50_2</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="nf">wide_resnet50_2</span><span class="p">().</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">mnasnet</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="nf">mnasnet1_0</span><span class="p">().</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="-cifar10을-위한-resnet18-불러오기">■ CIFAR10을 위한 ResNet18 불러오기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">models</span><span class="p">.</span><span class="nf">resnet18</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">num_ftrs</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">fc</span><span class="p">.</span><span class="n">in_features</span>
+<span class="n">model</span><span class="p">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">num_ftrs</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❷ 불러온 모델은 사이즈가 CIFAR10보다 큰 ImageNet 데이터에 맞춰진 모델이다. 따라서 원래 첫 번째 합성곱 층의 필터 사이즈가 7×7인데 CIFAR10 데이터에는 큰 사이즈다. 따라서 3×3 필터로 변경한다.</li>
+  <li>❸, ❹ 원래 모델의 마지막 출력 노드가 1000이기 때문에 우리 데이터에 맞춰 10개로 변경해야 한다.</li>
+</ul>
+
+<h3 id="932-모델-프리징">9.3.2 모델 프리징</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE 9.3 Model Freezing.ipynb</code></p>
+
+<p>모델 프리징<sup>Model freezing</sup>은 기존의 일부 모델 변수들을 그대로 사용하기 위해 업데이트가 되지 않도록 하는 방법이다. 따라서 사전 학습된 변수를 그대로 유지할 수 있어 학습 속도와 정확도를 향상시킬 수 있고, 다른 모델과 붙여 다른 구조를 만들 수도 있다. CNN에서는 피처 추출 부분은 프리징을 시키고 분류 파트만 학습을 진행하기도 한다. 하지만 모델을 튜닝하고 프리징하는데 정답은 없으므로 다양한 시도가 중요하다.</p>
+
+<h4 id="-모델-불러오기">■ 모델 불러오기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">models</span><span class="p">.</span><span class="nf">alexnet</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">num_ftrs</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">classifier</span><span class="p">[</span><span class="mi">6</span><span class="p">].</span><span class="n">in_features</span>
+<span class="n">model</span><span class="p">.</span><span class="n">classifier</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="n">num_ftrs</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ ~ ❸ 모델을 불러온 후 출력 레이어의 노드를 클래스 수와 맞춰준다.</li>
+</ul>
+
+<h4 id="-모델-파라미터명-확인하기">■ 모델 파라미터명 확인하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">named_parameters</span><span class="p">()):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output:
+0 features.0.weight
+1 features.0.bias
+2 features.3.weight
+.... 중략 ....
+10 classifier.1.weight
+11 classifier.1.bias
+.... 이하 생략 ....
+</code></pre></div></div>
+
+<ul>
+  <li>❶ model.named_parameters()를 이용하여 가중치와 편향 목록을 출력할 수 있다.</li>
+  <li>❷ 리스트의 차례를 알 수 있도록 i와 같이 출력한다. 출력 결과를 보면 0~9번째는 합성곱 층에 대한 가중치와 편향이고 10번 이후는 분류기의 가중치와 편향임을 알 수 있다.</li>
+</ul>
+
+<h4 id="-변수-프리징하기">■ 변수 프리징하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">named_parameters</span><span class="p">()):</span>
+    <span class="n">param</span><span class="p">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">end</span><span class="sh">'</span><span class="p">)</span>
+        <span class="k">break</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output: end
+</code></pre></div></div>
+
+<ul>
+  <li>❷ 파라미터의 requires_grad를 False로 하여 학습 시 업데이트가 되지 않게 한다.</li>
+  <li>❸ ~ ❺ if문을 통해 합성곱 층에 대한 가중치와 편향(9번까지)만 프리징이 되면 for문을 멈춘다.</li>
+</ul>
+
+<h4 id="-requires_grad-확인하기">■ Requires_grad 확인하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">f_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<span class="n">c_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">f_list</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">weight</span><span class="p">.</span><span class="n">requires_grad</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">bias</span><span class="p">.</span><span class="n">requires_grad</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">c_list</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">classifier</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">weight</span><span class="p">.</span><span class="n">requires_grad</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">classifier</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">bias</span><span class="p">.</span><span class="n">requires_grad</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output:
+False
+False
+False
+False
+.... 중략 ....
+True
+True
+True
+</code></pre></div></div>
+
+<h1 id="94-준지도-학습">9.4 준지도 학습</h1>
+
+<p>지도 학습이 정답이 있는 데이터를 사용하여 모델을 학습했다면, 준지도 학습<sup>Semi-supervised learning</sup>은 정답이 있는 데이터와 정답이 없는 데이터를 함께 사용하여 모델을 학습시키는 방법으로써 더 많은 데이터를 확보하여 성능 향상에 도움을 줄 수 있다.</p>
+
+<h3 id="941-의사-라벨링">9.4.1 의사 라벨링</h3>
+<p><code class="language-plaintext highlighter-rouge">CODE 9.4 Semi-supervised Learning.ipynb</code></p>
+
+<p>의사 라벨링<sup>Pseudo labeling</sup>은 준지도 학습 중 가장 기본적으로 사용되는 방법이다. 우리가 라벨이 없는 데이터를 지도 학습에 사용하려면 라벨을 달아 주어야 한다. 따라서 이미 학습된 모델을 이용하여 라벨링이 되지 않은 데이터를 예측한 후, 그 예측값을 기준으로 라벨링을 하여 기존의 학습 데이터와 함께 학습에 사용하는 방법이 의사 라벨링이다. 여기서 주의할 점은 예측값을 라벨로 이용하기 때문에 라벨에 대한 불확실성이 존재한다. 따라서 무분별한 사용은 자제해야 하며, 다양한 형태로 모델을 구현할 수 있다. 우리는 2가지 의사 라벨링 방법을 정의하여 성능 향상을 달성한다.</p>
+
+<h4 id="-라이브러리-불러오기-1">■ 라이브러리 불러오기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">torchvision</span>
+<span class="kn">import</span> <span class="n">torchvision.transforms</span> <span class="k">as</span> <span class="n">transforms</span>
+<span class="kn">from</span> <span class="n">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Dataset</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="n">torch.optim</span> <span class="k">as</span> <span class="n">optim</span>
+<span class="kn">from</span> <span class="n">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ ~ ❼ 넘파이 및 파이토치 라이브러리를 불러온다.</li>
+  <li>❽ for문의 진행 상황을 알려주는 라이브러리다.</li>
+</ul>
+
+<h4 id="-gpu-연산-정의">■ GPU 연산 정의</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">device</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda:0</span><span class="sh">"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="sh">"</span><span class="s">cpu</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output: cuda:0
+</code></pre></div></div>
+
+<h4 id="-데이터-세트-정의하기">■ 데이터 세트 정의하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">x_data</span> <span class="o">=</span> <span class="n">x_data</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">y_data</span> <span class="o">=</span> <span class="n">y_data</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span>
+        <span class="n">self</span><span class="p">.</span><span class="nb">len</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">y_data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">x_data</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">self</span><span class="p">.</span><span class="n">y_data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">transform</span><span class="p">:</span>
+            <span class="n">sample</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">transform</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sample</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="nb">len</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ ~ ⓯ 4.3절에서 배운 내용을 바탕으로 데이터 세트 클래스를 정의한다.</li>
+</ul>
+
+<h4 id="-데이터-전처리-정의하기">■ 데이터 전처리 정의하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">TrainTransform</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+        <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">sample</span>
+        <span class="n">transf</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="nc">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="p">.</span><span class="nc">ToPILImage</span><span class="p">(),</span>
+                 <span class="n">transforms</span><span class="p">.</span><span class="nc">RandomHorizontalFlip</span><span class="p">(),</span> <span class="n">transforms</span><span class="p">.</span><span class="nc">ToTensor</span><span class="p">()])</span>
+        <span class="n">final_output</span> <span class="o">=</span> <span class="nf">transf</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">final_output</span><span class="p">,</span> <span class="n">labels</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ ~ ❼ 4.3절에서 배운 내용을 바탕으로 학습 데이터에 대한 전처리를 정의한다.</li>
+</ul>
+
+<h4 id="-데이터-세트-나누기">■ 데이터 세트 나누기</h4>
+<p>실험을 위해 각 클래스의 이미지 개수가 같도록 데이터를 나눈다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">balanced_subset</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">num_cls</span><span class="p">,</span> <span class="n">num_data</span><span class="p">):</span> <span class="c1"># numpy
+</span>    <span class="n">num_data_per_class</span> <span class="o">=</span> <span class="n">num_data</span> <span class="o">//</span> <span class="n">num_cls</span>
+    <span class="n">data1</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">([],</span><span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">data2</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">([],</span><span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">labels1</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">([],</span><span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">long</span><span class="p">)</span>
+    <span class="n">labels2</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">([],</span><span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">long</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">cls</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">num_cls</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="n">labels</span><span class="p">.</span><span class="nf">numpy</span><span class="p">()</span> <span class="o">==</span> <span class="n">cls</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">shuffled_idx</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">choice</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="nf">len</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">data1</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">([</span><span class="n">data1</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">shuffled_idx</span><span class="p">[:</span><span class="n">num_data_per_class</span><span class="p">]]],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">data2</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">([</span><span class="n">data2</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">shuffled_idx</span><span class="p">[</span><span class="n">num_data_per_class</span><span class="p">:]]],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">labels1</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">([</span><span class="n">labels1</span><span class="p">,</span> <span class="n">labels</span><span class="p">[</span><span class="n">shuffled_idx</span><span class="p">[:</span><span class="n">num_data_per_class</span><span class="p">]]],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">labels2</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">([</span><span class="n">labels2</span><span class="p">,</span> <span class="n">labels</span><span class="p">[</span><span class="n">shuffled_idx</span><span class="p">[</span><span class="n">num_data_per_class</span><span class="p">:]]],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">labels1</span><span class="p">,</span> <span class="n">labels2</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 데이터, 라벨, 클래스 수, 나눠지는 목표 데이터 개수를 받는다.</li>
+  <li>❷ 각 클래스의 데이터 개수를 정의한다.</li>
+  <li>❸ ~ ❻ 나눠지는 두 개의 세트를 저장하기 위해 데이터와 라벨 텐서를 각각 2개씩 정의한다.</li>
+  <li>❼ ~ ⓮ 각 클래스마다 정의된 데이터 개수만큼 무작위로 뽑아 저장한다.</li>
+  <li>❽ 이때 np.where를 사용하기 위해 labels 텐서를 넘파이 배열로 바꿔 사용한다.</li>
+</ul>
+
+<h4 id="-데이터-불러오기">■ 데이터 불러오기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">trainset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="nc">MNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="sh">'</span><span class="s">./data</span><span class="sh">'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">labeled_data</span><span class="p">,</span> <span class="n">unlabeled_data</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">unlabels</span> <span class="o">=</span> <span class="nf">balanced_subset</span><span class="p">(</span><span class="n">trainset</span><span class="p">.</span><span class="n">data</span><span class="p">,</span>
+<span class="n">trainset</span><span class="p">.</span><span class="n">targets</span><span class="p">,</span> <span class="n">num_cls</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">num_data</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">train_images</span><span class="p">,</span> <span class="n">val_images</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">val_labels</span> <span class="o">=</span> <span class="nf">balanced_subset</span><span class="p">(</span><span class="n">labeled_data</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span>
+<span class="n">num_cls</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">num_data</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 숫자 판별 MNIST 데이터를 불러온다.</li>
+  <li>❷, ❸ 이번 실험에서는 라벨링된 데이터가 2000개만 있다고 가정하고 학습 데이터, 검증 데이터를 각각 1000개씩 사용하며 나머지 데이터는 라벨링이 안 된 데이터라고 가정한다.</li>
+</ul>
+
+<h4 id="-데이터로더-정의하기">■ 데이터로더 정의하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_images</span> <span class="o">=</span> <span class="n">train_images</span><span class="p">.</span><span class="nf">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">val_images</span> <span class="o">=</span> <span class="n">val_images</span><span class="p">.</span><span class="nf">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">trainset</span> <span class="o">=</span> <span class="nc">MyDataset</span><span class="p">(</span><span class="n">train_images</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="nc">TrainTransform</span><span class="p">())</span>
+<span class="n">trainloader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">trainset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">validationset</span> <span class="o">=</span> <span class="nc">MyDataset</span><span class="p">(</span><span class="n">val_images</span><span class="p">,</span> <span class="n">val_labels</span><span class="p">)</span>
+<span class="n">valloader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">validationset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">unlabeled_images</span> <span class="o">=</span> <span class="n">unlabeled_data</span><span class="p">.</span><span class="nf">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">unlabeledset</span> <span class="o">=</span> <span class="nc">MyDataset</span><span class="p">(</span><span class="n">unlabeled_images</span><span class="p">,</span> <span class="n">unlabels</span><span class="p">)</span>
+<span class="n">unlabeledloader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">unlabeledset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶, ❷, ❼ CNN은 4차원 입력 이미지가 필요하다. 하지만 1채널인 MNIST 데이터는 (배치사이즈, 이미지 너비, 이미지 높이) 형태인 3차원으로 되어 있기 때문에 unsqueeze(1)를 통해 3차원 텐서를 4차원 텐서 (배치사이즈, 1, 이미지 너비, 이미지 높이)로 변환한다.</li>
+  <li>❸ 학습 데이터에는 TrainTransform()을 적용하고 ❺, ❽ 나머지 세트에 대해서는 적용하지 않는다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="nc">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="p">.</span><span class="nc">ToTensor</span><span class="p">()])</span>
+<span class="n">testset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="nc">MNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="sh">'</span><span class="s">./data</span><span class="sh">'</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+<span class="n">testloader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">testset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❿ ~ ⓬ 평가 데이터를 불러온다.</li>
+</ul>
+
+<h4 id="-모델-정의하기-1">■ 모델 정의하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">):</span>
+        <span class="nf">super</span><span class="p">(</span><span class="n">Net</span><span class="p">,</span> <span class="n">self</span><span class="p">).</span><span class="nf">__init__</span><span class="p">()</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">nn</span><span class="p">.</span><span class="nc">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Conv2d</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">192</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">nn</span><span class="p">.</span><span class="nc">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">192</span><span class="o">*</span><span class="mi">6</span><span class="o">*</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span> <span class="n">nn</span><span class="p">.</span><span class="nc">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span> <span class="n">nn</span><span class="p">.</span><span class="nc">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">features</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="nf">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">192</span><span class="o">*</span><span class="mi">6</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="nf">classifier</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="nc">Net</span><span class="p">().</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ ~ ⓳ 임의의 모델을 정의한다.</li>
+</ul>
+
+<h4 id="-손실-함수-및-최적화-기법-정의하기">■ 손실 함수 및 최적화 기법 정의하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="nc">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="-정확도-평가-함수-정의하기">■ 정확도 평가 함수 정의하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+    <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
+        <span class="n">model</span><span class="p">.</span><span class="nf">eval</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+            <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">labels</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">labels</span><span class="p">).</span><span class="nf">sum</span><span class="p">().</span><span class="nf">item</span><span class="p">()</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">correct</span><span class="o">/</span><span class="n">total</span>
+    <span class="n">model</span><span class="p">.</span><span class="nf">train</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">acc</span>
+</code></pre></div></div>
+
+<h4 id="-지도-학습-수행하기">■ 지도 학습 수행하기</h4>
+<p>기준 성능을 알아보기 위해 1000개의 라벨링된 데이터로만 학습을 진행한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">best_acc</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">501</span><span class="p">):</span>
+    <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">traindata</span> <span class="ow">in</span> <span class="n">trainloader</span><span class="p">:</span>
+        <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">traindata</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">traindata</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="nf">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">.</span><span class="nf">detach</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">labels</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">labels</span><span class="p">).</span><span class="nf">sum</span><span class="p">().</span><span class="nf">item</span><span class="p">()</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 검증 정확도를 기준으로 모델을 저장하기 위해 변수를 선언한다.</li>
+  <li>❷ ~ ⓮ 학습 데이터를 이용해 학습을 하고 학습 정확도를 계산한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">val_acc</span> <span class="o">=</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">valloader</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">val_acc</span> <span class="o">&gt;=</span> <span class="n">best_acc</span><span class="p">:</span>
+        <span class="n">best_acc</span> <span class="o">=</span> <span class="n">val_acc</span>
+        <span class="n">torch</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">(),</span> <span class="sh">'</span><span class="s">./models/cifar_model_for_pseudo_baseline.pth</span><span class="sh">'</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">[%d] train acc: %.2f, validation acc: %.2f - Saved the best model</span><span class="sh">'</span> <span class="o">%</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span>
+        <span class="mi">100</span><span class="o">*</span><span class="n">correct</span><span class="o">/</span><span class="n">total</span><span class="p">,</span> <span class="n">val_acc</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">[%d] train acc: %.2f, validation acc: %.2f</span><span class="sh">'</span> <span class="o">%</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="n">correct</span><span class="o">/</span><span class="n">total</span><span class="p">,</span> <span class="n">val_acc</span><span class="p">))</span>
+</code></pre></div></div>
+
+<ul>
+  <li>⓯ ~ ⓳ 검증 정확도를 계산하여 가장 높은 검증 정확도를 기준으로 모델 파라미터를 저장한다.</li>
+  <li>⓴ ~ ⓴ 학습 상황을 알 수 있도록 epoch 10마다 학습 정확도와 검증 정확도를 출력한다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output:
+[0] train acc: 13.90, validation acc: 14.50 - Saved the best model
+[1] train acc: 29.60, validation acc: 54.10 - Saved the best model
+.... 중략 ....
+[444] train acc: 100.00, validation acc: 78.40 - Saved the best model
+.... 중략 ....
+[500] train acc: 100.00, validation acc: 78.00
+</code></pre></div></div>
+
+<h4 id="-지도-학습-성능-평가하기">■ 지도 학습 성능 평가하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="nf">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="sh">'</span><span class="s">./models/cifar_model_for_pseudo_baseline.pth</span><span class="sh">'</span><span class="p">))</span>
+<span class="nf">accuracy</span><span class="p">(</span><span class="n">testloader</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output: 73.8
+</code></pre></div></div>
+
+<ul>
+  <li>❶, ❷ 저장된 베스트 모델을 가지고 와서 평가 정확도를 측정한다. 이때 지도 학습의 정확도는 73.8%를 달성한다.</li>
+</ul>
+
+<h4 id="-준지도-학습1을-위한-모델을-재정의하기">■ 준지도 학습1을 위한 모델을 재정의하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="nc">Net</span><span class="p">().</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="nc">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ ~ ❸ 모델 파라미터를 초기화하고 준지도 학습을 진행한다.</li>
+</ul>
+
+<h4 id="-준지도-학습1-수행하기">■ 준지도 학습1 수행하기</h4>
+<p>의사 라벨링은 정확한 라벨과 부정확한 라벨이 섞여있다. 따라서 훈련 데이터와 동일하게 모델 최적화에 사용하게 된다면 오히려 좋지 않은 결과를 초래할 수 있다. 따라서 훈련 라벨과 의사 라벨을 구분하여 따로 손실 함수($L_t$와 $L_p$)를 계산한 뒤 둘을 더해 전체 손실 함수 $L(= L_t + \text{alpha} * L_p)$을 정의한다. 이때 의사 라벨을 이용하는 손실 함수 부분에 가중치 alpha를 주어 학습 개입을 조절할 수 있다. 즉, alpha=0이면 학습 데이터로만 모델을 최적화한다는 의미이고, alpha가 커질수록 의사 라벨의 영향도가 커진다는 의미다. 따라서 연구마다 영향도의 차이가 다를 수 있으니 적절한 alpha를 정의하는 것이 중요하다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">alpha_t</span> <span class="o">=</span> <span class="mf">1e-4</span>
+<span class="n">T1</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">T2</span> <span class="o">=</span> <span class="mi">450</span>
+<span class="n">best_acc</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre></div></div>
+
+<p>이 예시에서는 처음 ❸ epoch 100번째까지는 alpha=0으로 학습을 진행하고 ❹ 이후 epoch이 450이 될 때까지 일정하게 alpha를 높여 학습을 시행한다. 450회가 지나면 alpha를 ❷ alpha_t로 고정하여 학습을 진행하여 마무리 한다. 즉, alpha를 0부터 1e-4까지 점차 높여 학습을 진행하는 것이다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">501</span><span class="p">):</span>
+    <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">traindata</span><span class="p">,</span> <span class="n">pseudodata</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">trainloader</span><span class="p">,</span> <span class="n">unlabeledloader</span><span class="p">):</span>
+        <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">traindata</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">traindata</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">pinputs</span> <span class="o">=</span> <span class="n">pseudodata</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">alpha</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">poutputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">pinputs</span><span class="p">)</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">plabels</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">poutputs</span><span class="p">.</span><span class="nf">detach</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="nf">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="nf">criterion</span><span class="p">(</span><span class="n">poutputs</span><span class="p">,</span> <span class="n">plabels</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="nf">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">.</span><span class="nf">detach</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">labels</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">labels</span><span class="p">).</span><span class="nf">sum</span><span class="p">().</span><span class="nf">item</span><span class="p">()</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❾ zip을 이용하여 두 개의 데이터로더를 동시에 이용할 수 있다.</li>
+  <li>⓮ ~ ⓳ alpha=0이면 학습 데이터만 이용하여 손실 함수를 계산하고 ⓮ ~ ⑰ 0보다 크면 의사 라벨도 함께 이용하여 손실 함수를 계산한다. 첫 번째 의사 라벨 방법에서는 모델의 출력 벡터와 출력 벡터로 만든 예측 라벨과의 손실 함수를 계산하는 것이다. 예를 들어 (0.1, 0.6, 0.3)이라는 출력 벡터가 나왔다면 예측 라벨은 (0, 1, 0)이 되고 이 둘을 손실 함수에 넣어 계산을 하게 된다.</li>
+  <li>⓴ 다음으로는 조건에 맞는 손실 함수를 기준으로 모델을 최적화한다.</li>
+  <li>⓯ ~ ⓴ 학습 정확도 계산을 위해 정답 개수와 총 라벨 개수를 누적한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nf">if </span><span class="p">(</span><span class="n">epoch</span> <span class="o">&gt;</span> <span class="n">T1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">&lt;</span> <span class="n">T2</span><span class="p">):</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha_t</span><span class="o">*</span><span class="p">(</span><span class="n">epoch</span> <span class="o">-</span> <span class="n">T1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">T2</span> <span class="o">-</span> <span class="n">T1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">epoch</span> <span class="o">&gt;=</span> <span class="n">T2</span><span class="p">:</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha_t</span>
+    <span class="n">val_acc</span> <span class="o">=</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">valloader</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">val_acc</span> <span class="o">&gt;=</span> <span class="n">best_acc</span><span class="p">:</span>
+        <span class="n">best_acc</span> <span class="o">=</span> <span class="n">val_acc</span>
+        <span class="n">torch</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">(),</span> <span class="sh">'</span><span class="s">./models/cifar_model_for_pseudo_label.pth</span><span class="sh">'</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">[%d] train acc: %.2f, validation acc: %.2f - Saved the best model</span><span class="sh">'</span> <span class="o">%</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span>
+        <span class="mi">100</span><span class="o">*</span><span class="n">correct</span><span class="o">/</span><span class="n">total</span><span class="p">,</span> <span class="n">val_acc</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">[%d] train acc: %.2f, validation acc: %.2f</span><span class="sh">'</span> <span class="o">%</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="n">correct</span><span class="o">/</span><span class="n">total</span><span class="p">,</span> <span class="n">val_acc</span><span class="p">))</span>
+</code></pre></div></div>
+
+<ul>
+  <li>⓯ ~ ⓴ 학습이 1회 완료되면 epoch을 확인하여 alpha를 업데이트 한다.</li>
+  <li>⓯ ~ ⓴ 검증 정확도를 계산하여 가장 높은 검증 정확도를 기준으로 모델 파라미터를 저장한다.</li>
+  <li>⓴ ~ ⓴ 학습 상황을 알 수 있도록 epoch 10마다 학습 정확도와 검증 정확도를 출력한다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output:
+[0] train acc: 14.30, validation acc: 17.80 - Saved the best model
+[1] train acc: 33.90, validation acc: 47.30 - Saved the best model
+.... 중략 ....
+[453] train acc: 100.00, validation acc: 80.20 - Saved the best model
+.... 중략 ....
+[500] train acc: 100.00, validation acc: 72.90
+</code></pre></div></div>
+
+<h4 id="-준지도-학습1-성능-평가하기">■ 준지도 학습1 성능 평가하기</h4>
+<p>평가 정확도가 기준 대비 2.4% 증가한 76.2%이다(기준 73.8%).</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="nf">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="sh">'</span><span class="s">./models/cifar_model_for_pseudo_label.pth</span><span class="sh">'</span><span class="p">))</span>
+<span class="nf">accuracy</span><span class="p">(</span><span class="n">testloader</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output: 76.2
+</code></pre></div></div>
+
+<h4 id="-준지도-학습2를-위한-모델을-재정의하기">■ 준지도 학습2를 위한 모델을 재정의하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="nc">Net</span><span class="p">().</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="nf">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="sh">'</span><span class="s">./models/cifar_model_for_pseudo_baseline.pth</span><span class="sh">'</span><span class="p">))</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="nc">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❷ 이번 방법에서는 학습 데이터로 학습된 사전 훈련 모델을 가지고 의사 라벨을 생성한 뒤 이를 실제 라벨처럼 사용해 본다.</li>
+  <li>❶, ❸, ❹ 손실 함수와 최적화 방법을 정의한다.</li>
+</ul>
+
+<h4 id="-의사-라벨-생성하기">■ 의사 라벨 생성하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pseudo_threshold</span> <span class="o">=</span> <span class="mf">0.99</span>
+<span class="n">pseudo_images</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">pseudo_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">tensor</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">long</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="nf">tqdm</span><span class="p">(</span><span class="n">unlabeledloader</span><span class="p">):</span>
+        <span class="n">model</span><span class="p">.</span><span class="nf">eval</span><span class="p">()</span>
+        <span class="n">images</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="nf">softmax</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">max_val</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">.</span><span class="nf">detach</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="n">max_val</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">pseudo_threshold</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">pseudo_images</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">((</span><span class="n">pseudo_images</span><span class="p">,</span> <span class="n">images</span><span class="p">.</span><span class="nf">cpu</span><span class="p">()[</span><span class="n">idx</span><span class="p">]),</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">pseudo_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">cat</span><span class="p">((</span><span class="n">pseudo_labels</span><span class="p">,</span> <span class="n">predicted</span><span class="p">.</span><span class="nf">cpu</span><span class="p">()[</span><span class="n">idx</span><span class="p">]),</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❶ 사전 학습 모델로 예측된 출력 벡터의 가장 큰 원소가 0.99가 넘으면 의사 라벨로 사용한다.</li>
+  <li>❷, ❸ 데이터를 모을 빈 텐서를 정의한다.</li>
+  <li>❾ 출력 벡터의 원소는 0과 1 사이의 값이 아닐 수 있다. 따라서 값을 0부터 1까지로 만들어 주기 위해 softmax 함수를 사용한다.</li>
+  <li>⓫, ⓬ 만약 현재 배치에 0.99 이상을 만족하는 데이터가 1개 이상 있다면 ⓭, ⓮ 그 데이터를 누적한다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output: 100%|██████████| 227/227 [00:07&lt;00:00, 30.13it/s]
+</code></pre></div></div>
+
+<h4 id="-준지도-학습2를-위한-데이터로더-정의하기">■ 준지도 학습2를 위한 데이터로더 정의하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pseudo_dataset</span> <span class="o">=</span> <span class="nc">MyDataset</span><span class="p">(</span><span class="n">pseudo_images</span><span class="p">,</span> <span class="n">pseudo_labels</span><span class="p">)</span>
+<span class="n">pseudoloader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="nc">DataLoader</span><span class="p">(</span><span class="n">pseudo_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="-준지도-학습2-수행하기">■ 준지도 학습2 수행하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">alpha_t</span> <span class="o">=</span> <span class="mf">1e-4</span>
+<span class="n">T1</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">T2</span> <span class="o">=</span> <span class="mi">450</span>
+<span class="n">best_acc</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❷ 의사 라벨링 개입에 대한 alpha를 정의한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">501</span><span class="p">):</span>
+    <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">traindata</span><span class="p">,</span> <span class="n">pseudodata</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">trainloader</span><span class="p">,</span> <span class="n">pseudoloader</span><span class="p">):</span>
+        <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">traindata</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">traindata</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">pinputs</span><span class="p">,</span> <span class="n">plabels</span> <span class="o">=</span> <span class="n">pseudodata</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">pseudodata</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="nf">zero_grad</span><span class="p">()</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">poutputs</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">pinputs</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="nf">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="nf">criterion</span><span class="p">(</span><span class="n">poutputs</span><span class="p">,</span> <span class="n">plabels</span><span class="p">)</span>
+        <span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">.</span><span class="nf">detach</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">labels</span><span class="p">.</span><span class="nf">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">labels</span><span class="p">).</span><span class="nf">sum</span><span class="p">().</span><span class="nf">item</span><span class="p">()</span>
+</code></pre></div></div>
+
+<ul>
+  <li>❹ zip을 이용하여 두 개의 데이터로더를 동시에 이용할 수 있다.</li>
+  <li>❺ 학습 데이터를 불러온다.</li>
+  <li>❻ 의사 라벨 데이터를 불러온다.</li>
+  <li>❽ ~ ❿ 모델을 통해 예측값을 산출하여 손실 함수를 계산한다.</li>
+  <li>⓭ ~ ⓯ 학습 정확도 계산을 위해 정답 개수와 총 라벨 개수를 누적한다.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nf">if </span><span class="p">(</span><span class="n">epoch</span> <span class="o">&gt;</span> <span class="n">T1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">&lt;</span> <span class="n">T2</span><span class="p">):</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha_t</span><span class="o">*</span><span class="p">(</span><span class="n">epoch</span> <span class="o">-</span> <span class="n">T1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">T2</span> <span class="o">-</span> <span class="n">T1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">epoch</span> <span class="o">&gt;=</span> <span class="n">T2</span><span class="p">:</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha_t</span>
+    <span class="n">val_acc</span> <span class="o">=</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">valloader</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">val_acc</span> <span class="o">&gt;=</span> <span class="n">best_acc</span><span class="p">:</span>
+        <span class="n">best_acc</span> <span class="o">=</span> <span class="n">val_acc</span>
+        <span class="n">torch</span><span class="p">.</span><span class="nf">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">(),</span> <span class="sh">'</span><span class="s">./models/cifar_model_for_pseudo_label2.pth</span><span class="sh">'</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">[%d] train acc: %.2f, validation acc: %.2f - Saved the best model</span><span class="sh">'</span> <span class="o">%</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span>
+        <span class="mi">100</span><span class="o">*</span><span class="n">correct</span><span class="o">/</span><span class="n">total</span><span class="p">,</span> <span class="n">val_acc</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">[%d] train acc: %.2f, validation acc: %.2f</span><span class="sh">'</span> <span class="o">%</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="n">correct</span><span class="o">/</span><span class="n">total</span><span class="p">,</span> <span class="n">val_acc</span><span class="p">))</span>
+</code></pre></div></div>
+
+<ul>
+  <li>⓰ ~ ⓳ 학습이 1회 완료되면 epoch을 확인하여 alpha를 업데이트 한다.</li>
+  <li>⓴ ~ ⓴ 검증 정확도를 계산하여 가장 높은 검증 정확도를 기준으로 모델 파라미터를 저장한다.</li>
+  <li>⓴, ⓴ 학습 상황을 알 수 있도록 epoch 10마다 학습 정확도와 검증 정확도를 출력한다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output:
+[0] train acc: 87.80, validation acc: 66.60 - Saved the best model
+[1] train acc: 96.50, validation acc: 73.30 - Saved the best model
+.... 중략 ....
+[302] train acc: 100.00, validation acc: 80.70 - Saved the best model
+.... 중략 ....
+[500] train acc: 100.00, validation acc: 78.40
+</code></pre></div></div>
+
+<h4 id="-준지도-학습2-성능-평가하기">■ 준지도 학습2 성능 평가하기</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="nf">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="sh">'</span><span class="s">./models/cifar_model_for_pseudo_label2.pth</span><span class="sh">'</span><span class="p">))</span>
+<span class="nf">accuracy</span><span class="p">(</span><span class="n">testloader</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Output: 78.68
+</code></pre></div></div>
+
+<p>평가 정확도가 기준 대비 4.88% 증가한 78.68%이다(기준 73.8%).</p>
+
+<blockquote>
+  <p>“미래 예측은 마술이 아닙니다. 인공지능입니다.”</p>
+
+  <p>— 데이브 워터스</p>
+</blockquote>
+
+
+            <!-- 구글 애드센스 출력 -->
+            <div class="mt-5">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3321560028329475"
+    crossorigin="anonymous"></script>
+<!-- jinydev-java -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3321560028329475" data-ad-slot="9323221865"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+            </div>
+        </div>
+
+        <div class="bd-toc mt-3 mb-5 my-lg-0 ps-xl-3 mb-lg-5 text-body-secondary">
+
+  <button class="btn btn-link p-md-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none" type="button"
+    data-bs-toggle="collapse" data-bs-target="#tocContents" aria-expanded="false" aria-controls="tocContents">
+    서브목차
+    <svg class="bi d-md-none ms-2" aria-hidden="true">
+      <use xlink:href="#chevron-expand"></use>
+    </svg>
+  </button>
+
+  <strong class="d-none d-md-block h6 my-2">서브목차</strong>
+
+  <div class="collapse bd-toc-collapse" id="tocContents">
+    <nav id="TableOfContents">
+      <!--
+      <ul>
+        <li><a href="#quick-start">Quick start</a></li>
+        <li><a href="#cdn-links">CDN links</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+        <li><a href="#js-components">JS components</a></li>
+        <li><a href="#important-globals">Important globals</a>
+          <ul>
+            <li><a href="#html5-doctype">HTML5 doctype</a></li>
+            <li><a href="#responsive-meta-tag">Responsive meta tag</a></li>
+            <li><a href="#box-sizing">Box-sizing</a></li>
+            <li><a href="#reboot">Reboot</a></li>
+          </ul>
+        </li>
+        <li><a href="#community">Community</a></li>
+      </ul>
+      -->
+    </nav>
+  </div>
+</div>
+    </main>
+</div>
+
+<!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
+<script src="/assets/js/audio.js" defer></script>
+
+  <footer class="border-top mt-5 pt-5 pb-4 bg-light text-secondary">
+  <div class="container">
+    <div class="row g-4 mb-4">
+      <!-- 브랜드 및 강의 소개 -->
+      <div class="col-lg-5">
+        <div class="d-flex align-items-center mb-3">
+          <span class="fs-4 me-2">🔥</span>
+          <span class="fs-5 fw-bold text-dark">딥러닝을 위한 파이토치 입문</span>
+        </div>
+        <p class="small text-secondary mb-3 pe-lg-4 lh-base">
+          파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트입니다.
+          인공 신경망, 합성곱 신경망(CNN), 순환 신경망(RNN), 비지도 학습(GAN), 전이 학습, 메타 학습, 과학적 계산(PINN)까지 코드 라인별로 깊이 있게 마스터합니다.
+        </p>
+        <div class="d-flex flex-wrap gap-2 mb-3">
+          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#PyTorch</span>
+          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#딥러닝입문</span>
+          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#인공신경망</span>
+          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#CNN_RNN</span>
+          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#MetaLearning</span>
+        </div>
+      </div>
+
+      <!-- 관련 학습 사이트 -->
+      <div class="col-6 col-lg-4">
+        <h6 class="fw-bold text-dark mb-3">🔗 관련 학습 사이트</h6>
+        <ul class="list-unstyled small mb-0">
+          <li class="mb-2">
+            <a href="https://pytoch.ai.jiny.dev" class="text-secondary text-decoration-none fw-bold text-primary d-flex align-items-center">
+              <span class="me-2">🔥</span>
+              <span><strong>파이토치</strong> <span class="badge bg-primary text-white ms-1">현재</span></span>
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="https://ai.jiny.dev" target="_blank" rel="noopener" class="text-secondary text-decoration-none d-flex align-items-center">
+              <span class="me-2">🤖</span>
+              <span><strong>인공지능기초</strong> <span class="text-muted ms-1">(ai.jiny.dev)</span></span>
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="https://rl.ai.jiny.dev" target="_blank" rel="noopener" class="text-secondary text-decoration-none d-flex align-items-center">
+              <span class="me-2">🎯</span>
+              <span><strong>강화학습</strong> <span class="text-muted ms-1">(rl.ai.jiny.dev)</span></span>
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="https://dezero.ai.jiny.dev" target="_blank" rel="noopener" class="text-secondary text-decoration-none d-flex align-items-center">
+              <span class="me-2">🧠</span>
+              <span><strong>밑바닥부터 시작하는 딥러닝 3</strong> <span class="text-muted ms-1">(dezero.ai.jiny.dev)</span></span>
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="https://python.jiny.dev" target="_blank" rel="noopener" class="text-secondary text-decoration-none d-flex align-items-center">
+              <span class="me-2">🐍</span>
+              <span><strong>파이썬</strong> <span class="text-muted ms-1">(python.jiny.dev)</span></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 강의 안내 및 커뮤니티 -->
+      <div class="col-6 col-lg-3">
+        <h6 class="fw-bold text-dark mb-3">🧭 안내 및 정보</h6>
+        <ul class="list-unstyled small mb-0">
+          <li class="mb-2"><a href="/curriculum/" class="text-secondary text-decoration-none">📋 전체 커리큘럼 목차</a></li>
+          <li class="mb-2"><a href="/#book-ref" class="text-secondary text-decoration-none">📚 참고 교재 (영진닷컴)</a></li>
+          <li class="mb-2"><a href="https://github.com/jinydev" target="_blank" rel="noopener" class="text-secondary text-decoration-none">💻 GitHub 저장소</a></li>
+          <li class="mb-2"><a href="mailto:infohojin@naver.com" class="text-secondary text-decoration-none">✉️ 문의 및 피드백 (Contact)</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 하단 카피라이트 & 크레딧 -->
+    <hr class="my-3 text-muted">
+    <div class="row align-items-center small">
+      <div class="col-md-7 text-center text-md-start mb-2 mb-md-0">
+        <p class="mb-0 text-secondary">
+          Copyright &copy; 2017~2026 <strong>JinyDev</strong>. All Rights Reserved.
+          <span class="d-none d-sm-inline mx-1">|</span>
+          <span class="text-muted">Directed & Created with ❤️ by Prof. Hojin Lee.</span>
+        </p>
+      </div>
+      <div class="col-md-5 text-center text-md-end">
+        <a href="#" class="text-decoration-none text-secondary me-3" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+          맨 위로 가기 ↑
+        </a>
+        <a href="https://github.com/jinydev" target="_blank" rel="noopener" class="text-decoration-none text-secondary me-3">GitHub</a>
+        <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    window.addEventListener('load', async function () {
+      mermaid.initialize({ startOnLoad: false });
+
+      const mermaidCodes = document.querySelectorAll('pre code.language-mermaid');
+      const mermaidDivs = [];
+
+      mermaidCodes.forEach(codeBlock => {
+        const mermaidDefinition = codeBlock.textContent.trim();
+        const container = codeBlock.closest('div.highlighter-rouge');
+
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.textContent = mermaidDefinition;
+
+        if (container) {
+          container.replaceWith(mermaidDiv);
+        } else {
+          const pre = codeBlock.parentElement;
+          if (pre) pre.replaceWith(mermaidDiv);
+        }
+        mermaidDivs.push(mermaidDiv);
+      });
+
+      if (mermaidDivs.length > 0) {
+        await mermaid.run({ nodes: mermaidDivs });
+      }
+    });
+  </script>
+  <script src="/assets/js/toc.js"></script>
+
+</body>
+
+</html>

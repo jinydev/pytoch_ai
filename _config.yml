@@ -1,0 +1,47 @@
+title: "딥러닝을 위한 파이토치 입문"
+description: "파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트"
+author: "Hojin"
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-gist
+
+# Navigation
+nav_sort: 'priorities'
+
+# Build Settings
+destination: docs
+source: src
+url: "https://pytoch.ai.jiny.dev"
+baseurl: ""
+markdown: kramdown
+kramdown:
+  math_engine: mathjax
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "docs"
+
+# Sass 설정
+sass:
+  load_paths:
+    - _sass
+
+# GitHub Pages 호환성을 위한 설정
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - .github/
+  - .git/
+  - README.md
+  - package.json
+  - package-lock.json
