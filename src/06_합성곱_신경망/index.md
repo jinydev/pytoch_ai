@@ -30,7 +30,7 @@ title: "06장 합성곱 신경망 (CNN)"
 
 앞서 강조했듯이 이미지의 일부분을 차례대로 훑어 보면서 이미지 전체를 파악하는 것이 CNN의 기본 메커니즘이다. 예를 들어 그림 6.1과 같이 3x3 빨간 상자를 만들어 내부를 보고 다음 부분으로 이동을 시키면서 전체 부분을 살펴볼 수 있다. 따라서 부분들에서 얻어진 정보를 모아 이미지 한 장을 해석하기 때문에 이미지를 벡터로 만들었을 때보다 객체의 크기와 위치에 덜 민감하다.
 
-<그림 6.1 합성곱 필터의 이동>
+**&lt;그림 6.1 합성곱 필터의 이동&gt;**
 ![그림 6.1 합성곱 필터의 이동](./img/fig-130.jpg)
 
 이때 빨간 부분을 어떻게 보는지가 중요한데, 기본적으로 합성곱<sup>Convolution</sup>과 풀링<sup>Pooling</sup>이라는 방법을 통해 해당 부분을 해석하게 된다. 합성곱은 특정 값을 지닌 빨간 상자를 가지고 해당 부분의 이미지 값과 연산하는 방법으로써 빨간 상자를 필터<sup>Filter</sup> 혹은 커널<sup>Kernel</sup>이라고 한다. 따라서 필터에 따라 추출되는 특성이 다르기 때문에 모델 최적화를 통해 적절한 필터의 값을 찾는 것이 목표가 된다.
@@ -39,7 +39,7 @@ title: "06장 합성곱 신경망 (CNN)"
 
 합성곱은 필터가 위치한 부분에서 동일한 위치의 성분끼리 곱하여 전체를 더하는 것이다. 필터가 움직이는 보폭<sup>Stride</sup>을 정할 수 있으며 이미지 밖을 특정 값으로 둘러싸는 패딩<sup>Padding</sup>을 이용할 수도 있다.
 
-<그림 6.2 합성곱 연산>
+**&lt;그림 6.2 합성곱 연산&gt;**
 ![그림 6.2 합성곱 연산](./img/fig-131.jpg)
 
 ### 풀링 연산 `nn.AvgPool2d`, `torch.nn.functional.avg_pool2d` / `nn.MaxPool2d`, `torch.nn.functional.max_pool2d`
@@ -188,7 +188,7 @@ plt.xlabel("epoch")
 plt.show()
 ```
 
-<그림 6.3 훈련 손실 함수 그래프>
+**&lt;그림 6.3 훈련 손실 함수 그래프&gt;**
 ![그림 6.3 훈련 손실 함수 그래프](./img/fig-136.jpg)
 
 ### 파이토치 모델 저장 및 불러오기
@@ -242,7 +242,7 @@ Output: Test accuracy: 76.66 %
 ResNet은 ILSVRC<sup>ImageNet Large Scale Visual Recognition Challenge</sup> 2015 대회에서 우승을 차지한 합성곱 신경망이며, 이후 CNN에서 중요한 개념으로 자리 잡은 Residual block을 제안한 모델이다.
 스킵 커넥션<sup>Skip connection</sup>이란 그림 6.4와 같이 여러 레이어를 건너 뛰어 이전 정보를 더하는 것을 의미하며, 이 하나의 과정을 묶어 만든 것이 Residual block이다. Residual block의 위치나 구조에 따라 성능이 달라질 수 있지만, 기본적으로 합성곱 층 2, 3칸을 뛰어넘어 더하는 방식을 사용한다. ResNet은 Residual block 여러 개를 붙여놓은 모델이며, 모델명에 붙은 숫자는 층의 개수를 의미한다. 즉, ResNet18은 층이 18개이고, ResNet34는 34개의 층을 가지고 있는 모델이다.
 
-<그림 6.4 Residual block>
+**&lt;그림 6.4 Residual block&gt;**
 ![그림 6.4 Residual block](./img/fig-138.jpg)
 
 ImageNet 데이터에 맞춰진 ResNet은 기본층에서 7x7 필터를 사용하는 합성곱과 3x3 맥스 풀링을 사용한다. CIFAR10은 이미지 사이즈가 ImageNet 이미지 보다 훨씬 작기 때문에 그림 6.5와 같이 기본층의 합성곱 필터 사이즈를 3x3으로 줄이고 맥스풀링을 생략한다. 또한 ResNet18과 ResNet34는 동일한 블록을 사용하기 때문에 층을 조절하여 두 모델을 구현할 수 있다.
@@ -256,7 +256,7 @@ ImageNet 데이터에 맞춰진 ResNet은 기본층에서 7x7 필터를 사용�
 | 3 x 3<br>3 x 3 | 512<br>512 | 2회 반복 | 3 x 3<br>3 x 3 | 512<br>512 | 3회 반복 |
 | FC | | | FC | | |
 
-<그림 6.5 ResNet18, ResNet34의 층 정보>
+**&lt;그림 6.5 ResNet18, ResNet34의 층 정보&gt;**
 ![그림 6.5 ResNet18, ResNet34의 층 정보](./img/fig-139.jpg)
 
 ### Residual block 구축하기

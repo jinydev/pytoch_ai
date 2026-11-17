@@ -13,14 +13,14 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트" />
 <meta name="twitter:description" property="og:description" content="파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트" />
-<link rel="canonical" href="http://localhost:4002/04_%ED%8C%8C%EC%9D%B4%ED%86%A0%EC%B9%98_%EA%B8%B0%EB%B3%B8/" />
-<meta property="og:url" content="http://localhost:4002/04_%ED%8C%8C%EC%9D%B4%ED%86%A0%EC%B9%98_%EA%B8%B0%EB%B3%B8/" />
+<link rel="canonical" href="https://pytoch.ai.jiny.dev/04_%ED%8C%8C%EC%9D%B4%ED%86%A0%EC%B9%98_%EA%B8%B0%EB%B3%B8/" />
+<meta property="og:url" content="https://pytoch.ai.jiny.dev/04_%ED%8C%8C%EC%9D%B4%ED%86%A0%EC%B9%98_%EA%B8%B0%EB%B3%B8/" />
 <meta property="og:site_name" content="딥러닝을 위한 파이토치 입문" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="04장 파이토치 기본" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트","headline":"04장 파이토치 기본","url":"http://localhost:4002/04_%ED%8C%8C%EC%9D%B4%ED%86%A0%EC%B9%98_%EA%B8%B0%EB%B3%B8/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Hojin"},"description":"파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트","headline":"04장 파이토치 기본","url":"https://pytoch.ai.jiny.dev/04_%ED%8C%8C%EC%9D%B4%ED%86%A0%EC%B9%98_%EA%B8%B0%EB%B3%B8/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -253,17 +253,12 @@
             
             <li class="nav-item">
               <a class="nav-link py-2 px-0 px-lg-2 "
-                href="/">홈</a>
+                href="/intro/">소개</a>
             </li>
             
             <li class="nav-item">
               <a class="nav-link py-2 px-0 px-lg-2 "
                 href="/01_딥러닝_시작/">딥러닝 시작</a>
-            </li>
-            
-            <li class="nav-item">
-              <a class="nav-link py-2 px-0 px-lg-2 "
-                href="/02_파이썬/">파이썬 기초</a>
             </li>
             
             <li class="nav-item">
@@ -297,7 +292,7 @@
 
           <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
             <li class="nav-item col-6 col-lg-auto">
-              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/dezero_ai" target="_blank"
+              <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/jinydev/pytoch_ai" target="_blank"
                 rel="noopener">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
                   viewBox="0 0 512 499.36" role="img">
@@ -315,16 +310,19 @@
               <hr class="d-lg-none my-2 text-white-50">
             </li>
 
-            <li class="nav-item col-6 col-lg-auto">
-              <a class="nav-link py-2 px-0 px-lg-2" href="https://jiny.dev" aria-label="Home">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
-                  viewBox="0 0 16 16" role="img">
-                  <title>Home</title>
-                  <path fill="currentColor"
-                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
-                </svg>
-                <small class="d-lg-none ms-2">Home</small>
-              </a>
+            <li class="nav-item dropdown">
+              <button type="button" class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle text-white-50"
+                data-bs-toggle="dropdown" aria-expanded="false" data-bs-display="static">
+                패밀리 사이트
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="https://ai.jiny.dev" target="_blank">🤖 인공지능기초</a></li>
+                <li><a class="dropdown-item" href="https://deep.ai.jiny.dev" target="_blank">🧠 딥러닝</a></li>
+                <li><a class="dropdown-item" href="https://dezero.ai.jiny.dev" target="_blank">🌱 밑바닥 딥러닝 3</a></li>
+                <li><a class="dropdown-item" href="https://rl.ai.jiny.dev" target="_blank">🎯 강화학습</a></li>
+                <li><a class="dropdown-item active" href="https://pytoch.ai.jiny.dev">🔥 파이토치</a></li>
+                <li><a class="dropdown-item" href="https://python.jiny.dev" target="_blank">🐍 파이썬</a></li>
+              </ul>
             </li>
           </ul>
 
@@ -346,75 +344,53 @@
             <div class="offcanvas-body">
                 <!-- 네비게이션 -->
                 <nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  
+  
+  
+
+  
+
   <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
     <li class="bd-links-group py-2">
       <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
         강의 목차
       </strong>
-      <ul class="list-unstyled fw-normal pb-2 small">
+      <ul class="list-unstyled fw-normal pb-2 small mt-2">
         
-        
-        
-        
-
-        
-
-        
-        <li>
-          
-            <a href="/"
-              class="bd-links-link d-inline-block rounded ">
-              홈
-            </a>
-          
-        </li>
-        
-        <li>
-          
-            <a href="/curriculum/"
-              class="bd-links-link d-inline-block rounded ">
-              📋 전체 커리큘럼
-            </a>
-          
-        </li>
-        
-        <li>
-          
-            <a href="/00_앞부분/"
-              class="bd-links-link d-inline-block rounded ">
-              00. 도서 정보 및 머리말
-            </a>
-          
-        </li>
-        
-        <li>
+        <li class="mb-1">
           
             
             
-            <button
-              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
-              data-bs-toggle="collapse" data-bs-target="#collapse-4"
-              aria-expanded="false">
-              01. 딥러닝 시작
-              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </button>
-            <div class="collapse " id="collapse-4">
-              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+            <div class="d-flex align-items-center justify-content-between rounded ">
+              <a href="/01_딥러닝_시작/"
+                class="bd-links-link d-inline-block rounded flex-grow-1 ">
+                01. 딥러닝 시작
+              </a>
+              <button
+                class="btn btn-sm p-1 text-muted border-0 collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-1"
+                aria-expanded="false"
+                aria-label="하위 목록 토글">
+                <svg class="bi" width="0.85em" height="0.85em" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+            <div class="collapse " id="collapse-1">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3 mt-1 border-start ps-2">
                 
-                <li>
-                  <a href="/01_딥러닝_시작/#sec-1-1"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/01_딥러닝_시작/#11-딥러닝이란"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     1.1 딥러닝이란
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/01_딥러닝_시작/#sec-1-2"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/01_딥러닝_시작/#12-파이썬과-파이토치"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     1.2 파이썬과 파이토치
                   </a>
                 </li>
@@ -424,84 +400,48 @@
           
         </li>
         
-        <li>
+        <li class="mb-1">
           
             
             
-            <button
-              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
-              data-bs-toggle="collapse" data-bs-target="#collapse-5"
-              aria-expanded="false">
-              02. 파이썬 기초
-              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </button>
-            <div class="collapse " id="collapse-5">
-              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+            <div class="d-flex align-items-center justify-content-between rounded ">
+              <a href="/02_파이썬/"
+                class="bd-links-link d-inline-block rounded flex-grow-1 ">
+                02. 파이토치 선수 지식
+              </a>
+              <button
+                class="btn btn-sm p-1 text-muted border-0 collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-2"
+                aria-expanded="false"
+                aria-label="하위 목록 토글">
+                <svg class="bi" width="0.85em" height="0.85em" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+            <div class="collapse " id="collapse-2">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3 mt-1 border-start ps-2">
                 
-                <li>
-                  <a href="/02_파이썬/#sec-2-1"
-                    class="bd-links-link d-inline-block rounded ">
-                    2.1 변수, 출력문, 라이브러리
+                <li class="py-1">
+                  <a href="/02_파이썬/#21-파이토치-학습-전-필수-체크리스트"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    2.1 필수 체크리스트
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/02_파이썬/#sec-2-2"
-                    class="bd-links-link d-inline-block rounded ">
-                    2.2 리스트, 튜플, 딕셔너리
+                <li class="py-1">
+                  <a href="/02_파이썬/#22-파이토치-텐서tensor와-넘파이numpy의-상호-호환"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    2.2 텐서와 넘파이 호환
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/02_파이썬/#sec-2-3"
-                    class="bd-links-link d-inline-block rounded ">
-                    2.3 넘파이(Numpy)
-                  </a>
-                </li>
-                
-                <li>
-                  <a href="/02_파이썬/#sec-2-4"
-                    class="bd-links-link d-inline-block rounded ">
-                    2.4 조건문과 반복문
-                  </a>
-                </li>
-                
-                <li>
-                  <a href="/02_파이썬/#sec-2-5"
-                    class="bd-links-link d-inline-block rounded ">
-                    2.5 함수와 모듈
-                  </a>
-                </li>
-                
-                <li>
-                  <a href="/02_파이썬/#sec-2-6"
-                    class="bd-links-link d-inline-block rounded ">
-                    2.6 클래스
-                  </a>
-                </li>
-                
-                <li>
-                  <a href="/02_파이썬/#sec-2-7"
-                    class="bd-links-link d-inline-block rounded ">
-                    2.7 그래프 그리기
-                  </a>
-                </li>
-                
-                <li>
-                  <a href="/02_파이썬/#sec-2-8"
-                    class="bd-links-link d-inline-block rounded ">
-                    2.8 폴더 및 파일 관리
-                  </a>
-                </li>
-                
-                <li>
-                  <a href="/02_파이썬/#sec-2-9"
-                    class="bd-links-link d-inline-block rounded ">
-                    2.9 터미널에서 파이썬 실행하기
+                <li class="py-1">
+                  <a href="/02_파이썬/#23-딥러닝-구현-시-빈출되는-핵심-파이썬-관용구"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    2.3 핵심 파이썬 관용구
                   </a>
                 </li>
                 
@@ -510,41 +450,47 @@
           
         </li>
         
-        <li>
+        <li class="mb-1">
           
             
             
-            <button
-              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
-              data-bs-toggle="collapse" data-bs-target="#collapse-6"
-              aria-expanded="false">
-              03. 지도 학습
-              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </button>
-            <div class="collapse " id="collapse-6">
-              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+            <div class="d-flex align-items-center justify-content-between rounded ">
+              <a href="/03_지도_학습/"
+                class="bd-links-link d-inline-block rounded flex-grow-1 ">
+                03. 지도 학습
+              </a>
+              <button
+                class="btn btn-sm p-1 text-muted border-0 collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-3"
+                aria-expanded="false"
+                aria-label="하위 목록 토글">
+                <svg class="bi" width="0.85em" height="0.85em" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+            <div class="collapse " id="collapse-3">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3 mt-1 border-start ps-2">
                 
-                <li>
-                  <a href="/03_지도_학습/#sec-3-1"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/03_지도_학습/#31-지도-학습이란"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     3.1 지도 학습이란
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/03_지도_학습/#sec-3-2"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/03_지도_학습/#32-지도-학습의-종류"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     3.2 지도 학습의 종류
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/03_지도_학습/#sec-3-3"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/03_지도_학습/#33-데이터-세트-분할"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     3.3 데이터 세트 분할
                   </a>
                 </li>
@@ -554,41 +500,47 @@
           
         </li>
         
-        <li>
+        <li class="mb-1">
           
             
             
-            <button
-              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0  w-100"
-              data-bs-toggle="collapse" data-bs-target="#collapse-7"
-              aria-expanded="true">
-              04. 파이토치 기본
-              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </button>
-            <div class="collapse show" id="collapse-7">
-              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+            <div class="d-flex align-items-center justify-content-between rounded bg-light">
+              <a href="/04_파이토치_기본/"
+                class="bd-links-link d-inline-block rounded flex-grow-1 active fw-bold text-primary">
+                04. 파이토치 기본
+              </a>
+              <button
+                class="btn btn-sm p-1 text-muted border-0 "
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-4"
+                aria-expanded="true"
+                aria-label="하위 목록 토글">
+                <svg class="bi" width="0.85em" height="0.85em" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+            <div class="collapse show" id="collapse-4">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3 mt-1 border-start ps-2">
                 
-                <li>
-                  <a href="/04_파이토치_기본/#sec-4-1"
-                    class="bd-links-link d-inline-block rounded ">
-                    4.1 텐서
+                <li class="py-1">
+                  <a href="/04_파이토치_기본/#41-텐서"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    4.1 텐서(Tensor) 다루기
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/04_파이토치_기본/#sec-4-2"
-                    class="bd-links-link d-inline-block rounded ">
-                    4.2 역전파
+                <li class="py-1">
+                  <a href="/04_파이토치_기본/#42-역전파"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    4.2 역전파와 자동 미분
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/04_파이토치_기본/#sec-4-3"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/04_파이토치_기본/#43-데이터-불러오기"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     4.3 데이터 불러오기
                   </a>
                 </li>
@@ -598,62 +550,68 @@
           
         </li>
         
-        <li>
+        <li class="mb-1">
           
             
             
-            <button
-              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
-              data-bs-toggle="collapse" data-bs-target="#collapse-8"
-              aria-expanded="false">
-              05. 인공 신경망 (ANN)
-              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </button>
-            <div class="collapse " id="collapse-8">
-              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+            <div class="d-flex align-items-center justify-content-between rounded ">
+              <a href="/05_인공_신경망/"
+                class="bd-links-link d-inline-block rounded flex-grow-1 ">
+                05. 인공 신경망 (ANN)
+              </a>
+              <button
+                class="btn btn-sm p-1 text-muted border-0 collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-5"
+                aria-expanded="false"
+                aria-label="하위 목록 토글">
+                <svg class="bi" width="0.85em" height="0.85em" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+            <div class="collapse " id="collapse-5">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3 mt-1 border-start ps-2">
                 
-                <li>
-                  <a href="/05_인공_신경망/#sec-5-1"
-                    class="bd-links-link d-inline-block rounded ">
-                    5.1 다층 퍼셉트론
+                <li class="py-1">
+                  <a href="/05_인공_신경망/#51-다층-퍼셉트론"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    5.1 다층 퍼셉트론 (MLP)
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/05_인공_신경망/#sec-5-2"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/05_인공_신경망/#52-활성화-함수"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     5.2 활성화 함수
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/05_인공_신경망/#sec-5-3"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/05_인공_신경망/#53-손실-함수"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     5.3 손실 함수
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/05_인공_신경망/#sec-5-4"
-                    class="bd-links-link d-inline-block rounded ">
-                    5.4 최적화 기법
+                <li class="py-1">
+                  <a href="/05_인공_신경망/#54-최적화-기법"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    5.4 최적화 기법 (Optimizer)
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/05_인공_신경망/#sec-5-5"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/05_인공_신경망/#55-교차-검증"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     5.5 교차 검증
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/05_인공_신경망/#sec-5-6"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/05_인공_신경망/#56-모델-구조-및-가중치-확인"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     5.6 모델 구조 및 가중치 확인
                   </a>
                 </li>
@@ -663,48 +621,54 @@
           
         </li>
         
-        <li>
+        <li class="mb-1">
           
             
             
-            <button
-              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
-              data-bs-toggle="collapse" data-bs-target="#collapse-9"
-              aria-expanded="false">
-              06. 합성곱 신경망 (CNN)
-              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </button>
-            <div class="collapse " id="collapse-9">
-              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+            <div class="d-flex align-items-center justify-content-between rounded ">
+              <a href="/06_합성곱_신경망/"
+                class="bd-links-link d-inline-block rounded flex-grow-1 ">
+                06. 합성곱 신경망 (CNN)
+              </a>
+              <button
+                class="btn btn-sm p-1 text-muted border-0 collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-6"
+                aria-expanded="false"
+                aria-label="하위 목록 토글">
+                <svg class="bi" width="0.85em" height="0.85em" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+            <div class="collapse " id="collapse-6">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3 mt-1 border-start ps-2">
                 
-                <li>
-                  <a href="/06_합성곱_신경망/#sec-6-1"
-                    class="bd-links-link d-inline-block rounded ">
-                    6.1 합성곱 연산과 풀링 연산
+                <li class="py-1">
+                  <a href="/06_합성곱_신경망/#61-합성곱-연산과-풀링-연산"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    6.1 합성곱과 풀링 연산
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/06_합성곱_신경망/#sec-6-2"
-                    class="bd-links-link d-inline-block rounded ">
-                    6.2 AlexNet
+                <li class="py-1">
+                  <a href="/06_합성곱_신경망/#62-alexnet"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    6.2 AlexNet 구현
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/06_합성곱_신경망/#sec-6-3"
-                    class="bd-links-link d-inline-block rounded ">
-                    6.3 ResNet
+                <li class="py-1">
+                  <a href="/06_합성곱_신경망/#63-resnet"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    6.3 ResNet 구현
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/06_합성곱_신경망/#sec-6-4"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/06_합성곱_신경망/#64-다양한-합성곱-신경망"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     6.4 다양한 합성곱 신경망
                   </a>
                 </li>
@@ -714,76 +678,47 @@
           
         </li>
         
-        <li>
+        <li class="mb-1">
           
             
             
-            <button
-              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
-              data-bs-toggle="collapse" data-bs-target="#collapse-10"
-              aria-expanded="false">
-              07. 순환 신경망 (RNN)
-              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </button>
-            <div class="collapse " id="collapse-10">
-              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+            <div class="d-flex align-items-center justify-content-between rounded ">
+              <a href="/07_순환_신경망/"
+                class="bd-links-link d-inline-block rounded flex-grow-1 ">
+                07. 순환 신경망 (RNN)
+              </a>
+              <button
+                class="btn btn-sm p-1 text-muted border-0 collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-7"
+                aria-expanded="false"
+                aria-label="하위 목록 토글">
+                <svg class="bi" width="0.85em" height="0.85em" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+            <div class="collapse " id="collapse-7">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3 mt-1 border-start ps-2">
                 
-                <li>
-                  <a href="/07_순환_신경망/#sec-7-1"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/07_순환_신경망/#71-기본-순환-신경망"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     7.1 기본 순환 신경망
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/07_순환_신경망/#sec-7-1-1"
-                    class="bd-links-link d-inline-block rounded ">
-                    7.1.1 시계열 데이터
-                  </a>
-                </li>
-                
-                <li>
-                  <a href="/07_순환_신경망/#sec-7-1-2"
-                    class="bd-links-link d-inline-block rounded ">
-                    7.1.2 기본 인공 신경망과 순환 신경망
-                  </a>
-                </li>
-                
-                <li>
-                  <a href="/07_순환_신경망/#sec-7-1-3"
-                    class="bd-links-link d-inline-block rounded ">
-                    7.1.3 순환 신경망의 다양한 형태
-                  </a>
-                </li>
-                
-                <li>
-                  <a href="/07_순환_신경망/#sec-7-1-4"
-                    class="bd-links-link d-inline-block rounded ">
-                    7.1.4 기본 순환 신경망
-                  </a>
-                </li>
-                
-                <li>
-                  <a href="/07_순환_신경망/#sec-7-1-5"
-                    class="bd-links-link d-inline-block rounded ">
-                    7.1.5 기본 순환 신경망 구현
-                  </a>
-                </li>
-                
-                <li>
-                  <a href="/07_순환_신경망/#sec-7-2"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/07_순환_신경망/#72-lstm과-gru"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     7.2 LSTM과 GRU
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/07_순환_신경망/#sec-7-3"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/07_순환_신경망/#73-bi-lstm"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     7.3 Bi-LSTM
                   </a>
                 </li>
@@ -793,62 +728,68 @@
           
         </li>
         
-        <li>
+        <li class="mb-1">
           
             
             
-            <button
-              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
-              data-bs-toggle="collapse" data-bs-target="#collapse-11"
-              aria-expanded="false">
-              08. 비지도 학습 (GAN)
-              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </button>
-            <div class="collapse " id="collapse-11">
-              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+            <div class="d-flex align-items-center justify-content-between rounded ">
+              <a href="/08_비지도_학습/"
+                class="bd-links-link d-inline-block rounded flex-grow-1 ">
+                08. 비지도 학습
+              </a>
+              <button
+                class="btn btn-sm p-1 text-muted border-0 collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-8"
+                aria-expanded="false"
+                aria-label="하위 목록 토글">
+                <svg class="bi" width="0.85em" height="0.85em" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+            <div class="collapse " id="collapse-8">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3 mt-1 border-start ps-2">
                 
-                <li>
-                  <a href="/08_비지도_학습/#sec-8-1"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/08_비지도_학습/#81-비지도-학습이란"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     8.1 비지도 학습이란
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/08_비지도_학습/#sec-8-2"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/08_비지도_학습/#82-k-평균-알고리즘"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     8.2 K-평균 알고리즘
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/08_비지도_학습/#sec-8-3"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/08_비지도_학습/#83-오토인코더"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     8.3 오토인코더
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/08_비지도_학습/#sec-8-4"
-                    class="bd-links-link d-inline-block rounded ">
-                    8.4 생성적 적대 신경망
+                <li class="py-1">
+                  <a href="/08_비지도_학습/#84-생성적-적대-신경망"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    8.4 생성적 적대 신경망 (GAN)
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/08_비지도_학습/#sec-8-5"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/08_비지도_학습/#85-이미지-스타일-변이"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     8.5 이미지 스타일 변이
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/08_비지도_학습/#sec-8-6"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/08_비지도_학습/#86-깊은-k-평균-알고리즘"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     8.6 깊은 K-평균 알고리즘
                   </a>
                 </li>
@@ -858,49 +799,55 @@
           
         </li>
         
-        <li>
+        <li class="mb-1">
           
             
             
-            <button
-              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
-              data-bs-toggle="collapse" data-bs-target="#collapse-12"
-              aria-expanded="false">
-              09. 성능 개선 & 전이 학습
-              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </button>
-            <div class="collapse " id="collapse-12">
-              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+            <div class="d-flex align-items-center justify-content-between rounded ">
+              <a href="/09_성능_개선/"
+                class="bd-links-link d-inline-block rounded flex-grow-1 ">
+                09. 성능 개선
+              </a>
+              <button
+                class="btn btn-sm p-1 text-muted border-0 collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-9"
+                aria-expanded="false"
+                aria-label="하위 목록 토글">
+                <svg class="bi" width="0.85em" height="0.85em" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+            <div class="collapse " id="collapse-9">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3 mt-1 border-start ps-2">
                 
-                <li>
-                  <a href="/09_성능_개선/#sec-9-1"
-                    class="bd-links-link d-inline-block rounded ">
-                    9.1 과적합
+                <li class="py-1">
+                  <a href="/09_성능_개선/#91-과적합"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    9.1 과적합 방지 기법
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/09_성능_개선/#sec-9-2"
-                    class="bd-links-link d-inline-block rounded ">
-                    9.2 데이터 불균형
+                <li class="py-1">
+                  <a href="/09_성능_개선/#92-데이터-불균형"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    9.2 데이터 불균형 해소
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/09_성능_개선/#sec-9-3"
-                    class="bd-links-link d-inline-block rounded ">
-                    9.3 전이 학습
+                <li class="py-1">
+                  <a href="/09_성능_개선/#93-전이-학습"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    9.3 전이 학습 (Transfer)
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/09_성능_개선/#sec-9-4"
-                    class="bd-links-link d-inline-block rounded ">
-                    9.4 준지도 학습
+                <li class="py-1">
+                  <a href="/09_성능_개선/#94-준지도-학습"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    9.4 준지도 학습 (Semi-supervised)
                   </a>
                 </li>
                 
@@ -909,35 +856,41 @@
           
         </li>
         
-        <li>
+        <li class="mb-1">
           
             
             
-            <button
-              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
-              data-bs-toggle="collapse" data-bs-target="#collapse-13"
-              aria-expanded="false">
-              10. 딥러닝 시각화 (XAI)
-              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </button>
-            <div class="collapse " id="collapse-13">
-              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+            <div class="d-flex align-items-center justify-content-between rounded ">
+              <a href="/10_시각화/"
+                class="bd-links-link d-inline-block rounded flex-grow-1 ">
+                10. 딥러닝 시각화
+              </a>
+              <button
+                class="btn btn-sm p-1 text-muted border-0 collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-10"
+                aria-expanded="false"
+                aria-label="하위 목록 토글">
+                <svg class="bi" width="0.85em" height="0.85em" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+            <div class="collapse " id="collapse-10">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3 mt-1 border-start ps-2">
                 
-                <li>
-                  <a href="/10_시각화/#sec-10-1"
-                    class="bd-links-link d-inline-block rounded ">
-                    10.1 설명 가능한 인공지능
+                <li class="py-1">
+                  <a href="/10_시각화/#1011-class-activation-map"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    10.1 XAI (CAM / Grad-CAM)
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/10_시각화/#sec-10-2"
-                    class="bd-links-link d-inline-block rounded ">
-                    10.2 차원 축소 기법
+                <li class="py-1">
+                  <a href="/10_시각화/#1021-t-distributed-stochastic-neighbor-embedding"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    10.2 차원 축소 (t-SNE / PCA)
                   </a>
                 </li>
                 
@@ -946,79 +899,48 @@
           
         </li>
         
-        <li>
+        <li class="mb-1">
           
             
             
-            <button
-              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
-              data-bs-toggle="collapse" data-bs-target="#collapse-14"
-              aria-expanded="false">
-              11. 메타 학습 (Few-Shot)
-              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </button>
-            <div class="collapse " id="collapse-14">
-              <ul class="list-unstyled fw-normal pb-1 small ms-3">
+            <div class="d-flex align-items-center justify-content-between rounded ">
+              <a href="/11_메타_학습/"
+                class="bd-links-link d-inline-block rounded flex-grow-1 ">
+                11. 메타 학습
+              </a>
+              <button
+                class="btn btn-sm p-1 text-muted border-0 collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-11"
+                aria-expanded="false"
+                aria-label="하위 목록 토글">
+                <svg class="bi" width="0.85em" height="0.85em" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+            <div class="collapse " id="collapse-11">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3 mt-1 border-start ps-2">
                 
-                <li>
-                  <a href="/11_메타_학습/#sec-11-1"
-                    class="bd-links-link d-inline-block rounded ">
+                <li class="py-1">
+                  <a href="/11_메타_학습/#111-메타-러닝과-퓨샷-러닝"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
                     11.1 메타 러닝과 퓨샷 러닝
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/11_메타_학습/#sec-11-2"
-                    class="bd-links-link d-inline-block rounded ">
-                    11.2 MAML - 회귀 문제
+                <li class="py-1">
+                  <a href="/11_메타_학습/#112-maml---회귀-문제"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    11.2 MAML 회귀 문제
                   </a>
                 </li>
                 
-                <li>
-                  <a href="/11_메타_학습/#sec-11-3"
-                    class="bd-links-link d-inline-block rounded ">
-                    11.3 MAML - 분류 문제
-                  </a>
-                </li>
-                
-              </ul>
-            </div>
-          
-        </li>
-        
-        <li>
-          
-            
-            
-            <button
-              class="bd-links-link bd-links-btn btn d-inline-flex align-items-center rounded border-0 collapsed w-100"
-              data-bs-toggle="collapse" data-bs-target="#collapse-15"
-              aria-expanded="false">
-              12. 과학적 계산 (PINN)
-              <svg class="bi ms-auto" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </button>
-            <div class="collapse " id="collapse-15">
-              <ul class="list-unstyled fw-normal pb-1 small ms-3">
-                
-                <li>
-                  <a href="/12_과학적_계산/#sec-12-1"
-                    class="bd-links-link d-inline-block rounded ">
-                    12.1 유한차분법
-                  </a>
-                </li>
-                
-                <li>
-                  <a href="/12_과학적_계산/#sec-12-2"
-                    class="bd-links-link d-inline-block rounded ">
-                    12.2 은닉 유체 메카니즘
+                <li class="py-1">
+                  <a href="/11_메타_학습/#113-maml---분류-문제"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    11.3 MAML 분류 문제
                   </a>
                 </li>
                 
@@ -1027,11 +949,106 @@
           
         </li>
         
-        <li>
+        <li class="mb-1">
           
-            <a href="/13_부록/"
-              class="bd-links-link d-inline-block rounded ">
-              13. 부록 & 참고 자료
+            
+            
+            <div class="d-flex align-items-center justify-content-between rounded ">
+              <a href="/12_과학적_계산/"
+                class="bd-links-link d-inline-block rounded flex-grow-1 ">
+                12. 과학적 계산
+              </a>
+              <button
+                class="btn btn-sm p-1 text-muted border-0 collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-12"
+                aria-expanded="false"
+                aria-label="하위 목록 토글">
+                <svg class="bi" width="0.85em" height="0.85em" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+            <div class="collapse " id="collapse-12">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3 mt-1 border-start ps-2">
+                
+                <li class="py-1">
+                  <a href="/12_과학적_계산/#121-유한차분법"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    12.1 유한차분법 (FDM)
+                  </a>
+                </li>
+                
+                <li class="py-1">
+                  <a href="/12_과학적_계산/#122-은닉-유체-메카니즘"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    12.2 은닉 유체 메카니즘 (HFM/PINN)
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li class="mb-1">
+          
+            
+            
+            <div class="d-flex align-items-center justify-content-between rounded ">
+              <a href="/13_부록/"
+                class="bd-links-link d-inline-block rounded flex-grow-1 ">
+                13. 부록
+              </a>
+              <button
+                class="btn btn-sm p-1 text-muted border-0 collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-13"
+                aria-expanded="false"
+                aria-label="하위 목록 토글">
+                <svg class="bi" width="0.85em" height="0.85em" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+            <div class="collapse " id="collapse-13">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3 mt-1 border-start ps-2">
+                
+                <li class="py-1">
+                  <a href="/13_부록/#그림으로-배우는-양자-컴퓨터"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    추천 도서 & 정보 습득
+                  </a>
+                </li>
+                
+                <li class="py-1">
+                  <a href="/13_부록/#contents"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none ">
+                    찾아보기 (Index)
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          
+        </li>
+        
+        <li class="mb-1">
+          
+            <a href="/curriculum/"
+              class="bd-links-link d-inline-block rounded w-100 ">
+              📋 전체 커리큘럼
+            </a>
+          
+        </li>
+        
+        <li class="mb-1">
+          
+            <a href="/character/"
+              class="bd-links-link d-inline-block rounded w-100 ">
+              🧭 탐험대 캐릭터 소개
             </a>
           
         </li>
@@ -1398,7 +1415,7 @@ Epoch 1000:0.06831956654787064
 <span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p>&lt;그림 4.1 손실 함수와 회귀선 그래프&gt;
+<p><strong>&lt;그림 4.1 손실 함수와 회귀선 그래프&gt;</strong>
 <img src="./img/fig-086.jpg" alt="그림 4.1 손실 함수와 회귀선 그래프" /></p>
 
 <h1 id="43-데이터-불러오기">4.3 데이터 불러오기</h1>
@@ -1485,7 +1502,7 @@ Epoch 1000:0.06831956654787064
   <li>⑯ image[1]의 크기는 (3, 16, 16)이다. 이때 그림을 그려주기 위해서 채널 수가 가장 뒤로 가는 형태인 (16, 16, 3)을 만들어야 한다. permute(1,2,0)은 기존 차원의 위치인 0, 1, 2를 1, 2, 0으로 바꾸는 함수다. 따라서 0번째의 크기가 3인 텐서를 마지막으로 보낸다. 마지막으로 numpy()를 이용해 넘파이 배열로 변환한다.</li>
 </ul>
 
-<p>&lt;그림 4.2 CIFAR10 이미지 예시&gt;
+<p><strong>&lt;그림 4.2 CIFAR10 이미지 예시&gt;</strong>
 <img src="./img/fig-089.jpg" alt="그림 4.2 CIFAR10 이미지 예시" /></p>
 
 <h3 id="432-같은-클래스-별로-폴더를-정리한-경우">4.3.2 같은 클래스 별로 폴더를 정리한 경우</h3>
@@ -1678,7 +1695,7 @@ Epoch 1000:0.06831956654787064
   <li>❹ ~ ❼ 그림을 그리기 위해 (채널 수, 너비, 높이)인 이미지 크기를 permute(1,2,0)으로 (너비, 높이, 채널 수)로 변경하고 numpy()를 이용하여 넘파이 배열로 변환한다.</li>
 </ul>
 
-<p>&lt;그림 4.3 무작위로 적용된 CutOut 이미지&gt;
+<p><strong>&lt;그림 4.3 무작위로 적용된 CutOut 이미지&gt;</strong>
 <img src="./img/fig-094.jpg" alt="그림 4.3 무작위로 적용된 CutOut 이미지" /></p>
 
 <h3 id="435-커스텀-데이터와-파이토치-제공-전처리-사용하기">4.3.5 커스텀 데이터와 파이토치 제공 전처리 사용하기</h3>
@@ -1750,7 +1767,7 @@ Epoch 1000:0.06831956654787064
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">torch</span><span class="p">.</span><span class="nc">Size</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">])</span>
 </code></pre></div></div>
 
-<p>&lt;그림 4.4 CutOut이 적용된 CIFAR10 이미지&gt;</p>
+<p><strong>&lt;그림 4.4 CutOut이 적용된 CIFAR10 이미지&gt;</strong></p>
 
 <blockquote>
   <p>“머신러닝의 혁신은 마이크로소프트 10개의 가치를 지닌다.”</p>
@@ -1812,73 +1829,175 @@ Epoch 1000:0.06831956654787064
 <!-- 공용 대화 오디오 플레이어 컨트롤러 스크립트 -->
 <script src="/assets/js/audio.js" defer></script>
 
-  <footer class="border-top mt-5 pt-5 pb-4 bg-light text-secondary">
+  
+<footer class="border-top mt-5 pt-5 pb-4 bg-light text-secondary">
   <div class="container">
     <div class="row g-4 mb-4">
       <!-- 브랜드 및 강의 소개 -->
       <div class="col-lg-5">
         <div class="d-flex align-items-center mb-3">
-          <span class="fs-4 me-2">🔥</span>
+          <span class="fs-3 me-2">🔥</span>
           <span class="fs-5 fw-bold text-dark">딥러닝을 위한 파이토치 입문</span>
         </div>
         <p class="small text-secondary mb-3 pe-lg-4 lh-base">
-          파이썬 기초부터 파이토치 활용까지 필수 지식을 담은 딥러닝 입문 강의 노트입니다.
-          인공 신경망, 합성곱 신경망(CNN), 순환 신경망(RNN), 비지도 학습(GAN), 전이 학습, 메타 학습, 과학적 계산(PINN)까지 코드 라인별로 깊이 있게 마스터합니다.
+          파이토치(PyTorch) 프레임워크를 기반으로 텐서 연산부터 심층 신경망(MLP), CNN, RNN, 비지도 학습(GAN), 메타 학습, 과학적 계산(PINN)까지 단계별로 체계적으로 마스터하는 오픈 강의 노트입니다.
         </p>
         <div class="d-flex flex-wrap gap-2 mb-3">
+          
           <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#PyTorch</span>
-          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#딥러닝입문</span>
-          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#인공신경망</span>
+          
+          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#DeepLearning</span>
+          
+          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#Autograd</span>
+          
+          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#NeuralNetwork</span>
+          
           <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#CNN_RNN</span>
-          <span class="badge rounded-pill bg-white text-dark border px-2 py-1 small">#MetaLearning</span>
+          
         </div>
       </div>
 
-      <!-- 관련 학습 사이트 -->
+      <!-- 관련 패밀리 사이트 -->
       <div class="col-6 col-lg-4">
-        <h6 class="fw-bold text-dark mb-3">🔗 관련 학습 사이트</h6>
+        <h6 class="fw-bold text-dark mb-3">🔗 관련 학습 패밀리 사이트</h6>
         <ul class="list-unstyled small mb-0">
+          
           <li class="mb-2">
-            <a href="https://pytoch.ai.jiny.dev" class="text-secondary text-decoration-none fw-bold text-primary d-flex align-items-center">
-              <span class="me-2">🔥</span>
-              <span><strong>파이토치</strong> <span class="badge bg-primary text-white ms-1">현재</span></span>
-            </a>
-          </li>
-          <li class="mb-2">
-            <a href="https://ai.jiny.dev" target="_blank" rel="noopener" class="text-secondary text-decoration-none d-flex align-items-center">
+            
+            <a href="https://ai.jiny.dev" target="_blank" rel="noopener"
+              class="text-secondary text-decoration-none hover-primary d-flex align-items-center">
               <span class="me-2">🤖</span>
               <span><strong>인공지능기초</strong> <span class="text-muted ms-1">(ai.jiny.dev)</span></span>
             </a>
+            
           </li>
+          
           <li class="mb-2">
-            <a href="https://rl.ai.jiny.dev" target="_blank" rel="noopener" class="text-secondary text-decoration-none d-flex align-items-center">
+            
+            <a href="https://deep.ai.jiny.dev" target="_blank" rel="noopener"
+              class="text-secondary text-decoration-none hover-primary d-flex align-items-center">
+              <span class="me-2">🧠</span>
+              <span><strong>딥러닝</strong> <span class="text-muted ms-1">(deep.ai.jiny.dev)</span></span>
+            </a>
+            
+          </li>
+          
+          <li class="mb-2">
+            
+            <a href="https://dezero.ai.jiny.dev" target="_blank" rel="noopener"
+              class="text-secondary text-decoration-none hover-primary d-flex align-items-center">
+              <span class="me-2">🌱</span>
+              <span><strong>밑바닥 딥러닝 3</strong> <span class="text-muted ms-1">(dezero.ai.jiny.dev)</span></span>
+            </a>
+            
+          </li>
+          
+          <li class="mb-2">
+            
+            <a href="https://rl.ai.jiny.dev" target="_blank" rel="noopener"
+              class="text-secondary text-decoration-none hover-primary d-flex align-items-center">
               <span class="me-2">🎯</span>
               <span><strong>강화학습</strong> <span class="text-muted ms-1">(rl.ai.jiny.dev)</span></span>
             </a>
+            
           </li>
+          
           <li class="mb-2">
-            <a href="https://dezero.ai.jiny.dev" target="_blank" rel="noopener" class="text-secondary text-decoration-none d-flex align-items-center">
-              <span class="me-2">🧠</span>
-              <span><strong>밑바닥부터 시작하는 딥러닝 3</strong> <span class="text-muted ms-1">(dezero.ai.jiny.dev)</span></span>
-            </a>
+            
+            <span class="badge bg-danger me-1">현재</span>
+            <span class="me-1">🔥</span>
+            <strong>파이토치</strong> <span class="text-muted ms-1">(pytoch.ai.jiny.dev)</span>
+            
           </li>
+          
           <li class="mb-2">
-            <a href="https://python.jiny.dev" target="_blank" rel="noopener" class="text-secondary text-decoration-none d-flex align-items-center">
+            
+            <a href="https://python.jiny.dev" target="_blank" rel="noopener"
+              class="text-secondary text-decoration-none hover-primary d-flex align-items-center">
               <span class="me-2">🐍</span>
               <span><strong>파이썬</strong> <span class="text-muted ms-1">(python.jiny.dev)</span></span>
             </a>
+            
           </li>
+          
         </ul>
       </div>
 
-      <!-- 강의 안내 및 커뮤니티 -->
+      <!-- 커리큘럼 및 안내 -->
       <div class="col-6 col-lg-3">
-        <h6 class="fw-bold text-dark mb-3">🧭 안내 및 정보</h6>
+        <h6 class="fw-bold text-dark mb-3">🧭 커리큘럼 및 안내</h6>
         <ul class="list-unstyled small mb-0">
-          <li class="mb-2"><a href="/curriculum/" class="text-secondary text-decoration-none">📋 전체 커리큘럼 목차</a></li>
-          <li class="mb-2"><a href="/#book-ref" class="text-secondary text-decoration-none">📚 참고 교재 (영진닷컴)</a></li>
-          <li class="mb-2"><a href="https://github.com/jinydev" target="_blank" rel="noopener" class="text-secondary text-decoration-none">💻 GitHub 저장소</a></li>
-          <li class="mb-2"><a href="mailto:infohojin@naver.com" class="text-secondary text-decoration-none">✉️ 문의 및 피드백 (Contact)</a></li>
+          
+          <li class="mb-2">
+            <a href="/intro/" 
+              class="text-secondary text-decoration-none hover-primary">
+              🔥 파이토치 소개 및 OS별 설치
+            </a>
+          </li>
+          
+          <li class="mb-2">
+            <a href="/curriculum/" 
+              class="text-secondary text-decoration-none hover-primary">
+              📋 전체 커리큘럼 (Curriculum)
+            </a>
+          </li>
+          
+          <li class="mb-2">
+            <a href="/01_%EB%94%A5%EB%9F%AC%EB%8B%9D_%EC%8B%9C%EC%9E%91/" 
+              class="text-secondary text-decoration-none hover-primary">
+              01. 딥러닝 시작
+            </a>
+          </li>
+          
+          <li class="mb-2">
+            <a href="/02_%ED%8C%8C%EC%9D%B4%EC%8D%AC/" 
+              class="text-secondary text-decoration-none hover-primary">
+              02. 파이토치 선수 지식 (파이썬 연동)
+            </a>
+          </li>
+          
+          <li class="mb-2">
+            <a href="/04_%ED%8C%8C%EC%9D%B4%ED%86%A0%EC%B9%98_%EA%B8%B0%EB%B3%B8/" 
+              class="text-secondary text-decoration-none hover-primary">
+              04. 파이토치 기본 (텐서 & Autograd)
+            </a>
+          </li>
+          
+          <li class="mb-2">
+            <a href="/05_%EC%9D%B8%EA%B3%B5_%EC%8B%A0%EA%B2%BD%EB%A7%9D/" 
+              class="text-secondary text-decoration-none hover-primary">
+              05. 인공 신경망 (MLP)
+            </a>
+          </li>
+          
+          <li class="mb-2">
+            <a href="/06_%ED%95%A9%EC%84%B1%EA%B3%B1_%EC%8B%A0%EA%B2%BD%EB%A7%9D/" 
+              class="text-secondary text-decoration-none hover-primary">
+              06. 합성곱 신경망 (CNN)
+            </a>
+          </li>
+          
+          <li class="mb-2">
+            <a href="/08_%EB%B9%84%EC%A7%80%EB%8F%84_%ED%95%99%EC%8A%B5/" 
+              class="text-secondary text-decoration-none hover-primary">
+              08. 비지도 학습 (GAN)
+            </a>
+          </li>
+          
+          <li class="mb-2">
+            <a href="https://github.com/jinydev/pytoch_ai" target="_blank" rel="noopener" 
+              class="text-secondary text-decoration-none hover-primary">
+              💻 GitHub 저장소
+            </a>
+          </li>
+          
+          <li class="mb-2">
+            <a href="mailto:infohojin@naver.com" target="_blank" rel="noopener" 
+              class="text-secondary text-decoration-none hover-primary">
+              ✉️ 문의 및 피드백 (Contact)
+            </a>
+          </li>
+          
         </ul>
       </div>
     </div>
@@ -1894,16 +2013,17 @@ Epoch 1000:0.06831956654787064
         </p>
       </div>
       <div class="col-md-5 text-center text-md-end">
-        <a href="#" class="text-decoration-none text-secondary me-3" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+        <a href="#" class="text-decoration-none text-secondary me-3"
+          onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
           맨 위로 가기 ↑
         </a>
-        <a href="https://github.com/jinydev" target="_blank" rel="noopener" class="text-decoration-none text-secondary me-3">GitHub</a>
+        <a href="https://github.com/jinydev/pytoch_ai" target="_blank" rel="noopener"
+          class="text-decoration-none text-secondary me-3">GitHub</a>
         <a href="mailto:infohojin@naver.com" class="text-decoration-none text-secondary">Contact</a>
       </div>
     </div>
   </div>
 </footer>
-
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"

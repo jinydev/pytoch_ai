@@ -1,0 +1,88 @@
+<h2 class="text-center fw-bold mb-4" style="color: #2b3947;">🗺️ 파이토치 딥러닝 로드맵</h2>
+<p class="text-center text-secondary mb-5">파이썬 기초부터 텐서 연산, 심층 신경망, 그리고 최신 메타 학습과 과학적 계산까지 체계적인 단계별 학습 코스입니다.</p>
+
+<div class="row g-4">
+    <!-- 단계 1 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card road-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge rounded-pill badge-intro px-3 py-2 fw-bold">Step 01</span>
+            </div>
+            <h4 class="fw-bold">딥러닝 시작 & 파이썬</h4>
+            <p class="text-secondary small flex-grow-1">
+                인공지능과 딥러닝의 기본 개념, 최신 AI 동향, 그리고 파이토치 학습에 꼭 필요한 파이썬/넘파이 상호 호환과 핵심 관용구를 다룹니다.
+            </p>
+            <a href="{{ '/01_딥러닝_시작/' | relative_url }}" class="btn btn-sm btn-road-action rounded-pill mt-3 align-self-start fw-bold">딥러닝 시작 ➔</a>
+        </div>
+    </div>
+
+    <!-- 단계 2 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card road-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge rounded-pill badge-math px-3 py-2 fw-bold">Step 02</span>
+            </div>
+            <h4 class="fw-bold">파이토치 기본 (텐서 & 미분)</h4>
+            <p class="text-secondary small flex-grow-1">
+                파이토치의 심장인 Tensor의 다차원 연산과 형상 변환, Autograd 자동 미분과 역전파(Backprop), Dataset/DataLoader 데이터 파이프라인을 구축합니다.
+            </p>
+            <a href="{{ '/04_파이토치_기본/' | relative_url }}" class="btn btn-sm btn-road-action rounded-pill mt-3 align-self-start fw-bold">파이토치 기본 ➔</a>
+        </div>
+    </div>
+
+    <!-- 단계 3 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card road-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge rounded-pill badge-part1 px-3 py-2 fw-bold">Step 03</span>
+            </div>
+            <h4 class="fw-bold">인공 신경망 (ANN / MLP)</h4>
+            <p class="text-secondary small flex-grow-1">
+                다층 퍼셉트론(MLP)으로 선형 회귀와 분류를 구현하고, 활성화 함수, 손실 함수, Optimizer 최적화 기법, K-Fold 교차 검증을 완성합니다.
+            </p>
+            <a href="{{ '/05_인공_신경망/' | relative_url }}" class="btn btn-sm btn-road-action rounded-pill mt-3 align-self-start fw-bold">신경망 만들기 ➔</a>
+        </div>
+    </div>
+
+    <!-- 단계 4 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card road-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge rounded-pill badge-part2 px-3 py-2 fw-bold">Step 04</span>
+            </div>
+            <h4 class="fw-bold">합성곱 & 순환 신경망 (CNN / RNN)</h4>
+            <p class="text-secondary small flex-grow-1">
+                이미지 처리를 위한 CNN 합성곱/풀링 연산과 AlexNet, ResNet 구현부터 시계열/순차 데이터를 다루는 Vanilla RNN, LSTM, GRU, Bi-LSTM까지 학습합니다.
+            </p>
+            <a href="{{ '/06_합성곱_신경망/' | relative_url }}" class="btn btn-sm btn-road-action rounded-pill mt-3 align-self-start fw-bold">CNN & RNN 탐구 ➔</a>
+        </div>
+    </div>
+
+    <!-- 단계 5 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card road-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge rounded-pill badge-part3 px-3 py-2 fw-bold">Step 05</span>
+            </div>
+            <h4 class="fw-bold">비지도 학습 & 성능 개선</h4>
+            <p class="text-secondary small flex-grow-1">
+                오토인코더, GAN(생성적 적대 신경망), 스타일 변이와 과적합 방지 기법(드롭아웃, 데이터 증식, 조기종료), 전이 학습과 준지도 학습을 마스터합니다.
+            </p>
+            <a href="{{ '/08_비지도_학습/' | relative_url }}" class="btn btn-sm btn-road-action rounded-pill mt-3 align-self-start fw-bold">비지도 & 성능 개선 ➔</a>
+        </div>
+    </div>
+
+    <!-- 단계 6 -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card road-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge rounded-pill badge-part4 px-3 py-2 fw-bold">Step 06</span>
+            </div>
+            <h4 class="fw-bold">시각화, 메타 학습 & 과학적 계산</h4>
+            <p class="text-secondary small flex-grow-1">
+                설명 가능한 인공지능 CAM/Grad-CAM 시각화, Few-Shot과 MAML 메타 학습, 유한차분법(FDM)과 물리 정보 신경망(PINN) 등 첨단 응용 기법을 정복합니다.
+            </p>
+            <a href="{{ '/10_시각화/' | relative_url }}" class="btn btn-sm btn-road-action rounded-pill mt-3 align-self-start fw-bold">최신 응용 도전 ➔</a>
+        </div>
+    </div>
+</div>

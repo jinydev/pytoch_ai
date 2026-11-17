@@ -1,0 +1,67 @@
+<nav class="bd-links w-100" id="bd-docs-nav" aria-label="Docs navigation">
+  {% assign current_url = page.url | url_decode %}
+  {% assign url_parts = current_url | split: '/' %}
+  {% assign top_dir = url_parts[1] %}
+
+  {% if top_dir == "intro" %}
+    {% assign part_data = site.data.intro.main %}
+    {% assign nav_heading = "파이토치 소개 목차" %}
+  {% else %}
+    {% assign part_data = site.data.navigation.main %}
+    {% assign nav_heading = "강의 목차" %}
+  {% endif %}
+
+  <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+    <li class="bd-links-group py-2">
+      <strong class="bd-links-heading d-flex w-100 align-items-center fw-semibold">
+        {{ nav_heading }}
+      </strong>
+      <ul class="list-unstyled fw-normal pb-2 small mt-2">
+        {% for item in part_data %}
+        <li class="mb-1">
+          {% if item.subitems %}
+            {% assign is_active_group = false %}
+            {% if item.url != "/" and current_url contains item.url %}
+              {% assign is_active_group = true %}
+            {% endif %}
+            <div class="d-flex align-items-center justify-content-between rounded {% if current_url == item.url %}bg-light{% endif %}">
+              <a href="{{ site.baseurl }}{{ item.url }}"
+                class="bd-links-link d-inline-block rounded flex-grow-1 {% if current_url == item.url %}active fw-bold text-primary{% endif %}">
+                {{ item.title }}
+              </a>
+              <button
+                class="btn btn-sm p-1 text-muted border-0 {% unless is_active_group %}collapsed{% endunless %}"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapse-{{ forloop.index }}"
+                aria-expanded="{{ is_active_group }}"
+                aria-label="하위 목록 토글">
+                <svg class="bi" width="0.85em" height="0.85em" viewBox="0 0 16 16" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            </div>
+            <div class="collapse {% if is_active_group %}show{% endif %}" id="collapse-{{ forloop.index }}">
+              <ul class="list-unstyled fw-normal pb-1 small ms-3 mt-1 border-start ps-2">
+                {% for subitem in item.subitems %}
+                <li class="py-1">
+                  <a href="{{ site.baseurl }}{{ subitem.url }}"
+                    class="bd-links-link d-inline-block text-secondary text-decoration-none {% if current_url == subitem.url %}active fw-semibold text-primary{% endif %}">
+                    {{ subitem.title }}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% else %}
+            <a href="{{ site.baseurl }}{{ item.url }}"
+              class="bd-links-link d-inline-block rounded w-100 {% if current_url == item.url %}active fw-bold text-primary{% endif %}">
+              {{ item.title }}
+            </a>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </li>
+  </ul>
+</nav>
